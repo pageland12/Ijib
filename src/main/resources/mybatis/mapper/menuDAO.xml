@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.springboot.ijib.dao.IMenuDAO">
+    <select id="menuList" resultType="com.springboot.ijib.dto.MenuDTO">
+        select *
+         from menu
+         where sno = #{sno}
+         order by mnno asc
+    </select>
+
+    <select id="menuView"  resultType="com.springboot.ijib.dto.MenuDTO">
+        select *
+         from menu
+         where mnno = #{mnno}
+    </select>
+
+    <insert id="menuWrite">
+	    insert into menu(mnno, mnname, mnprice, sno)
+	     values(MENU_SEQ.NEXTVAL, #{mnname}, #{mnprice}, #{sno})
+	</insert>
+
+    <update id="menuUpdate">
+	    update menu
+	     set mnname=#{mnname}, mnprice=#{mnprice}, sno=#{sno}
+	     where mnno=#{mnno}
+	</update>
+
+    <delete id="menuDelete">
+        delete from menu
+         where mnno = #{mnno}
+    </delete>
+</mapper>
