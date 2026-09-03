@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.ijib.dao.IStoreDAO">
+	<select id="storeList" resultType="com.springboot.ijib.dto.StoreDTO">
+	    select *
+	     from store
+	     order by sno asc
+	</select>
+
+	<select id="storeView" resultType="com.springboot.ijib.dto.StoreDTO">
+	    select sno, sname, sfiles, scategory, skeyword,
+	     scontent, saddr, slat, slong, stel,
+	     sinfo, TO_CHAR(sdate, 'YYYY-MM-DD') AS sdate,
+	     sparking, sstatus
+		 from store
+		 where sno = #{sno}
+	</select>
+	
+	<insert id="storeWrite" parameterType="com.springboot.ijib.dto.StoreDTO">
+	    <selectKey keyProperty="sno" resultType="int" order="BEFORE">
+	        select STORE_SEQ.NEXTVAL from dual
+	    </selectKey>
+	
+	    insert into store(sno, sname, sfiles, scategory, skeyword, scontent, saddr, slat, slong, stel, sinfo, sdate, sparking, sstatus)
+	     values(#{sno}, #{sname}, #{sfiles}, #{scategory}, #{skeyword}, #{scontent}, #{saddr}, #{slat}, #{slong}, #{stel}, #{sinfo}, TO_DATE(#{sdate}, 'YYYY-MM-DD'), #{sparking}, #{sstatus})
+	</insert>
+	
+	<update id="storeUpdate">
+	    update store set sname=#{sname}, sfiles=#{sfiles}, scategory=#{scategory}, skeyword=#{skeyword}, scontent=#{scontent}, saddr=#{saddr}, slat=#{slat}, slong=#{slong}, stel=#{stel}, sinfo=#{sinfo}, sparking=#{sparking}, sstatus=#{sstatus}
+	    where sno=#{sno}
+	</update>
+	
+	<delete id="storeDelete">
+	    delete from store
+	     where sno = #{sno}
+	</delete>
+</mapper>
