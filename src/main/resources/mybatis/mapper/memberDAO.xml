@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.ijib.dao.IMemberDAO">
+	<select id="memberList" resultType="com.springboot.ijib.dto.MemberDTO">
+		SELECT *
+		  FROM MEMBER
+		 ORDER BY MNO DESC
+	</select>
+	
+	<select id="findByEmail" resultType="com.springboot.ijib.dto.MemberDTO">
+		SELECT *
+		  FROM MEMBER
+		 WHERE MEMAIL=#{memail}
+ 	</select>
+ 	<select id="memberView" resultType="com.springboot.ijib.dto.MemberDTO">
+		SELECT *
+		  FROM MEMBER
+		  WHERE mno = #{mno}
+	</select>
+	
+	<select id="myAllBoardList" resultType="com.springboot.ijib.dto.MyBoardDTO">
+		SELECT 'QNA' AS btype,
+	           qno AS bno,
+	           qtitle AS title,
+	           qdate AS regdate,
+	           qhit AS hit,
+	           qsecret AS extraInfo
+	      FROM QNA
+	     WHERE mno = #{mno}
+	
+	    UNION ALL
+	
+	    SELECT 'REVIEW' AS btype,
+	           r.rno AS bno,
+	           r.rtitle AS title,
+	           r.rdate AS regdate,
+	           r.rhit AS hit,
+	           CONCAT(CONCAT(b.bname, ' / ★'), r.rrate) AS extraInfo
+	      FROM RATING r
+	      JOIN BOOK b ON r.bno = b.bno
+	     WHERE r.mno = #{mno}
+	
+	     ORDER BY regdate DESC
+	</select>
+	
+	<!-- 전체 회원 페이징 목록 -->
+	<select id="memberListPaging" resultType="com.springboot.ijib.dto.MemberDTO">
+		SELECT *
+	  	  FROM (
+	  	  	SELECT INNER_LIST.*, ROWNUM AS RNUM
+	  		  FROM (
+	  		  	SELECT *
+	  		  		FROM MEMBER
+	  		  		ORDER BY MNO DESC
+	  		  ) INNER_LIST
+	      )
+	      	WHERE RNUM BETWEEN #{startRow} AND #{endRow}
+	</select>
+	<!-- 전체 회원수 조회 (페이지 번호 계산용) -->
+	<select id="getTotalMemberCount" resultType="int">
+		SELECT COUNT(*) FROM MEMBER
+	</select>
+	
+	<!-- 전체 회원 페이징 목록 -->
+	<select id="myAllBoardListPaging" resultType="com.springboot.ijib.dto.MyBoardDTO">
+		SELECT *
+	  	  FROM (
+	  	  	SELECT INNER_LIST.*, ROWNUM AS RNUM
+	  		  FROM (
+		  		  	SELECT 'QNA' AS btype,
+				           qno AS bno,
+				           qtitle AS title,
+				           qdate AS regdate,
+				           qhit AS hit,
+				           qsecret AS extraInfo
+				      FROM QNA
+				     WHERE mno = #{mno}
+				
+				    UNION ALL
+				
+				    SELECT 'REVIEW' AS btype,
+				           r.rno AS bno,
+				           r.rtitle AS title,
+				           r.rdate AS regdate,
+				           r.rhit AS hit,
+				           CONCAT(CONCAT(b.bname, ' / ★'), r.rrate) AS extraInfo
+				      FROM RATING r
+				      JOIN BOOK b ON r.bno = b.bno
+				     WHERE r.mno = #{mno}
+				
+				     ORDER BY regdate DESC
+		  		  ) INNER_LIST
+		      )
+	      	WHERE RNUM BETWEEN #{startRow} AND #{endRow}
+	</select>
+	<!-- 전체 회원수 조회 (페이지 번호 계산용) -->
+	<select id="getTotalBoardCountByMno" resultType="int">
+		SELECT COUNT(*) FROM (
+		  		  	SELECT 'QNA' AS btype,
+				           qno AS bno,
+				           qtitle AS title,
+				           qdate AS regdate,
+				           qhit AS hit,
+				           qsecret AS extraInfo
+				      FROM QNA
+				     WHERE mno = #{mno}
+				
+				    UNION ALL
+				
+				    SELECT 'REVIEW' AS btype,
+				           r.rno AS bno,
+				           r.rtitle AS title,
+				           r.rdate AS regdate,
+				           r.rhit AS hit,
+				           CONCAT(CONCAT(b.bname, ' / ★'), r.rrate) AS extraInfo
+				      FROM RATING r
+				      JOIN BOOK b ON r.bno = b.bno
+				     WHERE r.mno = #{mno}
+				
+				     ORDER BY regdate DESC
+		  		  ) INNER_LIST
+	</select>
+	
+	
+	<insert id="memberInsert">
+		INSERT INTO MEMBER(MNO,MEMAIL,MPASSWD,MNAME,MADDR,MTEL,MACCOUNT,MGRADE,MDATE,MPOINT)
+		 VALUES(MEMBER_SEQ.NEXTVAL,#{memail},#{mpasswd},#{mname},#{maddr},#{mtel},#{maccount},
+		 'NORMAL',SYSDATE,0)
+	</insert>
+	
+	<update id="memberUpdate">
+		UPDATE MEMBER
+		   SET MNAME=#{mname},MADDR=#{maddr},MTEL=#{mtel},MACCOUNT=#{maccount}
+		 WHERE MNO=#{mno}
+	</update>
+	
+	<delete id="memberDelete">
+		DELETE FROM MEMBER
+		 WHERE MNO=#{mno}
+	</delete>
+	
+	<update id="adminUpdate">
+		UPDATE MEMBER
+		   SET MGRADE=#{mgrade},MPOINT=#{mpoint}
+		 WHERE MNO=#{mno}
+	</update>
+	
+	<delete id="adminDelete">
+		DELETE FROM MEMBER
+		 WHERE MNO=#{mno}
+	</delete>
+	
+	<update id="memberGradeUpdate">
+		UPDATE MEMBER
+		   SET MGRADE=#{mgrade}
+		 WHERE MNO=#{mno}
+	</update>
+</mapper>
+
