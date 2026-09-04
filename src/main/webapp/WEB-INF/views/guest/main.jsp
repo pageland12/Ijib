@@ -21,6 +21,7 @@
         <span><b>${pageContext.request.userPrincipal.name}</b>님 환영합니다!</span>
         <a href="/logout">로그아웃</a>
         <a href="/member/memberMain">나의 페이지</a>
+        <a href="/member/bookmarkList">북마크 목록</a>
     </c:if>
 
     <br>

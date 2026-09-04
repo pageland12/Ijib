@@ -11,7 +11,10 @@
 <body>
 	<h3>음식점 상세</h3>
 	음식점명 : ${view.sname}<br>
-	이미지 : <img src="${view.sfiles}"><br>
+	이미지 : 
+	<c:forEach var="image" items="${fn:split(view.sfiles, ',')}">
+	    <img src="${image}" width="200">
+	</c:forEach><br>
 	카테고리 : ${view.scategory}<br>
 	<p>메뉴</p>
 	<table border="1">
@@ -38,8 +41,15 @@
 	주차 여부 : ${view.sparking}<br>
 	영업 상태 : ${view.sstatus}<br>
 	
+	<a href="/member/bookmarkInsert?sno=${view.sno}">북마크</a> /
 	<a href="/admin/storeUpdateForm?sno=${view.sno}">수정</a> / 
 	<a href="/admin/storeDelete?sno=${view.sno}">삭제</a> / 
 	<a href="/guest/storeList">목록</a>
+	
+	<c:if test="${not empty msg}">
+        <script>
+            alert("${msg}");
+        </script>
+    </c:if>
 </body>
 </html>
