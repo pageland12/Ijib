@@ -29,18 +29,6 @@ public interface IMemberDAO {
 		
 		// 관리자가 회원 삭제
 		public int adminDelete(int mno);
-		
-		// 회원 권한 변경(정기권 관련)
-		public int memberGradeUpdate(MemberDTO dto);
-		
-		// 전체 회원 페이징 목록
-	    public List<MemberDTO> memberListPaging(@Param("startRow") int startRow, @Param("endRow") int endRow);
-	   
-	    // 전체 회원수
-	    public int getTotalMemberCount();
-	   
-	    // 전체 회원수
-	    public int getTotalBoardCountByMno(int mno);
 }
 
 

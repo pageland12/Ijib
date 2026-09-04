@@ -56,7 +56,6 @@
     경도 : <input type="text" name="slong"><br>
     전화번호 : <input type="text" name="stel"><br>
     영업 정보 : <textarea name="sinfo"></textarea><br>
-    개업일 : <input type="text" name="sdate"><br>
     주차 여부 : <input type="text" name="sparking"><br>
     영업 상태 :
     <input type="radio" name="sstatus" value="OPEN" checked> 영업중

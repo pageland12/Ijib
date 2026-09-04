@@ -35,7 +35,6 @@
 	주소 : ${view.saddr}<br>
 	전화번호 : ${view.stel}<br>
 	영업 정보 : ${view.sinfo}<br>
-	개업일 : ${view.sdate}<br>
 	주차 여부 : ${view.sparking}<br>
 	영업 상태 : ${view.sstatus}<br>
 	

@@ -44,16 +44,46 @@ public class StoreService {
 
 
     // 음식점 수정
-    public void storeUpdate(StoreDTO dto, List<MenuDTO> menuList) {
+    public void storeUpdate(
+            StoreDTO dto,
+            List<MenuDTO> menuList,
+            String deleteMnno) {
 
+        // 음식점 정보 수정
         dao.storeUpdate(dto);
 
-        for(MenuDTO menu : menuList) {
-            menu.setSno(dto.getSno());
-            mnDao.menuUpdate(menu);
+
+        // 삭제한 메뉴 삭제
+        if(deleteMnno != null && !deleteMnno.isEmpty()) {
+
+            String[] mnnoList = deleteMnno.split(",");
+
+            for(String mnno : mnnoList) {
+                mnDao.menuDelete(Integer.parseInt(mnno));
+            }
+        }
+
+
+        // 기존 메뉴 수정 + 새 메뉴 추가
+        if(menuList != null) {
+
+            for(MenuDTO menu : menuList) {
+
+                menu.setSno(dto.getSno());
+
+                if(menu.getMnno() == 0) {
+
+                    // 새로 추가한 메뉴
+                    mnDao.menuWrite(menu);
+
+                } else {
+
+                    // 기존 메뉴 수정
+                    mnDao.menuUpdate(menu);
+                }
+            }
         }
     }
-
 
     // 음식점 삭제
     public int storeDelete(int sno) {
