@@ -28,7 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         
         // 3. DB 권한(mauth)이 "ROLE_USER" 형태일 때 Safe하게 적용
-        String role = dto.getMgrade();
+        String role = dto.getMauth();
         if (role != null && role.startsWith("ROLE_")) {
             role = role.substring(5); // "ROLE_USER" -> "USER"
         }
@@ -37,7 +37,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return User.builder()
                 .username(dto.getMemail())   // 로그인 아이디 (memail)
                 .password(dto.getMpasswd())  // DB에 저장된 암호화된 비밀번호
-                .roles(dto.getMgrade()) // 기본 권한 지정
+                .roles(dto.getMauth()) // 기본 권한 지정
                 .build();
     }
 }
