@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.springboot.ijib.dto.MenuDTO;
 import com.springboot.ijib.dto.StoreDTO;
+import com.springboot.ijib.dto.StoreESDTO;
+import com.springboot.ijib.service.StoreESService;
 import com.springboot.ijib.service.StoreService;
 
 @Controller
@@ -18,6 +20,9 @@ public class StoreController {
 
     @Autowired
     private StoreService service;
+    
+    @Autowired
+    private StoreESService esService;
 
     @RequestMapping("/guest/storeList")
     public String storeList(Model model) {
@@ -59,6 +64,14 @@ public class StoreController {
         }
 
         service.storeWrite(dto, menuList);
+
+        try {
+            StoreESDTO esDto = service.storeESData(dto.getSno());
+            esService.storeInsert(esDto);
+        } catch (Exception e) {
+        	System.out.println("===== Elasticsearch 저장 실패 =====");
+            e.printStackTrace();
+        }
 
         return "redirect:/guest/storeList";
     }
