@@ -1,5 +1,6 @@
 package com.springboot.ijib.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,9 @@ import org.springframework.stereotype.Service;
 import com.springboot.ijib.dao.IMenuDAO;
 import com.springboot.ijib.dao.IStoreDAO;
 import com.springboot.ijib.dto.MenuDTO;
+import com.springboot.ijib.dto.MenuESDTO;
 import com.springboot.ijib.dto.StoreDTO;
+import com.springboot.ijib.dto.StoreESDTO;
 
 @Service
 public class StoreService {
@@ -94,6 +97,45 @@ public class StoreService {
     // 메뉴 목록
     public List<MenuDTO> menuList(int sno) {
         return mnDao.menuList(sno);
+    }
+    
+ // Elasticsearch용 음식점 데이터 생성
+    public StoreESDTO storeESData(int sno) {
+
+        StoreDTO store = dao.storeView(sno);
+        List<MenuDTO> menuList = mnDao.menuList(sno);
+
+        StoreESDTO esDto = new StoreESDTO();
+
+        esDto.setSno(store.getSno());
+        esDto.setSname(store.getSname());
+        esDto.setScategory(store.getScategory());
+        esDto.setSkeyword(store.getSkeyword());
+        esDto.setScontent(store.getScontent());
+        esDto.setSaddr(store.getSaddr());
+        esDto.setSsido(store.getSsido());
+        esDto.setSsigungu(store.getSsigungu());
+        esDto.setSlat(store.getSlat());
+        esDto.setSlong(store.getSlong());
+        esDto.setSinfo(store.getSinfo());
+        esDto.setSparking(store.getSparking());
+        esDto.setSstatus(store.getSstatus());
+
+        List<MenuESDTO> menuESList = new ArrayList<>();
+
+        for(MenuDTO menu : menuList) {
+
+            MenuESDTO menuES = new MenuESDTO();
+
+            menuES.setMnname(menu.getMnname());
+            menuES.setMnprice(menu.getMnprice());
+
+            menuESList.add(menuES);
+        }
+
+        esDto.setMenu(menuESList);
+
+        return esDto;
     }
 
 }
