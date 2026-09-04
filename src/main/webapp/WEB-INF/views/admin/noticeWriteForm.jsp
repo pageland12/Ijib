@@ -19,7 +19,7 @@
 			</tr>
 			<tr>
 				<th>첨부파일</th>
-				<td><input type="file" name="nfiles"></td>
+				<td><input type="file" name="nupload"></td>
 			</tr>		
 		</table>
 		<input type="submit" value="등록">

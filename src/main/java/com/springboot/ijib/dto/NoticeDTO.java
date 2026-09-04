@@ -11,7 +11,8 @@ public class NoticeDTO {
 	private int nno;
 	private String ntitle;
 	private String ncontent;
-	private MultipartFile nfiles;
+	private String nfiles;
+	private MultipartFile nupload;
 	private Date ndate;
 	private int nhit;
 	private int mno;
