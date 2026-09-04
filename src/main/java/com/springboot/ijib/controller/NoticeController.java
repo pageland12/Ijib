@@ -74,7 +74,8 @@ public class NoticeController {
 	
 	@RequestMapping("/admin/noticeUpdateForm")
 	public String noticeUpdateForm(@RequestParam("nno") int nno, Model model) {
-		model.addAttribute("view", ndao.noticeView(nno));
+		NoticeDTO ndto = ndao.noticeView(nno);
+		model.addAttribute("view", ndto);
 		return "admin/noticeUpdateForm";
 	}
 	
@@ -93,7 +94,7 @@ public class NoticeController {
 		}
 		
 		ndao.noticeUpdate(ndto);		
-		return "redirect:/guest/noticeView";
+		return "redirect:/guest/noticeView?nno=" + ndto.getNno();
 	}
 	
 }

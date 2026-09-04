@@ -10,6 +10,7 @@
 <body>
 	<form name="noticeWriteForm" method="post" action="/admin/noticeUpdate" enctype="multipart/form-data">
 		<input type="hidden" name="nno" value="${view.nno}">
+		<input type="hidden" name="nfiles" value="${view.nfiles}">
 		<table border=1 width=400>		
 			<tr>
 				<th>제목</th>
@@ -17,7 +18,7 @@
 			</tr>
 			<tr>
 				<th>내용</th>
-				<td><textarea name="ncontent" value="${view.ncontent}"></textarea></td>
+				<td><textarea name="ncontent">${view.ncontent}</textarea></td>
 			</tr>
 			<tr>
 				<th>첨부파일</th>
@@ -26,10 +27,11 @@
                     	<p>현재 파일: ${view.nfiles}</p>
                     	<img src="/images/${view.nfiles}" width="150"><br>
                 	</c:if>
+                	<input type="file" name="nupload">
                 </td>
 			</tr>		
 		</table>
-		<input type="submit" value="등록">
+		<input type="submit" value="수정">
 	</form>
 </body>
 </html>
