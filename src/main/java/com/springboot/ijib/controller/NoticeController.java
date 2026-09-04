@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.springboot.ijib.dao.IMemberDAO;
 import com.springboot.ijib.dao.INoticeDAO;
 import com.springboot.ijib.dto.NoticeDTO;
 
@@ -16,8 +17,8 @@ public class NoticeController {
 	@Autowired
 	private INoticeDAO ndao;
 	
-	// @Autowired
-	// private IMemberDAO mdao;	
+	@Autowired
+	private IMemberDAO mdao;
 	
 	@RequestMapping("/guest/noticeList")
 	public String noticeList(Model model) {

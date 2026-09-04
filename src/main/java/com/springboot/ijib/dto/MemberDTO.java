@@ -10,7 +10,7 @@ public class MemberDTO {
 	private String mpasswd;
 	private String mname;
 	private String mgender;
-	private String mage;
+	private int mage;
 	private String maddr;
 	private String mtel;
 	private String maccount;
