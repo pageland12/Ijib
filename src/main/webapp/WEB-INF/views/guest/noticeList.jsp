@@ -22,10 +22,11 @@
 				<td>${list.nno}</td>
 				<td><a href="/guest/noticeView?nno=${list.nno}">${list.ntitle}</a></td>
 				<td>${list.mname}</td>
-				<td><fmt:formatDate value="${notice.ndate}" pattern="yyyy-MM-dd" /></td>
+				<td><fmt:formatDate value="${list.ndate}" pattern="yyyy-MM-dd" /></td>
 				<td>${list.nhit}</td>
 			</tr>
 		</c:forEach>
 	</table>
+	<a href="/main">메인</a>
 </body>
 </html>

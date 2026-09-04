@@ -35,5 +35,8 @@
 			<td><img src="/images/${view.nfiles}" alt="공지사항 이미지"></td>
 		</tr>
 	</table>
+	<a href="/admin/noticeUpdateForm?nno=${view.nno}">수정</a>
+	<a href="/admin/noticeDelete?nno=${view.nno}">삭제</a>
+	<a href="/guest/noticeList">목록</a>
 </body>
 </html>
