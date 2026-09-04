@@ -80,26 +80,42 @@ public class StoreController {
     }
 
     @RequestMapping("/admin/storeUpdate")
-    public String storeUpdate(StoreDTO dto,
-            @RequestParam(value = "mnno", required = false) List<Integer> mnno,
-            @RequestParam(value = "mnname", required = false) List<String> mnname,
-            @RequestParam(value = "mnprice", required = false) List<Integer> mnprice,
-            @RequestParam(value = "skeyword", required = false) String[] skeyword) {
+    public String storeUpdate(
+            StoreDTO dto,
 
-        if(skeyword != null) {
+            @RequestParam(value = "deleteMnno", required = false)
+            String deleteMnno,
+
+            @RequestParam(value = "mnno", required = false)
+            List<Integer> mnno,
+
+            @RequestParam(value = "mnname", required = false)
+            List<String> mnname,
+
+            @RequestParam(value = "mnprice", required = false)
+            List<Integer> mnprice,
+
+            @RequestParam(value = "skeyword", required = false)
+            String[] skeyword) {
+
+        // 키워드 처리
+        if (skeyword != null) {
             dto.setSkeyword(String.join(",", skeyword));
         }
 
+        // 메뉴 리스트 만들기
         List<MenuDTO> menuList = new ArrayList<>();
 
-        if(mnname != null) {
-            for(int i = 0; i < mnname.size(); i++) {
+        if (mnname != null) {
 
-                if(mnname.get(i) != null && !mnname.get(i).trim().isEmpty()) {
+            for (int i = 0; i < mnname.size(); i++) {
+
+                if (mnname.get(i) != null &&
+                    !mnname.get(i).trim().isEmpty()) {
 
                     MenuDTO menu = new MenuDTO();
 
-                    if(mnno != null && i < mnno.size()) {
+                    if (mnno != null && i < mnno.size()) {
                         menu.setMnno(mnno.get(i));
                     }
 
@@ -111,13 +127,14 @@ public class StoreController {
             }
         }
 
-        service.storeUpdate(dto, menuList);
+        service.storeUpdate(dto, menuList, deleteMnno);
 
         return "redirect:/guest/storeView?sno=" + dto.getSno();
     }
-
+    
     @RequestMapping("/admin/storeDelete")
     public String storeDelete(@RequestParam("sno") int sno) {
+
         service.storeDelete(sno);
 
         return "redirect:/guest/storeList";

@@ -24,6 +24,11 @@ public class MemberController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	@RequestMapping("/")
+	public String root() {
+		return "guest/main";
+	}
+	
 	@RequestMapping("/main")
 	public String main() {
 		return "redirect:/";
@@ -53,6 +58,8 @@ public class MemberController {
 	
 	@RequestMapping("/guest/write")
 	public String write(MemberDTO mdto,
+						@RequestParam("gender") String gender,
+						@RequestParam("ageGroup") int ageGroup,
 						@RequestParam("maddr1") String maddr1,
 						@RequestParam("maddr2") String maddr2,
 						@RequestParam("mzipno") String mzipno,
@@ -63,6 +70,8 @@ public class MemberController {
 						@RequestParam("maccount2") String maccount2,
 						@RequestParam("maccount3") String maccount3
 						) {
+		mdto.setMgender(gender);
+		mdto.setMage(ageGroup);
 		mdto.setMaddr(maddr1+","+maddr2+","+mzipno);
 		mdto.setMtel(mtel1+"-"+mtel2+"-"+mtel3);
 		mdto.setMaccount(maccount1+","+maccount2+","+maccount3);
@@ -168,38 +177,6 @@ public class MemberController {
 		return "admin/adminMain";
 	}
 	
-	// 모든 회원관리
-	@RequestMapping("/admin/memberList")
-	public String memberList(Model model, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
-		int amount = 10; // 한 페이지당 보여줄 개수
-	      
-		int startRow = (pageNum - 1) * amount + 1;
-		int endRow = pageNum * amount;
-	      
-		// DAO를 통해 페이징된 회원 목록과 전체 개수 가져오기
-		List<MemberDTO> members = mdao.memberListPaging(startRow, endRow);
-		int total = mdao.getTotalMemberCount();
-		int totalPages = (int) Math.ceil((double) total / amount);
-	      
-		// 5개 단위 페이징 계산
-		int navSize = 5;
-		int startPage = ((pageNum - 1) / navSize) * navSize + 1;
-		int endPage = startPage + navSize - 1;
-	      
-		if (endPage > totalPages) {
-			endPage = totalPages;
-		}
-	      
-		// JSP로 데이터 전달
-		model.addAttribute("lists", members);
-		model.addAttribute("totalCount", total); // 👈 이 부분을 추가해 주어야 전체 회원 수가 정상적으로 표시됩니다!
-		model.addAttribute("pageNum", pageNum);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("endPage", endPage);
-		model.addAttribute("totalPages", totalPages);
-	      
-		return "admin/memberList";
-	}
 	
 	// 회원상세보기
 	@RequestMapping("/admin/memberView")

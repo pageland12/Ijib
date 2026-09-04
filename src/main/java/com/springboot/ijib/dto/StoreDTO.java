@@ -17,7 +17,6 @@ public class StoreDTO {
     private double slong;
     private String stel;
     private String sinfo;
-    private String sdate;
     private String sparking;
     private String sstatus;
     private List<MenuDTO> menus;

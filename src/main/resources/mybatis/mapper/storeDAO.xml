@@ -23,8 +23,8 @@
 	        select STORE_SEQ.NEXTVAL from dual
 	    </selectKey>
 	
-	    insert into store(sno, sname, sfiles, scategory, skeyword, scontent, saddr, slat, slong, stel, sinfo, sdate, sparking, sstatus)
-	     values(#{sno}, #{sname}, #{sfiles}, #{scategory}, #{skeyword}, #{scontent}, #{saddr}, #{slat}, #{slong}, #{stel}, #{sinfo}, TO_DATE(#{sdate}, 'YYYY-MM-DD'), #{sparking}, #{sstatus})
+	    insert into store(sno, sname, sfiles, scategory, skeyword, scontent, saddr, slat, slong, stel, sinfo, sparking, sstatus)
+	     values(#{sno}, #{sname}, #{sfiles}, #{scategory}, #{skeyword}, #{scontent}, #{saddr}, #{slat}, #{slong}, #{stel}, #{sinfo}, #{sparking}, #{sstatus})
 	</insert>
 	
 	<update id="storeUpdate">

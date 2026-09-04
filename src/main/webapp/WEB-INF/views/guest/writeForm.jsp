@@ -4,7 +4,17 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입 - 이집어때</title>
-<script src="/js/memberWrite.js" language="javascript"></script>
+<script>
+	function goPopup(){	
+		var pop = window.open("/guest/jusoPopup","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 		    
+	}
+	
+	function jusoCallBack(maddr1,maddr2,mzipno){
+		document.member.maddr1.value = maddr1;
+		document.member.maddr2.value = maddr2;
+		document.member.mzipno.value = mzipno;		
+	}
+</script>
 </head>
 <body>
 	<%@ include file="header.jsp" %>
@@ -13,8 +23,7 @@
 	        <form name="member" method="post" action="/guest/write">        
 	            <div>
 	                <label>이메일</label>
-	                    <input type="text" name="memail" readonly placeholder="중복 검사를 진행해주세요.">
-	                    <input type="button" value="중복 검사" class="btn-sub" onclick="goEmailCheck()">
+	                    <input type="text" name="memail">
 	            </div>
 	                
 	            <div>

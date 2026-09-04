@@ -17,14 +17,15 @@
 
         const menu = document.createElement("span");
 
+        menu.className = "menu-item";
+
         menu.innerHTML =
-            '메뉴명 : <input type="text" name="menuList[' + menuIndex + '].mnname">' +
-            ' 가격 : <input type="text" name="menuList[' + menuIndex + '].mnprice">' +
-            ' <input type="button" value="삭제" onclick="this.parentElement.remove()"><br>';
+            '메뉴명 : <input type="text" name="mnname">' +
+            ' 가격 : <input type="text" name="mnprice">' +
+            ' <input type="button" value="삭제" onclick="this.closest(\'.menu-item\').remove()">' +
+            '<br>';
 
         document.getElementById("menuAdd").before(menu);
-
-        menuIndex++;
     }
     
     let deleteMnno = [];
@@ -33,9 +34,10 @@
 
         deleteMnno.push(mnno);
 
-        document.getElementById("deleteMnno").value = deleteMnno.join(",");
+        document.getElementById("deleteMnno").value =
+            deleteMnno.join(",");
 
-        element.parentElement.remove();
+        element.closest(".menu-item").remove();
     }
 </script>
 
@@ -69,7 +71,6 @@
 	    경도 : <input type="text" name="slong" value="${update.slong}"><br>
 	    전화번호 : <input type="text" name="stel" value="${update.stel}"><br>
 	    영업 정보 : <textarea name="sinfo">${update.sinfo}</textarea><br>
-	    개업일 : ${update.sdate}
 	    주차 여부 : <input type="text" name="sparking" value="${update.sparking}"><br>
 	    영업 상태 :
 	    <input type="radio" name="sstatus" value="OPEN" ${update.sstatus == 'OPEN' ? 'checked' : ''}> 영업중
@@ -78,13 +79,15 @@
 	    메뉴 <br>
 	    <input type="hidden" name="deleteMnno" id="deleteMnno">
 		<c:forEach var="m" items="${menu}" varStatus="status">
-		    <input type="hidden" name="menuList[${status.index}].mnno" value="${m.mnno}">
-		    메뉴명 : <input type="text" name="menuList[${status.index}].mnname" value="${m.mnname}">
-		    가격 : <input type="text" name="menuList[${status.index}].mnprice" value="${m.mnprice}">
-		    <input type="button" value="삭제" onclick="this.parentElement.remove()"><br>
+		    <span class="menu-item">
+		        <input type="hidden" name="mnno" value="${m.mnno}">
+		        메뉴명 : <input type="text" name="mnname" value="${m.mnname}">
+		        가격 : <input type="text" name="mnprice" value="${m.mnprice}">
+		        <input type="button" value="삭제" onclick="deleteMenu(${m.mnno}, this)"><br>
+		    </span>
 		</c:forEach>
 		<span id="menuAdd"></span>
-	<input type="button" value="메뉴 추가" onclick="addMenu()"><br>
+		<input type="button" value="메뉴 추가" onclick="addMenu()"><br>
 	    
 		<input type="submit" value="수정">
 	    <input type="button" value="취소" onclick="history.back()">
