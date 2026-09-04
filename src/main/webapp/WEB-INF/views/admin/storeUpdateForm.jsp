@@ -67,6 +67,8 @@
 	    <input type="checkbox" name="skeyword" value="경치가 좋은" ${fn:contains(update.skeyword, '경치가 좋은') ? 'checked' : ''}>경치가 좋은<br>
 	    설명 : <textarea name="scontent">${update.scontent}</textarea><br>
 	    주소 : <input type="text" name="saddr" value="${update.saddr}"><br>
+	    시도 : <input type="text" name="ssido" value="${update.ssido}"><br>
+    	시군구 : <input type="text" name="ssigungu" value="${update.ssigungu}"><br>
 	    위도 : <input type="text" name="slat" value="${update.slat}"><br>
 	    경도 : <input type="text" name="slong" value="${update.slong}"><br>
 	    전화번호 : <input type="text" name="stel" value="${update.stel}"><br>

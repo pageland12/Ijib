@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.ijib.dao.IBookmarkDAO">
+	<select id="bookmarkList" resultType="com.springboot.ijib.dto.BookmarkDTO">
+		select bm.bmno, bm.mno, bm.sno, s.sfiles, s.sname, s.saddr
+		 from bookmark bm
+		 join store s on bm.sno = s.sno
+		 where bm.mno = #{mno}
+		 order by bm.bmno desc
+	</select>
+	
+	<insert id="bookmarkInsert">
+		insert into bookmark(bmno, mno, sno)
+		 values(BOOKMARK_SEQ.NEXTVAL, #{mno}, #{sno})
+	</insert>
+	
+	<delete id="bookmarkDelete">
+		delete from bookmark
+		 where bmno = #{bmno}
+	</delete>
+	
+	<select id="bookmarkCheck" resultType="int">
+		select count(*)
+		 from bookmark
+		 where mno = #{mno}
+		 and sno = #{sno}
+	</select>
+</mapper>

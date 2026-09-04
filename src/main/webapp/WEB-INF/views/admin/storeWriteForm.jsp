@@ -52,6 +52,8 @@
     <br>
     설명 : <textarea name="scontent"></textarea><br>
     주소 : <input type="text" name="saddr"><br>
+    시도 : <input type="text" name="ssido"><br>
+    시군구 : <input type="text" name="ssigungu"><br>
     위도 : <input type="text" name="slat"><br>
     경도 : <input type="text" name="slong"><br>
     전화번호 : <input type="text" name="stel"><br>

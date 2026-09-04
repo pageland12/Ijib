@@ -19,13 +19,13 @@
 		</tr>
 	<c:forEach var="list" items="${list}">
 		<tr>
-			<td><a href="/guest/storeView?sno=${list.sno}"><img src="${list.sfiles}"></a></td>
+			<td><a href="/guest/storeView?sno=${list.sno}"><img src="${fn:split(list.sfiles, ',')[0]}"></a></td>
 			<td><a href="/guest/storeView?sno=${list.sno}">${list.sname}</a></td>
 			<td>${list.saddr}</td>
 			<td>
 			<c:choose>
-		        <c:when test="${fn:length(list.scontent) > 20}">
-		            ${fn:substring(list.scontent, 0, 20)}...
+		        <c:when test="${fn:length(list.scontent) > 50}">
+		            ${fn:substring(list.scontent, 0, 50)}...
 		        </c:when>
 		        <c:otherwise>
 		            ${list.scontent}
@@ -34,6 +34,9 @@
 		    </td>
 		</tr>
 	</c:forEach>
+		<tr>
+			<td colspan="4"><a href="/admin/storeWriteForm">등록</a></td>
+		</tr>
 	</table>
 </body>
 </html>

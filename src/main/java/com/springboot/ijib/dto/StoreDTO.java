@@ -13,6 +13,8 @@ public class StoreDTO {
     private String skeyword;
     private String scontent;
     private String saddr;
+    private String ssido;
+    private String ssigungu;
     private double slat;
     private double slong;
     private String stel;
