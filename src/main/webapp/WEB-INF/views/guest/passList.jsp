@@ -19,7 +19,7 @@
 	<table border="1">
     <c:forEach var="pass" items="${pass}">
         <tr>
-            <a href="/member/order?pno=${pass.pno}"><img src="/images/${pass.pimg}" width="150"></a>
+            <a href="/member/payForm?pno=${pass.pno}"><img src="/images/${pass.pimg}" width="150"></a>
         </tr>
     </c:forEach>
 	</table> <br>
