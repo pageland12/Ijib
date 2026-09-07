@@ -21,6 +21,9 @@ public interface IMemberDAO {
 		// 회원정보 수정 -> 회원 본인이 수정하는 것
 		public int memberUpdate(MemberDTO dto);
 		
+		// 회원 권한 수정 (구독권 구매, 만료 등)
+		public int memberAuthUpdate(MemberDTO dto);
+		
 		// 회원 삭제
 		public int memberDelete(int mno);
 		

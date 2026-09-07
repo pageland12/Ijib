@@ -1,14 +1,18 @@
 package com.springboot.ijib.dto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
 @Data
 public class OrdersDTO {
-	private	int		ono;
-	private	int		oprice;
-	private	String	mpayment;
-	private Date	odate;
-	private	int		mno;
+	private	String			ono;		// 주문 번호
+	private	int				oprice;		// 주문 가격
+	private	String			opayment;	// 주문 방법
+	// Date -> LocalDateTime으로 변경
+	private LocalDateTime	odate;		// 주문일
+	private	int				mno;		// 회원 번호
+	
+	// 조인을 통해 얻을 컬럼
+	private String			pname;		// 구독권 이름
 }
