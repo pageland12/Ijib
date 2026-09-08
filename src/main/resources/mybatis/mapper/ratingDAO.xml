@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.ijib.dao.IRatingDAO">
+	<select id="ratingList" resultType="com.springboot.ijib.dto.RatingDTO">
+		select r.*, m.mname, s.sname, s.sfiles
+		 from rating r
+		 join member m on r.mno = m.mno
+		 join store s on r.sno = s.sno
+		 where r.sno = #{sno}
+		 order by r.rno desc
+	</select>
+	
+	<select id="ratingPreview" resultType="com.springboot.ijib.dto.RatingDTO">
+		select *
+		 from (
+		 	select r.*, m.mname, s.sname, s.sfiles
+		 	from rating r
+		 	join member m on r.mno = m.mno
+		 	join store s on r.sno = s.sno
+		 	where r.sno = #{sno}
+		 	order by r.rno desc
+		 )
+		 where rownum &lt;= 3
+	</select>
+	<select id="myRatingList" resultType="com.springboot.ijib.dto.RatingDTO">
+		select r.*, s.sname, s.sfiles
+		from rating r
+		join store s on r.sno = s.sno
+		where r.mno = #{mno}
+		order by r.rno desc
+	</select>
+	
+	<select id="ratingView" resultType="com.springboot.ijib.dto.RatingDTO">
+		select r.*, m.mname, s.sname, s.sfiles
+		 from rating r
+		 join member m on r.mno = m.mno
+		 join store s on r.sno = s.sno
+		 where r.rno = #{rno}
+	</select>
+	
+	<insert id="ratingWrite">
+		insert into rating(rno, rtitle, rcontent, rrate, rfeature, rdate, mno, sno)
+		 values(RATING_SEQ.NEXTVAL, #{rtitle}, #{rcontent}, #{rrate}, #{rfeature}, SYSDATE, #{mno}, #{sno})
+	</insert>
+	
+	<update id="ratingUpdate">
+		update rating
+		 set rtitle = #{rtitle}, rcontent = #{rcontent}, rrate = #{rrate}, rfeature = #{rfeature}
+		 where rno = #{rno}
+	</update>
+	
+	<delete id="ratingDelete">
+		delete from rating
+		 where rno = #{rno}
+	</delete>
+</mapper>

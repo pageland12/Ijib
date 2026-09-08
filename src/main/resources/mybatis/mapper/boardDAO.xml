@@ -34,7 +34,7 @@
 	</delete>
 	
 	<update id="boardHit">
-		update notice
+		update board
 		 set bhit = bhit + 1
 		 where bno = #{bno}
 	</update>

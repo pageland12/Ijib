@@ -21,7 +21,7 @@
             <div>회원탈퇴</div>
         </a>
         
-        <a href="/member/boardList">
+        <a href="/member/myBoard">
             <div>나의 게시글</div>
         </a>
         

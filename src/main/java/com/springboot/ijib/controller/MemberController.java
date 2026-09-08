@@ -106,7 +106,7 @@ public class MemberController {
 	@RequestMapping("/member/memberMain")
 	public String membermain(Authentication authentication, Model model) {
 	    model.addAttribute("view", mdao.findByEmail(authentication.getName()));	   
-	    return "redirect:/member/myBookList";
+	    return "member/memberMain";
 	}
 	
 	// 비밀번호 확인폼 (수정/탈퇴 공용)

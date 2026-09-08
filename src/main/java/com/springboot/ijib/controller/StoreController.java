@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.springboot.ijib.dao.IRatingDAO;
 import com.springboot.ijib.dto.MenuDTO;
 import com.springboot.ijib.dto.StoreDTO;
 import com.springboot.ijib.dto.StoreESDTO;
@@ -23,7 +24,10 @@ public class StoreController {
     
     @Autowired
     private StoreESService esService;
-
+    
+    @Autowired
+    private IRatingDAO rdao;
+    
     @RequestMapping("/guest/storeList")
     public String storeList(Model model) {
         model.addAttribute("list", service.storeList());
@@ -80,7 +84,9 @@ public class StoreController {
     public String storeView(@RequestParam("sno") int sno, Model model) {
         model.addAttribute("view", service.storeView(sno));
         model.addAttribute("menu", service.menuList(sno));
-
+        
+        model.addAttribute("preview", rdao.ratingPreview(sno));
+        model.addAttribute("list", rdao.ratingList(sno));
         return "guest/storeView";
     }
 

@@ -41,6 +41,120 @@
 	주차 여부 : ${view.sparking}<br>
 	영업 상태 : ${view.sstatus}<br>
 	
+	<!-- ================= 후기 ================= -->
+
+    <h3>후기</h3>
+
+
+    <!-- 후기 미리보기 -->
+
+    <c:choose>
+
+        <c:when test="${not empty preview}">
+
+            <c:forEach var="rating" items="${preview}">
+
+                <div class="rating-item">
+
+                    <strong>${rating.rtitle}</strong>
+
+                    <br>
+
+                    평점 : ${rating.rrate}
+
+                    <br>
+
+                    ${rating.rcontent}
+
+                    <br>
+
+                    작성자 : ${rating.mname}
+
+                    <br>
+
+                    작성일 : ${rating.rdate}
+
+                </div>
+
+            </c:forEach>
+
+
+            <br>
+
+
+            <!-- 더보기 -->
+
+            <button type="button"
+                onclick="openRatingModal()">
+
+                후기 더보기
+
+            </button>
+
+        </c:when>
+
+
+        <c:otherwise>
+
+            아직 작성된 후기가 없습니다.
+
+        </c:otherwise>
+
+    </c:choose>
+
+
+    <!-- ================= 전체 후기 모달 ================= -->
+
+    <div id="ratingModal" class="rating-modal">
+
+        <div class="rating-modal-content">
+
+            <span class="rating-close"
+                onclick="closeRatingModal()">
+
+                ×
+
+            </span>
+
+
+            <h3>전체 후기</h3>
+
+
+            <c:forEach var="rating" items="${list}">
+
+                <div class="rating-item">
+
+                    <strong>${rating.rtitle}</strong>
+
+                    <br>
+
+                    평점 : ${rating.rrate}
+
+                    <br>
+
+                    내용 : ${rating.rcontent}
+
+                    <br>
+
+                    특징 : ${rating.rfeature}
+
+                    <br>
+
+                    작성자 : ${rating.mname}
+
+                    <br>
+
+                    작성일 : ${rating.rdate}
+
+                </div>
+
+            </c:forEach>
+
+        </div>
+
+    </div>
+	
+	<a href="/board/ratingWriteForm?sno=${view.sno}">후기 작성</a> /
 	<a href="/member/bookmarkInsert?sno=${view.sno}">북마크</a> /
 	<a href="/admin/storeUpdateForm?sno=${view.sno}">수정</a> / 
 	<a href="/admin/storeDelete?sno=${view.sno}">삭제</a> / 
