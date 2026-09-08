@@ -44,7 +44,7 @@ public class BoardController {
 	
 	@RequestMapping("/guest/boardView")
 	public String boardView(@RequestParam("bno") int bno, Model model) {
-		bdao.boardView(bno);
+		bdao.boardHit(bno);
 		model.addAttribute("view", bdao.boardView(bno));
 		return "guest/boardView";
 	}
