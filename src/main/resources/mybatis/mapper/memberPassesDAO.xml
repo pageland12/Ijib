@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.ijib.dao.IMemberPassesDAO">
+	<!-- 회원용 회원 구독권 정보 조회 -->
+	<select id="memberPassesList" resultType="com.springboot.ijib.dto.MemberPassesDTO">
+		SELECT MIN(MPSTART) AS MPSTART, MAX(MPEND) AS MPEND, COUNT(*) as MPCOUNT
+		  FROM MEMBER_PASSES
+		 WHERE MNO = #{mno}
+		   AND MPSTATUS = 'ACTIVE'
+	</select>
+	
+	<!-- 회원의 활성화 구독권 중 가장 MPEND가 늦은 값을 반환 -->
+	<select id="findActivePass" resultType="java.time.LocalDateTime">
+		SELECT MAX(MPEND)
+		  FROM MEMBER_PASSES
+		 WHERE MNO = #{mno}
+		   AND MPSTATUS = 'ACTIVE'
+	</select> 
+	
+	
+	<!-- 회원 구독권 등록 -->
+	<insert id="memberPassInsert">
+		INSERT INTO MEMBER_PASSES(MPNO, MPSTART, MPEND, MNO, ONO, PNO)
+		 VALUES(MP_SEQ.NEXTVAL, #{mpstart}, #{mpend}, #{mno}, #{ono}, #{pno})
+	</insert>
+	
+	<!-- 만료된 회원 구독권 업데이트 -->
+	<update id="expiredPassesUpdate">
+		UPDATE MEMBER_PASSES
+		   SET MPSTATUS = 'INACTIVE'
+		 WHERE MNO = #{mno}
+		   AND MPSTATUS = 'ACTIVE'
+		   AND MPEND &lt; SYSDATE
+	</update>
+</mapper>

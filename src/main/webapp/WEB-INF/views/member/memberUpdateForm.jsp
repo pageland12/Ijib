@@ -33,12 +33,54 @@
                             <input type="text" name="memail" class="form-control input-full" readonly value="${update.memail}">
                         </td>
                     </tr>
-                    <tr>
-                        <th>이름</th>
-                        <td>
-                            <input type="text" name="mname" class="form-control input-mid" value="${update.mname}">
-                        </td>
-                    </tr>
+					<tr>
+					    <th>이름</th>
+					    <td>
+					        <input type="text"
+					               name="mname"
+					               class="form-control input-mid"
+					               value="${update.mname}">
+					    </td>
+					</tr>
+					
+					<tr>
+					    <th>성별</th>
+					    <td>
+					        <input type="radio"
+					               id="male"
+					               name="gender"
+					               value="M"
+					               ${update.mgender == 'M' ? 'checked' : ''}>
+					        <label for="male">남성</label>
+					
+					        <input type="radio"
+					               id="female"
+					               name="gender"
+					               value="F"
+					               ${update.mgender == 'F' ? 'checked' : ''}>
+					        <label for="female">여성</label>
+					    </td>
+					</tr>
+					
+					<tr>
+					    <th>연령대</th>
+					    <td>
+					        <select name="ageGroup" class="form-control" style="width: 160px;">
+					
+					            <option value="10" ${update.mage == 10 ? 'selected' : ''}>10대</option>
+					            <option value="20" ${update.mage == 20 ? 'selected' : ''}>20대</option>
+					            <option value="30" ${update.mage == 30 ? 'selected' : ''}>30대</option>
+					            <option value="40" ${update.mage == 40 ? 'selected' : ''}>40대</option>
+					            <option value="50" ${update.mage == 50 ? 'selected' : ''}>50대</option>
+					            <option value="60" ${update.mage == 60 ? 'selected' : ''}>60대</option>
+					            <option value="70" ${update.mage == 70 ? 'selected' : ''}>70대</option>
+					            <option value="80" ${update.mage == 80 ? 'selected' : ''}>80대</option>
+					            <option value="90" ${update.mage == 90 ? 'selected' : ''}>90대</option>
+					
+					        </select>
+					    </td>
+					</tr>
+
                     <tr>
                         <th>주소</th>
                         <td>

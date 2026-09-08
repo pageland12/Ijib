@@ -1,0 +1,280 @@
+@charset "UTF-8";
+/* =========================================
+   HEADER
+========================================= */
+
+.main-header {
+    position: relative;
+    width: 100%;
+    height: 80px;
+
+    background-color: #292a2c;
+
+    z-index: 1000;
+}
+
+
+/* 헤더 안쪽 */
+
+.header-inner {
+    position: relative;
+
+    width: 100%;
+    height: 80px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* =========================================
+   LOGO
+========================================= */
+
+.header-logo {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+
+/* BLUE RIBBON SURVEY */
+
+.header-logo span {
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 28px;
+
+    font-weight: 400;
+
+    letter-spacing: 7px;
+
+    white-space: nowrap;
+}
+
+
+/* SINCE 2005 */
+
+.header-logo small {
+    margin-left: 10px;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+
+    color: #dddddd;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   햄버거 버튼
+========================================= */
+
+.menu-button {
+    position: absolute;
+
+    top: 50%;
+    right: 40px;
+
+    transform: translateY(-50%);
+
+    width: 45px;
+    height: 45px;
+
+    padding: 8px;
+
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 6px;
+}
+
+
+/* 햄버거 3줄 */
+
+.menu-button span {
+    display: block;
+
+    width: 30px;
+    height: 2px;
+
+    background-color: #ffffff;
+
+    transition: all 0.3s ease;
+}
+
+
+/* 마우스를 올렸을 때 */
+
+.menu-button:hover span {
+    background-color: #cccccc;
+}
+
+
+/* =========================================
+   햄버거 메뉴
+========================================= */
+
+.menu-dropdown {
+    position: absolute;
+
+    top: 80px;
+    right: 40px;
+
+    width: 220px;
+
+    background-color: #292a2c;
+
+    border-radius: 10px;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.35);
+
+    overflow: hidden;
+
+    display: none;
+}
+
+
+/* 메뉴가 열렸을 때 */
+
+.menu-dropdown.active {
+    display: block;
+}
+
+
+/* =========================================
+   메뉴 리스트
+========================================= */
+
+.menu-list {
+    list-style: none;
+
+    margin: 0;
+    padding: 12px 20px 15px;
+}
+
+
+/* 메뉴 하나 */
+
+.menu-list li {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* 메뉴 링크 */
+
+.menu-list li a {
+    display: block;
+
+    padding: 9px 0;
+
+    color: #eeeeee;
+
+    font-family: 'Malgun Gothic',
+                 '맑은 고딕',
+                 sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    text-decoration: none;
+
+    transition: color 0.2s ease;
+}
+
+
+/* 마우스 올렸을 때 */
+
+.menu-list li a:hover {
+    color: #ffffff;
+}
+
+
+/* =========================================
+   메뉴 구분선
+========================================= */
+
+.menu-list .menu-divider {
+    height: 1px;
+
+    margin: 6px 0;
+
+    background-color: #555555;
+}
+
+
+/* =========================================
+   햄버거 버튼이 눌렸을 때
+========================================= */
+
+/* 1번째 줄 */
+
+.menu-button.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+
+/* 2번째 줄 */
+
+.menu-button.active span:nth-child(2) {
+    opacity: 0;
+}
+
+
+/* 3번째 줄 */
+
+.menu-button.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+
+/* =========================================
+   반응형
+========================================= */
+
+@media (max-width: 768px) {
+
+    .header-logo span {
+        font-size: 20px;
+
+        letter-spacing: 4px;
+    }
+
+    .header-logo small {
+        font-size: 9px;
+
+        margin-left: 5px;
+    }
+
+    .menu-button {
+        right: 15px;
+    }
+
+    .menu-dropdown {
+        right: 15px;
+
+        width: 200px;
+    }
+}
