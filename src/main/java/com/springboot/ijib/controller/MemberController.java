@@ -1,10 +1,6 @@
 package com.springboot.ijib.controller;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -106,7 +102,7 @@ public class MemberController {
 	@RequestMapping("/member/memberMain")
 	public String membermain(Authentication authentication, Model model) {
 	    model.addAttribute("view", mdao.findByEmail(authentication.getName()));	   
-	    return "redirect:/member/myBookList";
+	    return "member/memberMain";
 	}
 	
 	// 비밀번호 확인폼 (수정/탈퇴 공용)
@@ -144,31 +140,49 @@ public class MemberController {
 	
 	// 회원 수정폼
 	@RequestMapping("/member/memberUpdateForm")
-	public String memberUpdateForm(@RequestParam("mno") int mno, Model model) {
-		model.addAttribute("update", mdao.memberView(mno));
-		return "member/memberUpdateForm";
+	public String memberUpdateForm(Authentication authentication, Model model) {
+	    String memail = authentication.getName();
+	    MemberDTO mdto = mdao.findByEmail(memail);
+	    model.addAttribute("update", mdto);
+	    return "member/memberUpdateForm";
 	}
-	
 			
 	// 회원 수정
 	@RequestMapping("/member/memberUpdate")
-	public String memberUpdate(MemberDTO mdto,
-						@RequestParam("maddr1") String maddr1,
-						@RequestParam("maddr2") String maddr2,
-						@RequestParam("mzipno") String mzipno,
-						@RequestParam("mtel1") String mtel1,
-						@RequestParam("mtel2") String mtel2,
-						@RequestParam("mtel3") String mtel3,
-						@RequestParam("maccount1") String maccount1,
-						@RequestParam("maccount2") String maccount2,
-						@RequestParam("maccount3") String maccount3
-						) {
-		mdto.setMtel(mtel1+"-"+mtel2+"-"+mtel3);
-		mdto.setMaddr(maddr1+","+maddr2+","+mzipno);
-		mdto.setMaccount(maccount1+","+maccount2+","+maccount3);
-		
-		mdao.memberUpdate(mdto);
-		return "redirect:/member/memberMain";
+	public String memberUpdate(
+	                    MemberDTO mdto,
+	                    @RequestParam("gender") String gender,
+	                    @RequestParam("ageGroup") int ageGroup,
+	                    @RequestParam("maddr1") String maddr1,
+	                    @RequestParam("maddr2") String maddr2,
+	                    @RequestParam("mzipno") String mzipno,
+	                    @RequestParam("mtel1") String mtel1,
+	                    @RequestParam("mtel2") String mtel2,
+	                    @RequestParam("mtel3") String mtel3,
+	                    @RequestParam("maccount1") String maccount1,
+	                    @RequestParam("maccount2") String maccount2,
+	                    @RequestParam("maccount3") String maccount3) {
+
+	    // 성별
+	    mdto.setMgender(gender);
+
+	    // 연령대
+	    mdto.setMage(ageGroup);
+
+	    // 연락처
+	    mdto.setMtel(mtel1 + "-" + mtel2 + "-" + mtel3);
+
+	    // 주소
+	    mdto.setMaddr(maddr1 + "," + maddr2 + "," + mzipno);
+
+	    // 환불 계좌
+	    mdto.setMaccount(maccount1 + "," + maccount2 + "," + maccount3);
+
+	    // 회원정보 수정
+	    mdao.memberUpdate(mdto);
+
+	    // 마이페이지로 이동
+	    return "redirect:/member/memberMain";
 	}
 	
 	// 관리자페이지
