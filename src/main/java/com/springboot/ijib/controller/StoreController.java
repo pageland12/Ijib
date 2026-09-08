@@ -71,7 +71,7 @@ public class StoreController {
 
         try {
             StoreESDTO esDto = service.storeESData(dto.getSno());
-            esService.storeInsert(esDto);
+            esService.storeSave(esDto);
         } catch (Exception e) {
         	System.out.println("===== Elasticsearch 저장 실패 =====");
             e.printStackTrace();
@@ -148,13 +148,28 @@ public class StoreController {
 
         service.storeUpdate(dto, menuList, deleteMnno);
 
+        try {
+            StoreESDTO esDto = service.storeESData(dto.getSno());
+            esService.storeSave(esDto);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return "redirect:/guest/storeView?sno=" + dto.getSno();
     }
     
     @RequestMapping("/admin/storeDelete")
     public String storeDelete(@RequestParam("sno") int sno) {
 
-        service.storeDelete(sno);
+    	service.storeDelete(sno);
+
+        try {
+            esService.storeDelete(sno);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return "redirect:/guest/storeList";
     }
