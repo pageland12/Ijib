@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -22,8 +24,8 @@ public class StoreESService {
     @Autowired
     private RestHighLevelClient client;
 
-    // 음식점 1개를 Elasticsearch에 저장
-    public void storeInsert(StoreESDTO dto) throws IOException {
+    // 음식점 등록 / 수정
+    public void storeSave(StoreESDTO dto) throws IOException {
 
         Map<String, Object> data = new HashMap<>();
 
@@ -63,11 +65,6 @@ public class StoreESService {
 
             data.put("menu", menuList);
         }
-
-        System.out.println("===== Elasticsearch 저장 시작 =====");
-        System.out.println("sno : " + dto.getSno());
-        System.out.println("sname : " + dto.getSname());
-        System.out.println("menu : " + dto.getMenu());
         
         IndexRequest request = new IndexRequest("store")
                 .id(String.valueOf(dto.getSno()))
@@ -75,8 +72,19 @@ public class StoreESService {
 
         IndexResponse response = client.index(request, RequestOptions.DEFAULT);
         
-        System.out.println("Elasticsearch 저장 완료 : " + response.getId());
     }
     
-    
+    // 음식점 삭제
+    public void storeDelete(int sno) throws IOException {
+
+        DeleteRequest request = new DeleteRequest(
+                "store",
+                String.valueOf(sno)
+        );
+
+        DeleteResponse response = client.delete(
+                request,
+                RequestOptions.DEFAULT
+        );
+    }
 }
