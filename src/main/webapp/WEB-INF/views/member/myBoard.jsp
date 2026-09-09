@@ -9,6 +9,8 @@
 <title>나의 게시글</title>
 </head>
 <body>
+	<%@ include file="../guest/header.jsp" %>
+    
 	<h2>게시판</h2>
 		<table border=1 width=400>
 			<tr>
@@ -62,5 +64,7 @@
 		</c:forEach>
 		</table>
 		<a href="/member/memberMain">마이페이지</a>
+		
+    	<%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

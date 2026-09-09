@@ -6,8 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>공지사항 수정</title>
+<script src="/js/noticeWU.js"></script>
 </head>
 <body>
+	<%@ include file="../guest/header.jsp" %>
+    
 	<form name="noticeWriteForm" method="post" action="/admin/noticeUpdate" enctype="multipart/form-data">
 		<input type="hidden" name="nno" value="${view.nno}">
 		<input type="hidden" name="nfiles" value="${view.nfiles}">
@@ -31,7 +34,9 @@
                 </td>
 			</tr>		
 		</table>
-		<input type="submit" value="수정">
+		<input type="submit" value="수정" onclick="return check()">
 	</form>
+	
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

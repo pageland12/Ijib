@@ -94,9 +94,6 @@
                 <a href="/guest/boardList">게시판</a>
             </li>
             <li>
-                <a href="/guest/ratingList">후기 게시판</a>
-            </li>
-            <li>
                 <a href="/guest/passList">구독권 구매</a>
             </li>
             <li>

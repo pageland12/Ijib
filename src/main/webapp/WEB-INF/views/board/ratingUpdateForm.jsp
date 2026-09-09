@@ -5,8 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>후기 수정</title>
+<script src="/js/ratingWU.js"></script>
 </head>
 <body>
+	<%@ include file="../guest/header.jsp" %>
+    
 	<form name="ratingUpdateForm" method="post" action="/board/ratingUpdate">
 		<input type="hidden" name="rno" value="${update.rno}">
 		<table border=1 width=400>
@@ -34,7 +37,9 @@
                 </tr>	
 		</table>
 		<a href="/guest/ratingList">목록</a>
-		<input type="submit" value="등록">
+		<input type="submit" value="등록" onclick="return check()">
 	</form>
+	
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

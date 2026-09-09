@@ -5,8 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>게시판 등록</title>
+<script src="/js/boardWU.js"></script>
 </head>
 <body>
+	<%@ include file="../guest/header.jsp" %>
+    
 	<form name="boardWriteForm" method="post" action="/board/boardWrite">
 		<table border=1 width=400>
 			<tr>
@@ -25,7 +28,9 @@
 				</td>
 			</tr>		
 		</table>
-		<input type="submit" value="등록">
+		<input type="submit" value="등록" onclick="return check()">
 	</form>
+	
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

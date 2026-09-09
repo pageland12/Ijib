@@ -9,6 +9,8 @@
 <title>게시판 목록</title>
 </head>
 <body>
+	<%@ include file="../guest/header.jsp" %>
+	<br>
 	<table border=1 width=400>
 			<tr>
 				<th>번호</th>
@@ -39,5 +41,7 @@
 		</c:forEach>
 	</table>
 	<a href="/main">메인</a>
+	<a href="/board/boardWriteForm">게시글 작성</a>
+	<%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

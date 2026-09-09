@@ -45,7 +45,7 @@ public class NoticeController {
 		if(nupload != null && !nupload.isEmpty()) {
 			String nfiles = nupload.getOriginalFilename();
 			
-			File uploadDir = new File("C:\\ijib_images\\");
+			File uploadDir = new File("C:/Ijib/ijib_images/");
 			if(!uploadDir.exists()) {
 				uploadDir.mkdirs();
 			}
@@ -84,7 +84,7 @@ public class NoticeController {
 		if(nupload != null && !nupload.isEmpty()) {
 			String nfiles = nupload.getOriginalFilename();
 			
-			File uploadDir = new File("C:\\ijib_images\\");
+			File uploadDir = new File("C:/Ijib/ijib_images/");
 			if(!uploadDir.exists()) {
 				uploadDir.mkdirs();
 			}
