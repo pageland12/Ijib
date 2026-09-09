@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>    
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,8 +32,6 @@
 			<td>${view.bcontent}</td>
 		</tr>
 	</table>
-	<a href="/board/boardUpdateForm?bno=${view.bno}">수정</a>
-	<a href="/board/boardDelete?bno=${view.bno}">삭제</a>
 	<a href="/guest/boardList">목록</a>
 </body>
 </html>

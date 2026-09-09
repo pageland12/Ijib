@@ -10,8 +10,16 @@
 		 order by b.bno desc
 	</select>
 	
+	<select id="myBoardList" resultType="com.springboot.ijib.dto.BoardDTO">
+   		select b.*, m.mname
+    	 from board b
+    	 join member m on b.mno = m.mno
+    	 where b.mno = #{mno}
+    	 order by b.bno desc
+	</select>
+	
 	<select id="boardView" resultType="com.springboot.ijib.dto.BoardDTO">
-		select b.*, m.mname
+		select b.*, m.mname, m.memail
 		 from board b
 		 join member m on b.mno = m.mno
 		 where b.bno = #{bno}

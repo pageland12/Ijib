@@ -25,8 +25,9 @@
 		 where rownum &lt;= 3
 	</select>
 	<select id="myRatingList" resultType="com.springboot.ijib.dto.RatingDTO">
-		select r.*, s.sname, s.sfiles
+		select r.*, m.mname, s.sname, s.sfiles
 		from rating r
+		join member m on r.mno = m.mno
 		join store s on r.sno = s.sno
 		where r.mno = #{mno}
 		order by r.rno desc

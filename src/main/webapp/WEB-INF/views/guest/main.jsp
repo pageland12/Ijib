@@ -10,6 +10,8 @@
 <body>
     <%@ include file="../guest/header.jsp" %>
     
+    <%@ include file="../guest/search.jsp" %>
+    
     <!-- 1. 로그인 안 되었을 때 (isAnonymous) -->
     <c:if test="${empty pageContext.request.userPrincipal}">
         <a href="/loginForm">로그인</a>

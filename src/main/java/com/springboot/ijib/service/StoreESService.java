@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springboot.ijib.dto.MenuESDTO;
+import com.springboot.ijib.dto.RatingESDTO;
 import com.springboot.ijib.dto.StoreESDTO;
 
 @Service
@@ -64,6 +65,24 @@ public class StoreESService {
             }
 
             data.put("menu", menuList);
+        }
+        
+        // 리뷰
+        if(dto.getRating() != null) {
+
+            List<Map<String, Object>> ratingList = new ArrayList<>();
+
+            for(RatingESDTO rating : dto.getRating()) {
+
+                Map<String, Object> ratingData = new HashMap<>();
+
+                ratingData.put("rrate", rating.getRrate());
+                ratingData.put("rfeature", rating.getRfeature());
+
+                ratingList.add(ratingData);
+            }
+
+            data.put("rating", ratingList);
         }
         
         IndexRequest request = new IndexRequest("store")

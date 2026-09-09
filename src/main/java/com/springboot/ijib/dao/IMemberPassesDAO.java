@@ -18,7 +18,9 @@ public interface IMemberPassesDAO {
 	// 회원 구독권 등록(구독권 구매)
 	public int memberPassInsert(MemberPassesDTO dto);
 	
-	// 회원 구독권 만료
-	public int expiredPassesUpdate(int mno);
+	// 전체 회원 구독권 만료 갱신
+	public int allExpiredPassesUpdate();
 	
+	// 회원 구독권 만료 갱신
+	public int expiredPassesUpdate(int mno);
 }

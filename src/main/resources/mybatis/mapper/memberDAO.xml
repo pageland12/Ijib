@@ -21,15 +21,28 @@
 		  WHERE mno = #{mno}
 	</select>
 	
-	<insert id="memberInsert">
-		INSERT INTO MEMBER(MNO,MEMAIL,MPASSWD,MNAME,MGENDER,MAGE,MADDR,MTEL,MACCOUNT,MAUTH,MSTATUS,MDATE)
-		 VALUES(MEMBER_SEQ.NEXTVAL,#{memail},#{mpasswd},#{mname},#{mgender},#{mage},#{maddr},#{mtel},#{maccount},'NORMAL','ACTIVE',SYSDATE)
+	<insert id="memberInsert" parameterType="com.springboot.ijib.dto.MemberDTO">
+	    <selectKey keyProperty="mno" resultType="int" order="BEFORE">SELECT MEMBER_SEQ.NEXTVAL FROM DUAL</selectKey>
+	    INSERT INTO MEMBER(MNO,MEMAIL,MPASSWD,MNAME,MGENDER,MAGE,MADDR,MTEL,MACCOUNT,MAUTH,MSTATUS,MDATE)
+	     VALUES(#{mno},#{memail},#{mpasswd},#{mname},#{mgender},#{mage},#{maddr},#{mtel},#{maccount},'NORMAL','ACTIVE',SYSDATE)
 	</insert>
 	
 	<update id="memberAuthUpdate">
 		UPDATE MEMBER
 		   SET MAUTH=#{mauth}
 		 WHERE MNO=#{mno}
+	</update>
+	
+	<!-- SUBSCRIBER인데 활성화된 구독권이 없는 구독자 NORMAL로 강등 -->
+	<update id="downgradeExpiredSubscribers">
+		UPDATE MEMBER
+		   SET MAUTH = 'NORMAL'
+		 WHERE MAUTH = 'SUBSCRIBER'
+		   AND MNO NOT IN (
+		  	SELECT MNO
+		  	  FROM MEMBER_PASSES
+		  	 WHERE MPSTATUS = 'ACTIVE'
+		  )
 	</update>
 	
 	<update id="memberUpdate">

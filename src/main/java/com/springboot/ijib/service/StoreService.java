@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springboot.ijib.dao.IMenuDAO;
+import com.springboot.ijib.dao.IRatingDAO;
 import com.springboot.ijib.dao.IStoreDAO;
 import com.springboot.ijib.dto.MenuDTO;
 import com.springboot.ijib.dto.MenuESDTO;
+import com.springboot.ijib.dto.RatingDTO;
+import com.springboot.ijib.dto.RatingESDTO;
 import com.springboot.ijib.dto.StoreDTO;
 import com.springboot.ijib.dto.StoreESDTO;
 
@@ -21,7 +24,9 @@ public class StoreService {
 
     @Autowired
     private IMenuDAO mnDao;
-
+    
+    @Autowired
+    private IRatingDAO rdao;
 
     // 음식점 목록	
     public List<StoreDTO> storeList() {
@@ -104,6 +109,7 @@ public class StoreService {
 
         StoreDTO store = dao.storeView(sno);
         List<MenuDTO> menuList = mnDao.menuList(sno);
+        List<RatingDTO> ratingList = rdao.ratingList(sno);
 
         StoreESDTO esDto = new StoreESDTO();
 
@@ -134,6 +140,21 @@ public class StoreService {
         }
 
         esDto.setMenu(menuESList);
+        
+        // 리뷰
+        List<RatingESDTO> ratingESList = new ArrayList<>();
+
+        for(RatingDTO rating : ratingList) {
+
+            RatingESDTO ratingES = new RatingESDTO();
+
+            ratingES.setRrate(rating.getRrate());
+            ratingES.setRfeature(rating.getRfeature());
+
+            ratingESList.add(ratingES);
+        }
+
+        esDto.setRating(ratingESList);
 
         return esDto;
     }
