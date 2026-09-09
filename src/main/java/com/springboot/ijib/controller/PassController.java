@@ -9,14 +9,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.springboot.ijib.dao.IPassDAO;
 import com.springboot.ijib.dto.PassDTO;
+import com.springboot.ijib.service.PassOrderService;
 
 @Controller
 public class PassController {
 	@Autowired
 	private IPassDAO dao;
+	
+	@Autowired
+	private PassOrderService poservice;
 	
 	@RequestMapping("/guest/passList")
 	public String passList(Model model) {
