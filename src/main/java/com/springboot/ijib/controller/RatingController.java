@@ -73,13 +73,13 @@ public class RatingController {
 	@RequestMapping("/board/ratingUpdate")
 	public String ratingUpdate(RatingDTO rdto) {
 	    rdao.ratingUpdate(rdto);
-	    return "redirect:/member/myboard";
+	    return "redirect:/member/myBoard";
 	}
 	
 	// 삭제
 	@RequestMapping("/board/ratingDelete")
 	public String ratingDelete(@RequestParam("rno") int rno) {
 	    rdao.ratingDelete(rno);
-	    return "redirect:/member/myboard";
+	    return "redirect:/member/myBoard";
 	}
 }

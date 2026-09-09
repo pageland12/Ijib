@@ -17,4 +17,7 @@ public class MemberPassesDTO {
 	
 	// 회원 구독권 조회를 위한 필드 변수
 	private int				mpcount;
+	
+	// 회원 테이블과 조인
+	private	String			mauth;		// 회원 권한
 }

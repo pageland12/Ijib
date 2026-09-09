@@ -33,6 +33,18 @@
 		 WHERE MNO=#{mno}
 	</update>
 	
+	<!-- SUBSCRIBER인데 활성화된 구독권이 없는 구독자 NORMAL로 강등 -->
+	<update id="downgradeExpiredSubscribers">
+		UPDATE MEMBER
+		   SET MAUTH = 'NORMAL'
+		 WHERE MAUTH = 'SUBSCRIBER'
+		   AND MNO NOT IN (
+		  	SELECT MNO
+		  	  FROM MEMBER_PASSES
+		  	 WHERE MPSTATUS = 'ACTIVE'
+		  )
+	</update>
+	
 	<update id="memberUpdate">
 		UPDATE MEMBER
 		   SET MNAME=#{mname},MADDR=#{maddr},MTEL=#{mtel},MACCOUNT=#{maccount}

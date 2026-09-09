@@ -2,11 +2,84 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>음식점 상세</title>
+<style>
+    /* 후기 하나 */
+    .rating-item {
+        padding: 15px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+    /* 전체 후기 모달 */
+    .rating-modal {
+        /* 처음에는 숨김 */
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    /* 모달 내부 */
+    .rating-modal-content {
+        position: relative;
+        background-color: white;
+        width: 600px;
+        max-width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        margin: 5% auto;
+        padding: 30px;
+        border-radius: 10px;
+        box-sizing: border-box;
+    }
+
+    /* X 버튼 */
+    .rating-close {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 30px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    /* X 버튼 마우스 올렸을 때 */
+    .rating-close:hover {
+        color: #777;
+    }
+
+</style>
+<script>
+    // 전체 후기 모달 열기
+    function openRatingModal() {
+        document.getElementById("ratingModal").style.display = "block";
+    }
+
+    // 전체 후기 모달 닫기
+    function closeRatingModal() {
+        document.getElementById("ratingModal").style.display = "none";
+    }
+
+    // 모달 바깥쪽 클릭하면 닫기
+    window.onclick = function(event) {
+        const modal = document.getElementById("ratingModal");
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+
+</script>
 </head>
 <body>
 	<h3>음식점 상세</h3>
@@ -40,118 +113,56 @@
 	영업 정보 : ${view.sinfo}<br>
 	주차 여부 : ${view.sparking}<br>
 	영업 상태 : ${view.sstatus}<br>
-	
-	<!-- ================= 후기 ================= -->
 
-    <h3>후기</h3>
-
-
+    <h3>후기</h3>  
     <!-- 후기 미리보기 -->
-
     <c:choose>
-
         <c:when test="${not empty preview}">
-
-            <c:forEach var="rating" items="${preview}">
-
+            <c:forEach var="preview" items="${preview}">
                 <div class="rating-item">
-
-                    <strong>${rating.rtitle}</strong>
-
-                    <br>
-
-                    평점 : ${rating.rrate}
-
-                    <br>
-
-                    ${rating.rcontent}
-
-                    <br>
-
-                    작성자 : ${rating.mname}
-
-                    <br>
-
-                    작성일 : ${rating.rdate}
-
+                    <strong>${preview.rtitle}</strong><br>
+                    평점 : ${preview.rrate}<br>
+                    ${preview.rcontent}<br>
+                    작성자 : ${preview.mname}<br>
+                    작성일 : <fmt:formatDate value="${preview.rdate}" pattern="yyyy.MM.dd"/>
                 </div>
-
             </c:forEach>
-
-
             <br>
-
-
             <!-- 더보기 -->
-
-            <button type="button"
-                onclick="openRatingModal()">
-
-                후기 더보기
-
-            </button>
-
-        </c:when>
-
-
+            <button type="button" onclick="openRatingModal()">더보기</button>
+        </c:when>        
         <c:otherwise>
-
             아직 작성된 후기가 없습니다.
-
         </c:otherwise>
-
     </c:choose>
 
-
     <!-- ================= 전체 후기 모달 ================= -->
-
     <div id="ratingModal" class="rating-modal">
-
         <div class="rating-modal-content">
-
             <span class="rating-close"
                 onclick="closeRatingModal()">
-
                 ×
-
             </span>
-
-
             <h3>전체 후기</h3>
-
-
-            <c:forEach var="rating" items="${list}">
-
-                <div class="rating-item">
-
-                    <strong>${rating.rtitle}</strong>
-
-                    <br>
-
-                    평점 : ${rating.rrate}
-
-                    <br>
-
-                    내용 : ${rating.rcontent}
-
-                    <br>
-
-                    특징 : ${rating.rfeature}
-
-                    <br>
-
-                    작성자 : ${rating.mname}
-
-                    <br>
-
-                    작성일 : ${rating.rdate}
-
-                </div>
-
-            </c:forEach>
-
+            <c:choose>
+        		<c:when test="${not empty list}">
+	            	<c:forEach var="list" items="${list}">
+    	            	<div class="rating-item">
+        	           		<strong>${list.rtitle}</strong><br>
+            	        	평점 : ${list.rrate}<br>
+                	    	${list.rcontent}<br>
+                	    	특징 : ${list.rfeature} <br>
+                    		작성자 : ${list.mname}<br>
+                    		작성일 : <fmt:formatDate value="${list.rdate}" pattern="yyyy.MM.dd"/>
+                		</div>
+            		</c:forEach>
+            		<br>
+        		</c:when>        
+        	<c:otherwise>
+	            아직 작성된 후기가 없습니다.
+        	</c:otherwise>
+    		</c:choose>
         </div>
-
     </div>
 	
 	<a href="/board/ratingWriteForm?sno=${view.sno}">후기 작성</a> /

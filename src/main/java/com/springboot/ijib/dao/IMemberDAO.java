@@ -24,6 +24,9 @@ public interface IMemberDAO {
 		// 회원 권한 수정 (구독권 구매, 만료 등)
 		public int memberAuthUpdate(MemberDTO dto);
 		
+		// 구독권이 만료된 전체 회원 권한 갱신
+		public int downgradeExpiredSubscribers();
+		
 		// 회원 삭제
 		public int memberDelete(int mno);
 		

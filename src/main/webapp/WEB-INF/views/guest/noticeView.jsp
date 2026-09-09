@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,8 +36,10 @@
 			<td><img src="/images/${view.nfiles}" alt="공지사항 이미지"></td>
 		</tr>
 	</table>
+	<sec:authorize access="hasRole('ADMIN')">
 	<a href="/admin/noticeUpdateForm?nno=${view.nno}">수정</a>
 	<a href="/admin/noticeDelete?nno=${view.nno}">삭제</a>
+	</sec:authorize>
 	<a href="/guest/noticeList">목록</a>
 </body>
 </html>

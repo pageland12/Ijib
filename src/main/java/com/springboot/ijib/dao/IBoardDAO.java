@@ -11,6 +11,9 @@ public interface IBoardDAO {
 	// 목록
 	public List<BoardDTO> boardList();
 	
+	// 마이페이지 목록
+	public List<BoardDTO> myBoardList(int mno);
+	
 	// 상세보기
 	public BoardDTO boardView(int bno);
 	
