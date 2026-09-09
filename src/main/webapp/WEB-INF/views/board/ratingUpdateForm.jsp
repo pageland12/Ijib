@@ -39,7 +39,8 @@
 		<a href="/guest/ratingList">목록</a>
 		<input type="submit" value="등록" onclick="return check()">
 	</form>
-	
+
+	<br>
     <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

@@ -19,54 +19,53 @@
 
     <%@ include file="../guest/search.jsp"%>
 
-    <hr>
-
     <h3>'${keyword}' 검색 결과</h3>
 
     <c:if test="${empty result}">
         <p>검색 결과가 없습니다.</p>
     </c:if>
-
-    <c:forEach var="list" items="${result}">
-
-        <tr>
-
-            <td>
-                <a href="${pageContext.request.contextPath}/guest/storeView?sno=${list.sno}">
-                    <img src="${fn:split(list.sfiles, ',')[0]}"
-                         width="150">
-                </a>
-            </td>
-
-            <td>
-                <a href="${pageContext.request.contextPath}/guest/storeView?sno=${list.sno}">
-                    ${list.sname}
-                </a>
-            </td>
-
-            <td>
-                ${list.saddr}
-            </td>
-
-            <td>
-
-                <c:choose>
-
-                    <c:when test="${fn:length(list.scontent) > 50}">
-                        ${fn:substring(list.scontent, 0, 50)}...
-                    </c:when>
-
-                    <c:otherwise>
-                        ${list.scontent}
-                    </c:otherwise>
-
-                </c:choose>
-
-            </td>
-
-        </tr>
-
-    </c:forEach>
+	<table>
+	    <c:forEach var="list" items="${result}">
+	
+	        <tr>
+	
+	            <td>
+	                <a href="${pageContext.request.contextPath}/guest/storeView?sno=${list.sno}">
+	                    <img src="${fn:split(list.sfiles, ',')[0]}"
+	                         width="150">
+	                </a>
+	            </td>
+	
+	            <td>
+	                <a href="${pageContext.request.contextPath}/guest/storeView?sno=${list.sno}">
+	                    ${list.sname}
+	                </a>
+	            </td>
+	
+	            <td>
+	                ${list.saddr}
+	            </td>
+	
+	            <td>
+	
+	                <c:choose>
+	
+	                    <c:when test="${fn:length(list.scontent) > 50}">
+	                        ${fn:substring(list.scontent, 0, 50)}...
+	                    </c:when>
+	
+	                    <c:otherwise>
+	                        ${list.scontent}
+	                    </c:otherwise>
+	
+	                </c:choose>
+	
+	            </td>
+	
+	        </tr>
+	
+	    </c:forEach>
+    </table>
 
     <%@ include file="../guest/footer.jsp"%>
 

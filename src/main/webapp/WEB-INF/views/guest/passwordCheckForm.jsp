@@ -23,7 +23,8 @@
         <button type="submit"">확인</button>
     </form>
     <a href="/guest/boardList">목록</a>
-
+    
+    <br>
     <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

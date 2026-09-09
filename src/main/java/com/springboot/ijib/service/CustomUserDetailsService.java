@@ -19,25 +19,24 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // 1. WebSecurityConfig의 usernameParameter("memail")에 의해 memail 값이 username 매개변수로 들어옴
         MemberDTO dto = dao.findByEmail(username);
-        
-        // 2. 사용자가 존재하지 않을 경우 처리
+
         if (dto == null) {
             throw new UsernameNotFoundException("존재하지 않는 사용자입니다: " + username);
         }
-        
-        // 3. DB 권한(mauth)이 "ROLE_USER" 형태일 때 Safe하게 적용
+
         String role = dto.getMauth();
-        if (role != null && role.startsWith("ROLE_")) {
-            role = role.substring(5); // "ROLE_USER" -> "USER"
+        if (role != null) {
+            role = role.trim();
+            if (role.startsWith("ROLE_")) {
+                role = role.substring(5);
+            }
         }
-        
-        // 4. Spring Security 인증용 UserDetails 객체 생성 반환
+
         return User.builder()
-                .username(dto.getMemail())   // 로그인 아이디 (memail)
-                .password(dto.getMpasswd())  // DB에 저장된 암호화된 비밀번호
-                .roles(dto.getMauth()) // 기본 권한 지정
+                .username(dto.getMemail())
+                .password(dto.getMpasswd())
+                .roles(role)   // 정리된 role 변수 사용
                 .build();
     }
 }

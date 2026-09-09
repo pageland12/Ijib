@@ -31,7 +31,8 @@
 		</c:forEach>
 	</table>
 	<a href="/board/ratingWriteForm">후기 작성</a>
-	
+
+	<br>
     <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

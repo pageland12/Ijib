@@ -11,11 +11,12 @@ import jakarta.servlet.DispatcherType;
 
 @Configuration
 public class WebSecurityConfig {
+
 	@Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-	
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		http.csrf((csrf) -> csrf.disable())	// CSRF 보호 비활성화
@@ -30,25 +31,18 @@ public class WebSecurityConfig {
 					.anyRequest().authenticated() // 나머지는 모두 인증 필요
 			);
 		// login
-		http.formLogin((formLogin) -> formLogin
-			.loginPage("/loginForm")
-			.loginProcessingUrl("/j_spring_security_check")
-			.defaultSuccessUrl("/main", true)
-			.failureUrl("/loginError")
-			.usernameParameter("memail")
-			.passwordParameter("mpasswd")
-			.permitAll()
-		);
-		
+		http.formLogin((formLogin) -> formLogin.loginPage("/loginForm").loginProcessingUrl("/j_spring_security_check")
+				.defaultSuccessUrl("/main", true).failureUrl("/loginError").usernameParameter("memail")
+				.passwordParameter("mpasswd").permitAll());
+
 		// logout
-		http.logout((logout) -> logout
-			.logoutUrl("/logout")
-			.logoutSuccessUrl("/")
-			.invalidateHttpSession(true) // ★ 로그아웃 시 세션 완전히 삭제
-		    .clearAuthentication(true)   // ★ 인증 정보 초기화
-			.permitAll()
-		);
-		
+		http.logout((logout) -> logout.logoutUrl("/logout").logoutSuccessUrl("/").invalidateHttpSession(true) // ★ 로그아웃
+																												// 시 세션
+																												// 완전히
+																												// 삭제
+				.clearAuthentication(true) // ★ 인증 정보 초기화
+				.permitAll());
+
 		return http.build();
 	}
 }

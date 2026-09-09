@@ -64,7 +64,8 @@
 		</c:forEach>
 		</table>
 		<a href="/member/memberMain">마이페이지</a>
-		
-    	<%@ include file="../guest/footer.jsp" %>
+
+	<br>
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

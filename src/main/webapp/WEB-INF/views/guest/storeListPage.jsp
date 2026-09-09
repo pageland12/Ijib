@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>메인페이지</title>
+<title>음식점 목록</title>
 </head>
 <body>
     <%@ include file="../guest/header.jsp" %>

@@ -31,6 +31,7 @@
 		<input type="submit" value="수정" onclick="return check()">
 	</form>
 	
+	<br>
     <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

@@ -30,7 +30,8 @@
 		</table>
 		<input type="submit" value="등록" onclick="return check()">
 	</form>
-	
+
+	<br>
     <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

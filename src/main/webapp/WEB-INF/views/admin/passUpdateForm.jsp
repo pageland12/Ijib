@@ -7,6 +7,8 @@
 <title>구독권 수정</title>
 </head>
 <body>
+    <%@ include file="../guest/header.jsp" %>
+    
 	<h3>구독권 수정 페이지</h3>
 	<form name="pass" method="post" action="/admin/passUpdate" enctype="multipart/form-data">
 		<input type="hidden" name="pno" value="${update.pno}">
@@ -19,5 +21,8 @@
 		<input type="submit" value="수정">
 		<input type="button" value="취소" onclick="history.back()">
 	</form>
+
+	<br>
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>
