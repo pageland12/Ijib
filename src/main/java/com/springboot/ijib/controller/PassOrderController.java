@@ -1,6 +1,9 @@
 package com.springboot.ijib.controller;
 
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.springboot.ijib.dao.IMemberDAO;
+import com.springboot.ijib.dao.IMemberPassesDAO;
+import com.springboot.ijib.dao.IOrdersDAO;
 import com.springboot.ijib.dao.IPassDAO;
 import com.springboot.ijib.dto.MemberDTO;
 import com.springboot.ijib.dto.MemberPassesDTO;
@@ -32,6 +37,12 @@ public class PassOrderController {
 	
 	@Autowired
 	private IMemberDAO mdao;
+	
+	@Autowired
+	private IMemberPassesDAO mpdao;
+	
+	@Autowired
+	private IOrdersDAO odao;
 	
 	@Autowired
 	private PassOrderService poservice;
@@ -67,7 +78,6 @@ public class PassOrderController {
 	@RequestMapping("/pay/paySuccess")
 	@ResponseBody
 	public Map<String, Object> paySuccess(@RequestBody Map<String, Object> reqData,
-										@AuthenticationPrincipal User user, 
 										HttpServletRequest request) {
 		// 1. JS에서 보낸 JSON 데이터를 reqData.get()으로 꺼내서 사용
 	    String paymentId = (String) reqData.get("paymentId");
@@ -109,5 +119,57 @@ public class PassOrderController {
 		model.addAttribute("paymentId", paymentId);
 		
 		return "pay/paySuccess";
+	}
+	
+	// 회원용 구독권 조회
+	@RequestMapping("/member/myPass")
+	public String myPass(@AuthenticationPrincipal User user,
+						 Model model) {
+		MemberPassesDTO pass = mpdao.memberPassesList(mdao.findByEmail(user.getUsername()).getMno());
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		
+		String mpstart = pass.getMpstart().format(formatter);
+		String mpend = pass.getMpend().format(formatter);
+		
+		
+		model.addAttribute("start", mpstart);
+		model.addAttribute("end", mpend);
+		
+		return "member/myPass";
+	}
+	
+	// 회원용 주문 목록 조회
+	@RequestMapping("/member/myOrder")
+	public String myOrder(@AuthenticationPrincipal User user,
+						  Model model) {
+		List<OrdersDTO> orders = odao.mordersList(mdao.findByEmail(user.getUsername()).getMno());
+		List<String> odates = new ArrayList<>();
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		
+		for (OrdersDTO order: orders) {
+			String odate = order.getOdate().format(formatter);
+			odates.add(odate);
+		}
+		
+		model.addAttribute("orders", orders);
+		model.addAttribute("odates", odates);
+		
+		return "member/myOrder";
+	}
+
+	
+	// 관리자용 전 회원의 만료된 구독권 갱신
+	@RequestMapping("/admin/expiredPassUpdate")
+	public String expiredPassUpdate(RedirectAttributes rttr) {
+	    try {
+	        int count = poservice.expireAllOverduePasses();
+	        rttr.addFlashAttribute("msg", "구독권 만료 검증 완료: 총 " + count + "명의 회원이 일반 등급으로 강등되었습니다.");
+	    } catch (Exception e) {
+	        rttr.addFlashAttribute("msg", "검증 처리 중 오류가 발생했습니다: " + e.getMessage());
+	    }
+	    
+	    return "redirect:/admin/adminPassList";
 	}
 }

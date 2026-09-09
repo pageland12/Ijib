@@ -44,7 +44,7 @@
 
         <!-- 로고 -->
         <a href="/" class="header-logo">
-		    <img src="/assets/logo.png" alt="IJIB-EOTTAE" class="logo-img">
+		    <img src="/images/logo.png" alt="IJIB-EOTTAE" class="logo-img">
 		</a>
 
         <!-- 햄버거 버튼 -->

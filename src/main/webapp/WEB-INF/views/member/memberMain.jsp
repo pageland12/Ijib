@@ -24,6 +24,14 @@
             <div>나의 게시글</div>
         </a>
         
+        <a href="/member/myPass">
+            <div>나의 구독권</div>
+        </a>
+        
+        <a href="/member/myOrder">
+            <div>주문 내역</div>
+        </a>
+        
         <a href="/main">
             <div class="card-name">메인 홈</div>
         </a>
