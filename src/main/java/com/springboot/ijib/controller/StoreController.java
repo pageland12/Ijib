@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.springboot.ijib.dao.IRatingDAO;
+import com.springboot.ijib.dao.IStoreDAO;
 import com.springboot.ijib.dto.MenuDTO;
 import com.springboot.ijib.dto.StoreDTO;
 import com.springboot.ijib.dto.StoreESDTO;
@@ -28,11 +29,13 @@ public class StoreController {
     @Autowired
     private IRatingDAO rdao;
     
+	@Autowired
+	private IStoreDAO sdao;
+    
     @RequestMapping("/guest/storeList")
     public String storeList(Model model) {
-        model.addAttribute("list", service.storeList());
-
-        return "guest/storeList";
+        model.addAttribute("list", sdao.storeList());
+        return "guest/storeListPage";   
     }
 
     @RequestMapping("/admin/storeWriteForm")

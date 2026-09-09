@@ -8,6 +8,8 @@
 <title>후기목록</title>
 </head>
 <body>
+    <%@ include file="../guest/header.jsp" %>
+    
 	<table border=1 width=400>
 		<tr>
 			<th>번호</th>
@@ -29,5 +31,8 @@
 		</c:forEach>
 	</table>
 	<a href="/board/ratingWriteForm">후기 작성</a>
+
+	<br>
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

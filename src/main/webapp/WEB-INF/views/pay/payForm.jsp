@@ -10,6 +10,8 @@
     <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 </head>
 <body>
+    <%@ include file="../guest/header.jsp" %>
+    
 	<h2 class="pay-title">주문 / 결제</h2>
 	
 	<p>
@@ -105,5 +107,8 @@
             }
         }
     </script>
+    	
+    <br>
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

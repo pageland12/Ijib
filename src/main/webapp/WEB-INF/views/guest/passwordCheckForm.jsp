@@ -7,6 +7,8 @@
 <title>비밀번호 확인</title>
 </head>
 <body>
+    <%@ include file="../guest/header.jsp" %>
+    
     <h3>비밀글입니다.</h3>
     <form action="/guest/passwordCheck" method="post">
         <input type="hidden" name="bno" value="${bno}">
@@ -15,5 +17,8 @@
         <button type="submit">확인</button>
     </form>
     <a href="/guest/boardList">목록</a>
+    
+    <br>
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

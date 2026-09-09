@@ -7,6 +7,8 @@
 <title>게시판 수정</title>
 </head>
 <body>
+    <%@ include file="../guest/header.jsp" %>
+    
 	<form name="boardWriteForm" method="post" action="/board/boardUpdate">
 		<input type="hidden" name="bno" value="${view.bno}">
 		<table border=1 width=400>		
@@ -27,5 +29,8 @@
 		</table>
 		<input type="submit" value="수정">
 	</form>
+	
+	<br>
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

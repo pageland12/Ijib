@@ -7,6 +7,8 @@
 <title>후기 등록</title>
 </head>
 <body>
+    <%@ include file="../guest/header.jsp" %>
+    
 	<form name="ratingWriteForm" method="post" action="/board/ratingWrite">
 		<input type="hidden" name="sno" value="${sno}">
 		<table border=1 width=400>
@@ -36,5 +38,8 @@
 		<a href="/guest/ratingList">목록</a>
 		<input type="submit" value="등록">
 	</form>
+
+	<br>
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

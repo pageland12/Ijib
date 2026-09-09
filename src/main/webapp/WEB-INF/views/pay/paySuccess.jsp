@@ -8,6 +8,8 @@
 </style>
 </head>
 <body>
+    <%@ include file="../guest/header.jsp" %>
+    
 	<h2>주문이 정상적으로 완료되었습니다!</h2>
     <p>
         소중한 주문 감사드립니다.
@@ -20,5 +22,8 @@
 
     <a href="/main">홈으로 이동</a>
     <a href="/member/orderList">주문내역 확인</a>
+
+	<br>
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

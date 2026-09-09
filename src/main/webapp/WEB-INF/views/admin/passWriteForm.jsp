@@ -7,6 +7,7 @@
 <title>구독권 등록</title>
 </head>
 <body>
+    <%@ include file="../guest/header.jsp" %>
 	<h3>구독권 등록 페이지</h3>
 	<form name="pass" method="post" action="/admin/passWrite" enctype="multipart/form-data">
 		이미지 : <input type="file" name="pupload"> <br>
@@ -16,5 +17,7 @@
 		<input type="submit" value="등록">
 		<input type="button" value="취소" onclick="history.back()">
 	</form>
+	<br>
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>
