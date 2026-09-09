@@ -51,12 +51,18 @@
                 </sec:authorize>
             </sec:authorize>
             <li class="menu-divider"></li>
-            <li><a href="/guest/storeList">전체 식당</a></li>
-            <li><a href="/member/bookmarkList">북마크</a></li>
-            <li><a href="/guest/boardList">게시판</a></li>
-            <li><a href="/guest/ratingList">후기 게시판</a></li>
-            <li><a href="/guest/passList">구독권 구매</a></li>
-            <li><a href="/main">홈으로</a></li>
+            <li>
+                <a href="/guest/storeList">전체 식당</a>
+            </li>
+            <li>
+                <a href="/guest/boardList">게시판</a>
+            </li>
+            <li>
+                <a href="/guest/passList">구독권 구매</a>
+            </li>
+            <li>
+                <a href="/guest/main">홈으로</a>
+            </li>
         </ul>
     </div>
 </header>

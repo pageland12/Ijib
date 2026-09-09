@@ -5,9 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>게시판 수정</title>
+<script src="/js/boardWU.js"></script>
 </head>
 <body>
-    <%@ include file="../guest/header.jsp" %>
+	<%@ include file="../guest/header.jsp" %>
     
 	<form name="boardWriteForm" method="post" action="/board/boardUpdate">
 		<input type="hidden" name="bno" value="${view.bno}">
@@ -27,7 +28,7 @@
 				</td>
 			</tr>								
 		</table>
-		<input type="submit" value="수정">
+		<input type="submit" value="수정" onclick="return check()">
 	</form>
 	
 	<br>

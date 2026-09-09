@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +14,8 @@ import com.springboot.ijib.dao.IBoardDAO;
 import com.springboot.ijib.dao.IMemberDAO;
 import com.springboot.ijib.dto.BoardDTO;
 import com.springboot.ijib.dto.MemberDTO;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class BoardController {
@@ -64,11 +65,16 @@ public class BoardController {
 	public String passwordCheck(
 	        @RequestParam("bno") int bno,
 	        @RequestParam("mpasswd") String mpasswd,
-	        Authentication authentication,
-	        Model model) {
-	    String memail = authentication.getName();
-	    MemberDTO member = mdao.findByEmail(memail);
-	    if(passwordEncoder.matches(mpasswd, member.getMpasswd())) {
+	        HttpSession session,
+	        Model model) {		
+		BoardDTO board = bdao.boardView(bno);
+		int mno = board.getMno();
+		MemberDTO member = mdao.memberView(mno);
+		if (passwordEncoder.matches(mpasswd, member.getMpasswd())) {
+
+	        // 비밀번호 확인 성공
+	        session.setAttribute("secretBoard_" + bno, true);
+
 	        return "redirect:/guest/boardView?bno=" + bno;
 	    }
 	    model.addAttribute("bno", bno);

@@ -8,7 +8,7 @@
 <title>후기목록</title>
 </head>
 <body>
-    <%@ include file="../guest/header.jsp" %>
+	<%@ include file="../guest/header.jsp" %>
     
 	<table border=1 width=400>
 		<tr>

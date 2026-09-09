@@ -5,9 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>후기 등록</title>
+<script src="/js/ratingWU.js"></script>
 </head>
 <body>
-    <%@ include file="../guest/header.jsp" %>
+	<%@ include file="../guest/header.jsp" %>
     
 	<form name="ratingWriteForm" method="post" action="/board/ratingWrite">
 		<input type="hidden" name="sno" value="${sno}">
@@ -24,6 +25,7 @@
             	<th>평점</th>
                     <td>
                         <select name="rrate">
+                        	<option value="">별점 선택</option>
                             <option value="5.0">★★★★★ (5.0)</option>
                             <option value="4.0">★★★★☆ (4.0)</option>
                             <option value="3.0">★★★☆☆ (3.0)</option>
@@ -36,7 +38,7 @@
                 </tr>	
 		</table>
 		<a href="/guest/ratingList">목록</a>
-		<input type="submit" value="등록">
+		<input type="submit" value="등록" onclick="return check()">
 	</form>
 
 	<br>

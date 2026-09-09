@@ -10,6 +10,8 @@
 <title>공지사항 상세</title>
 </head>
 <body>
+	<%@ include file="../guest/header.jsp" %>
+    
 	<table border=1 width=400>
 		<tr>
 			<th>제목</th>
@@ -41,5 +43,7 @@
 	<a href="/admin/noticeDelete?nno=${view.nno}">삭제</a>
 	</sec:authorize>
 	<a href="/guest/noticeList">목록</a>
+	
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

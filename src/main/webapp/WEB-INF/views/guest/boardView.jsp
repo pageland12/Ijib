@@ -10,6 +10,8 @@
 <title>게시판 상세</title>
 </head>
 <body>
+	<%@ include file="../guest/header.jsp" %>
+    
 	<table border=1 width=400>
 		<tr>
 			<th>제목</th>
@@ -33,5 +35,7 @@
 		</tr>
 	</table>
 	<a href="/guest/boardList">목록</a>
+	
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

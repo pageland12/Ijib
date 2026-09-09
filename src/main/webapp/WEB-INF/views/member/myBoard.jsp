@@ -9,8 +9,8 @@
 <title>나의 게시글</title>
 </head>
 <body>
-    <%@ include file="../guest/header.jsp" %>
-
+	<%@ include file="../guest/header.jsp" %>
+    
 	<h2>게시판</h2>
 		<table border=1 width=400>
 			<tr>
