@@ -150,41 +150,46 @@ public class MemberController {
 	// 회원 수정
 	@RequestMapping("/member/memberUpdate")
 	public String memberUpdate(
-	                    MemberDTO mdto,
-	                    @RequestParam("gender") String gender,
-	                    @RequestParam("ageGroup") int ageGroup,
-	                    @RequestParam("maddr1") String maddr1,
-	                    @RequestParam("maddr2") String maddr2,
-	                    @RequestParam("mzipno") String mzipno,
-	                    @RequestParam("mtel1") String mtel1,
-	                    @RequestParam("mtel2") String mtel2,
-	                    @RequestParam("mtel3") String mtel3,
-	                    @RequestParam("maccount1") String maccount1,
-	                    @RequestParam("maccount2") String maccount2,
-	                    @RequestParam("maccount3") String maccount3) {
+	                MemberDTO mdto,
+	                @RequestParam("gender") String gender,
+	                @RequestParam("ageGroup") int ageGroup,
+	                @RequestParam("maddr1") String maddr1,
+	                @RequestParam("maddr2") String maddr2,
+	                @RequestParam("mzipno") String mzipno,
+	                @RequestParam("mtel1") String mtel1,
+	                @RequestParam("mtel2") String mtel2,
+	                @RequestParam("mtel3") String mtel3,
+	                @RequestParam("maccount1") String maccount1,
+	                @RequestParam("maccount2") String maccount2,
+	                @RequestParam("maccount3") String maccount3,
+	                @RequestParam(value = "newPasswd", required = false) String newPasswd,
+	                @RequestParam(value = "newPasswdCheck", required = false) String newPasswdCheck,
+	                Model model) {
 
-	    // 성별
 	    mdto.setMgender(gender);
-
-	    // 연령대
 	    mdto.setMage(ageGroup);
-
-	    // 연락처
 	    mdto.setMtel(mtel1 + "-" + mtel2 + "-" + mtel3);
-
-	    // 주소
 	    mdto.setMaddr(maddr1 + "," + maddr2 + "," + mzipno);
-
-	    // 환불 계좌
 	    mdto.setMaccount(maccount1 + "," + maccount2 + "," + maccount3);
 
-	    // 회원정보 수정
+	    // 기본 정보 수정
 	    mdao.memberUpdate(mdto);
 
-	    // 마이페이지로 이동
+	    // 새 비밀번호를 입력한 경우에만 비밀번호 변경
+	    if (newPasswd != null && !newPasswd.isBlank()) {
+	        if (!newPasswd.equals(newPasswdCheck)) {
+	            model.addAttribute("update", mdao.memberView(mdto.getMno()));
+	            model.addAttribute("msg", "새 비밀번호가 일치하지 않습니다.");
+	            return "member/memberUpdateForm";
+	        }
+	        MemberDTO passwdDto = new MemberDTO();
+	        passwdDto.setMno(mdto.getMno());
+	        passwdDto.setMpasswd(passwordEncoder.encode(newPasswd));
+	        mdao.memberPasswdUpdate(passwdDto);
+	    }
+
 	    return "redirect:/member/memberMain";
 	}
-	
 	// 관리자페이지
 	@RequestMapping("/admin/adminMain")
 	public String adminMain() {

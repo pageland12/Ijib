@@ -32,6 +32,8 @@ public interface IMemberDAO {
 		
 		// 관리자가 회원 삭제
 		public int adminDelete(int mno);
+		
+		void memberPasswdUpdate(MemberDTO dto);
 }
 
 
