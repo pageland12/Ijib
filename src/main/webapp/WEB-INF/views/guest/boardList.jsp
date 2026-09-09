@@ -24,7 +24,7 @@
 					<c:choose>
 						<%-- 카테고리가 '비밀글'인 경우 --%>
 						<c:when test="${list.bcategory == '비밀글'}">
-							<a href="/guest/passwordCheckForm">비밀글입니다.</a>
+							<a href="/guest/passwordCheckForm?bno=${list.bno}">비밀글입니다.</a>
 						</c:when>
 						<%-- 추천글 또는 일반글인 경우 그대로 출력 --%>
 						<c:otherwise>

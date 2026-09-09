@@ -1,4 +1,6 @@
 package com.springboot.ijib.controller;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -7,8 +9,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.springboot.ijib.dao.IBoardDAO;
 import com.springboot.ijib.dao.IMemberDAO;
+import com.springboot.ijib.dao.IRatingDAO;
+import com.springboot.ijib.dto.BoardDTO;
 import com.springboot.ijib.dto.MemberDTO;
+import com.springboot.ijib.dto.RatingDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -19,6 +25,12 @@ public class MemberController {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private IBoardDAO bdao;
+	
+	@Autowired
+	private IRatingDAO rdao;
 	
 	@RequestMapping("/")
 	public String root() {
@@ -183,6 +195,20 @@ public class MemberController {
 
 	    // 마이페이지로 이동
 	    return "redirect:/member/memberMain";
+	}
+	
+	// 나의 게시글
+	@RequestMapping("/member/myBoard")
+	public String myBoard(Authentication authentication, Model model) {
+		String memail = authentication.getName();
+		MemberDTO member = mdao.findByEmail(memail);
+		int mno = member.getMno();
+		List<BoardDTO> blist = bdao.myBoardList(mno);
+		List<RatingDTO> rlist = rdao.myRatingList(mno);
+		
+		model.addAttribute("board", blist);
+		model.addAttribute("rating", rlist);
+		return "member/myBoard";
 	}
 	
 	// 관리자페이지
