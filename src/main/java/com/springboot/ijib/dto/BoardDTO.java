@@ -14,4 +14,5 @@ public class BoardDTO {
 	private int bhit;
 	private int mno;
 	private String mname;
+	private String memail;
 }

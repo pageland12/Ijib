@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,9 @@ public class BoardController {
 	
 	@Autowired
 	private IMemberDAO mdao;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@RequestMapping("/guest/boardList")
 	public String boardList(Model model) {
@@ -49,10 +54,32 @@ public class BoardController {
 		return "guest/boardView";
 	}
 	
+	@RequestMapping("/guest/passwordCheckForm")
+	public String passwordCheckForm(@RequestParam("bno") int bno, Model model) {
+		model.addAttribute("bno", bno);
+		return "guest/passwordCheckForm";
+	}
+	
+	@RequestMapping("/guest/passwordCheck")
+	public String passwordCheck(
+	        @RequestParam("bno") int bno,
+	        @RequestParam("mpasswd") String mpasswd,
+	        Authentication authentication,
+	        Model model) {
+	    String memail = authentication.getName();
+	    MemberDTO member = mdao.findByEmail(memail);
+	    if(passwordEncoder.matches(mpasswd, member.getMpasswd())) {
+	        return "redirect:/guest/boardView?bno=" + bno;
+	    }
+	    model.addAttribute("bno", bno);
+	    model.addAttribute("msg", "비밀번호가 일치하지 않습니다.");
+	    return "guest/passwordCheckForm";
+	}
+	
 	@RequestMapping("/board/boardDelete")
 	public String boardDelete(@RequestParam("bno") int bno) {
 		bdao.boardDelete(bno);
-		return "redirect:/guest/boardList";
+		return "redirect:/member/myBoard";
 	}
 	
 	@RequestMapping("/board/boardUpdateForm")
@@ -65,6 +92,6 @@ public class BoardController {
 	@RequestMapping("/board/boardUpdate")
 	public String boardUpdate(BoardDTO bdto) {
 		bdao.boardUpdate(bdto);
-		return "redirect:/guest/boardView?bno=" + bdto.getBno();
+		return "redirect:/member/myBoard";
 	}
 }
