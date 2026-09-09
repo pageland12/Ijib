@@ -38,6 +38,7 @@ public class PassOrderESService {
             map.put("mno", odto.getMno());
             map.put("odate", odate);
 
+            // 3.ES에 저장
             // 인덱스명은 "pass", 도큐먼트 ID는 주문 고유 번호(ono)
             IndexRequest request = new IndexRequest("pass")
                     .id(odto.getOno())
@@ -47,8 +48,6 @@ public class PassOrderESService {
 
             // 로그
     		System.out.println("주문 번호: " + odto.getOno());
-    		System.out.println("주문 상품: " + pdto.getPname());
-    		System.out.println("주문 일시: " + odate);
 
         } catch (Exception e) {
             // DB 결제는 이미 성공했으므로 ES 색인 실패 시 로그만 남김

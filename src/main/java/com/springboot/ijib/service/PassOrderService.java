@@ -111,4 +111,18 @@ public class PassOrderService {
 		mdto.setMauth("SUBSCRIBER");
 		mdao.memberAuthUpdate(mdto);
 	}
+	
+	// 만료: 전체 구독자의 만료된 구독권 만료 처리 (배치(특정 시각 마다 실행) & 관리자 수동 호출)
+	// 사용 시 현재 로그인 중인 회원의 인증 토큰을 재발급해줘야 함
+	@Transactional(rollbackFor = Exception.class)
+	public int expireAllOverduePasses() {
+		// 1. 기간 만료된 구독권 상태 변경
+		mpdao.allExpiredPassesUpdate();
+		
+		// 2. 남은 유효 구독권이 없는 회원의 권한을 ROLE_MEMBER로 감등
+		int udpateCount = mdao.downgradeExpiredSubscribers();
+		
+		// 성공하면 강등된 회원 수 반환
+		return udpateCount;
+	}
 }

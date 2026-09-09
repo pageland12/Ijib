@@ -17,7 +17,7 @@
 		  FROM MEMBER_PASSES
 		 WHERE MNO = #{mno}
 		   AND MPSTATUS = 'ACTIVE'
-	</select> 
+	</select>
 	
 	
 	<!-- 회원 구독권 등록 -->
@@ -25,6 +25,14 @@
 		INSERT INTO MEMBER_PASSES(MPNO, MPSTART, MPEND, MNO, ONO, PNO)
 		 VALUES(MP_SEQ.NEXTVAL, #{mpstart}, #{mpend}, #{mno}, #{ono}, #{pno})
 	</insert>
+	
+	<!-- 만료된 회원 구독권 업데이트 -->
+	<update id="allExpiredPassesUpdate">
+		UPDATE MEMBER_PASSES
+		   SET MPSTATUS = 'INACTIVE'
+		 WHERE MPSTATUS = 'ACTIVE'
+		   AND MPEND &lt; SYSDATE
+	</update>
 	
 	<!-- 만료된 회원 구독권 업데이트 -->
 	<update id="expiredPassesUpdate">
