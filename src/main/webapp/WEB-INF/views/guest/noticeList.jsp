@@ -10,6 +10,7 @@
 <title>공지사항 목록</title>
 </head>
 <body>
+    <%@ include file="../guest/header.jsp" %>
 	<table border=1 width=400>
 			<tr>
 				<th>번호</th>
@@ -32,5 +33,7 @@
 	<sec:authorize access="hasRole('ADMIN')">
 		<a href="/admin/noticeWriteForm">공지사항 작성</a>
 	</sec:authorize>
+	<br>
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

@@ -82,6 +82,8 @@
 </script>
 </head>
 <body>
+    <%@ include file="../guest/header.jsp" %>
+    
 	<h3>음식점 상세</h3>
 	음식점명 : ${view.sname}<br>
 	이미지 : 
@@ -176,5 +178,8 @@
             alert("${msg}");
         </script>
     </c:if>
+
+	<br>
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

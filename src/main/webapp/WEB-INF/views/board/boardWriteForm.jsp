@@ -7,6 +7,8 @@
 <title>게시판 등록</title>
 </head>
 <body>
+    <%@ include file="../guest/header.jsp" %>
+    
 	<form name="boardWriteForm" method="post" action="/board/boardWrite">
 		<table border=1 width=400>
 			<tr>
@@ -27,5 +29,8 @@
 		</table>
 		<input type="submit" value="등록">
 	</form>
+
+	<br>
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>
