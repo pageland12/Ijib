@@ -7,6 +7,9 @@
 <title>공지사항 등록</title>
 </head>
 <body>
+
+    <%@ include file="../guest/header.jsp" %>
+
 	<form name="noticeWriteForm" method="post" action="/admin/noticeWrite" enctype="multipart/form-data">
 		<table border=1 width=400>
 			<tr>
@@ -24,5 +27,8 @@
 		</table>
 		<input type="submit" value="등록">
 	</form>
+	
+    <%@ include file="../guest/footer.jsp" %>
+	
 </body>
 </html>

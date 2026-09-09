@@ -24,10 +24,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // 1. WebSecurityConfig의 usernameParameter("memail")에 의해 memail 값이 username 매개변수로 들어옴
         MemberDTO dto = dao.findByEmail(username);
-        
-        // 2. 사용자가 존재하지 않을 경우 처리
+
         if (dto == null) {
             throw new UsernameNotFoundException("존재하지 않는 사용자입니다: " + username);
         }

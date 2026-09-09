@@ -26,7 +26,7 @@
 </head>
 
 <body>
-
+    <%@ include file="../guest/header.jsp" %>
 <h3>음식점 등록 페이지</h3>
 
 <form name="store" method="post" action="/admin/storeWrite">
@@ -70,6 +70,7 @@
     <input type="submit" value="등록">
     <input type="button" value="취소" onclick="history.back()">
 </form>
-
+	<br>
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

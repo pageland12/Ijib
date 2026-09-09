@@ -8,6 +8,8 @@
 <title>공지사항 수정</title>
 </head>
 <body>
+    <%@ include file="../guest/header.jsp" %>
+
 	<form name="noticeWriteForm" method="post" action="/admin/noticeUpdate" enctype="multipart/form-data">
 		<input type="hidden" name="nno" value="${view.nno}">
 		<input type="hidden" name="nfiles" value="${view.nfiles}">
@@ -33,5 +35,8 @@
 		</table>
 		<input type="submit" value="수정">
 	</form>
+
+	<br>
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>
