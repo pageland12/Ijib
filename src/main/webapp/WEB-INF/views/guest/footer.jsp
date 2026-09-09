@@ -158,22 +158,6 @@ footer {
 
     <div class="footer-content">
 
-        <!-- 상단 메뉴 -->
-        <div class="footer-links">
-
-            <a href="/#">이용약관</a>
-
-            <a href="/#">기업회원 이용약관</a>
-
-            <a href="/#">위치기반서비스 이용약관</a>
-
-            <a href="/#">개인정보처리방침</a>
-
-            <a href="/#">사이트맵</a>
-
-        </div>
-
-
         <!-- 회사 정보 -->
         <div class="footer-info-wrap">
 

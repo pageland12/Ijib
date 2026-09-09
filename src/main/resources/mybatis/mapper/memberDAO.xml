@@ -56,5 +56,11 @@
 		 WHERE MNO=#{mno}
 	</delete>
 	
+	<update id="memberPasswdUpdate">
+	    UPDATE MEMBER
+	       SET MPASSWD=#{mpasswd}
+	     WHERE MNO=#{mno}
+	</update>
+	
 </mapper>
 

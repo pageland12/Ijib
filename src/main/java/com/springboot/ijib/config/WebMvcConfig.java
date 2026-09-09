@@ -14,10 +14,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // 웹에서의 요청 주소: http://localhost:8080/images/파일명
-        // 매핑될 실제 C드라이브 경로: C:\Ijib\ijib_images\파일명
+        // 사용자 업로드 이미지 (외부 경로)
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("file:///C:/Ijib/ijib_images/");
+
+        // 프로젝트 내장 정적 이미지 (로고 등)
+        registry.addResourceHandler("/assets/**")
+                .addResourceLocations("classpath:/static/images/");
     }
     
     @Override

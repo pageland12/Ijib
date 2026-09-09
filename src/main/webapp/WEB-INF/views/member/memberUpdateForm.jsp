@@ -34,6 +34,19 @@
                         </td>
                     </tr>
 					<tr>
+					    <th>새 비밀번호</th>
+					    <td>
+					        <input type="password" name="newPasswd" class="form-control input-full" placeholder="변경하지 않으려면 비워두세요">
+					    </td>
+					</tr>
+					<tr>
+					    <th>새 비밀번호 확인</th>
+					    <td>
+					        <input type="password" name="newPasswdCheck" class="form-control input-full" placeholder="새 비밀번호를 한 번 더 입력하세요">
+					    </td>
+					</tr>
+					
+					<tr>
 					    <th>이름</th>
 					    <td>
 					        <input type="text"
