@@ -127,6 +127,7 @@ public class PassOrderController {
 						 Model model) {
 		MemberPassesDTO pass = mpdao.memberPassesList(mdao.findByEmail(user.getUsername()).getMno());
 		
+		// LocalDateTime 날짜 포맷
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		
 		String mpstart = pass.getMpstart().format(formatter);
