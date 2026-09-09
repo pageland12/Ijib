@@ -21,8 +21,8 @@ public class StoreSearchDTO {
     private List<String> scategory;   	// 분류
     private List<String> skeyword;    	// 키워드
     private String ssido;       		// 시도
-    private String ssigungu;    		// 시군구
-    private String sinfo;       		// 영업정보
+    private List<String> ssigungu;   	// 시군구
+    private List<String> sinfo;       	// 영업정보
     private String sparking;    		// 주차 여부
     private String sstatus;     		// 상태
 

@@ -32,16 +32,19 @@ public class StoreSearchService {
 
         String keyword = searchDTO.getKeyword();
         List<String> scategory = searchDTO.getScategory();
-
-        System.out.println("===== ES 검색 시작 =====");
-        System.out.println("keyword = " + keyword);
-        System.out.println("scategory = " + scategory);
+        List<String> skeyword = searchDTO.getSkeyword();
+        String ssido = searchDTO.getSsido();
+        List<String> ssigungu = searchDTO.getSsigungu();
+        Integer minPrice = searchDTO.getMinPrice();
+        Integer maxPrice = searchDTO.getMaxPrice();
+        List<String> sinfo = searchDTO.getSinfo();
+        String sparking = searchDTO.getSparking();
+        Double minRating = searchDTO.getMinRating();
+        String sstatus = searchDTO.getSstatus();
 
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
 
-        /*
-         * 검색어가 있을 때만 통합검색
-         */
+        // 검색어가 있을 때만 통합검색
         if (keyword != null && !keyword.trim().isEmpty()) {
 
             // 상호명
@@ -72,9 +75,7 @@ public class StoreSearchService {
             boolQuery.minimumShouldMatch(1);
         }
 
-        /*
-         * 분류 필터
-         */
+        // 분류 필터
         if (scategory != null && !scategory.isEmpty()) {
 
             boolQuery.filter(
@@ -83,6 +84,215 @@ public class StoreSearchService {
                     scategory
                 )
             );
+        }
+        
+        // 키워드 필터
+        if (skeyword != null && !skeyword.isEmpty()) {
+
+            BoolQueryBuilder keywordQuery = QueryBuilders.boolQuery();
+
+            for (String keywordValue : skeyword) {
+
+                keywordQuery.must(
+                    QueryBuilders.matchPhraseQuery(
+                        "skeyword",
+                        keywordValue
+                    )
+                );
+            }
+
+            boolQuery.filter(keywordQuery);
+        }
+        
+        // 시도 필터
+        if (ssido != null && !ssido.isEmpty()) {
+            boolQuery.filter(
+                QueryBuilders.termQuery("ssido.keyword", ssido)
+            );
+        }
+        
+        // 시군구 필터
+        if (ssigungu != null && !ssigungu.isEmpty()) {
+            boolQuery.filter(
+                QueryBuilders.termsQuery("ssigungu.keyword", ssigungu)
+            );
+        }
+        
+        // 가격 필터
+        if (minPrice != null || maxPrice != null) {
+
+            BoolQueryBuilder priceQuery = QueryBuilders.boolQuery();
+
+            if (minPrice != null) {
+                priceQuery.must(
+                    QueryBuilders.rangeQuery("menu.mnprice")
+                        .gte(minPrice)
+                );
+            }
+
+            if (maxPrice != null) {
+                priceQuery.must(
+                    QueryBuilders.rangeQuery("menu.mnprice")
+                        .lte(maxPrice)
+                );
+            }
+
+            boolQuery.filter(
+                QueryBuilders.nestedQuery(
+                    "menu",
+                    priceQuery,
+                    org.apache.lucene.search.join.ScoreMode.Avg
+                )
+            );
+        }
+        
+        // 영업요일 필터
+        if (sinfo != null && !sinfo.isEmpty()) {
+
+            System.out.println("===== 영업요일 필터 =====");
+            System.out.println("선택 요일 = " + sinfo);
+
+            BoolQueryBuilder sinfoQuery = QueryBuilders.boolQuery();
+
+            for (String day : sinfo) {
+
+                // 선택한 요일이 휴무인 가게는 제외
+                sinfoQuery.mustNot(
+                    QueryBuilders.wildcardQuery(
+                        "sinfo.keyword",
+                        "*" + day + ": 휴무일*"
+                    )
+                );
+            }
+
+            // 선택한 요일들은 AND
+            boolQuery.filter(sinfoQuery);
+        }
+        
+        // 주차 여부 필터
+        if (sparking != null && !sparking.isEmpty()) {
+
+            System.out.println("===== 주차 여부 필터 =====");
+            System.out.println("선택 주차 여부 = " + sparking);
+
+            // 주차 불가능
+            if ("불가능".equals(sparking)) {
+
+                BoolQueryBuilder parkingQuery = QueryBuilders.boolQuery();
+
+                // 주차 정보 없음
+                parkingQuery.should(
+                    QueryBuilders.matchPhraseQuery(
+                        "sparking",
+                        "주차 정보 없음"
+                    )
+                );
+
+                // 주차 불가
+                parkingQuery.should(
+                    QueryBuilders.matchPhraseQuery(
+                        "sparking",
+                        "주차 불가"
+                    )
+                );
+
+                // 주차 불가능
+                parkingQuery.should(
+                    QueryBuilders.matchPhraseQuery(
+                        "sparking",
+                        "주차 불가능"
+                    )
+                );
+
+                // 사실상 주차 불가
+                parkingQuery.should(
+                    QueryBuilders.matchPhraseQuery(
+                        "sparking",
+                        "사실상 주차 불가"
+                    )
+                );
+
+                // 별도의 주차 공간이 없습니다
+                parkingQuery.should(
+                    QueryBuilders.matchPhraseQuery(
+                        "sparking",
+                        "별도의 주차 공간이 없습니다"
+                    )
+                );
+
+                parkingQuery.minimumShouldMatch(1);
+
+                boolQuery.filter(parkingQuery);
+            }
+
+            // 주차 가능
+            else if ("가능".equals(sparking)) {
+
+                BoolQueryBuilder parkingQuery = QueryBuilders.boolQuery();
+
+                // 주차 정보 없음 → 제외
+                parkingQuery.mustNot(
+                    QueryBuilders.matchPhraseQuery(
+                        "sparking",
+                        "주차 정보 없음"
+                    )
+                );
+
+                // 주차 불가 → 제외
+                parkingQuery.mustNot(
+                    QueryBuilders.matchPhraseQuery(
+                        "sparking",
+                        "주차 불가"
+                    )
+                );
+
+                // 주차 불가능 → 제외
+                parkingQuery.mustNot(
+                    QueryBuilders.matchPhraseQuery(
+                        "sparking",
+                        "주차 불가능"
+                    )
+                );
+
+                // 사실상 주차 불가 → 제외
+                parkingQuery.mustNot(
+                    QueryBuilders.matchPhraseQuery(
+                        "sparking",
+                        "사실상 주차 불가"
+                    )
+                );
+
+                // 별도의 주차 공간이 없습니다 → 제외
+                parkingQuery.mustNot(
+                    QueryBuilders.matchPhraseQuery(
+                        "sparking",
+                        "별도의 주차 공간이 없습니다"
+                    )
+                );
+
+                boolQuery.filter(parkingQuery);
+            }
+        }
+        
+        // 영업 상태 필터
+        if (sstatus != null && !sstatus.isEmpty()) {
+
+            boolQuery.filter(
+                QueryBuilders.termQuery(
+                    "sstatus",
+                    sstatus
+                )
+            );
+        }
+        
+        // 평균 별점 필터
+        if (minRating != null) {
+
+            boolQuery.filter(
+                QueryBuilders.rangeQuery("ratingAvg")
+                    .gte(minRating)
+            );
+
         }
 
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
@@ -93,24 +303,14 @@ public class StoreSearchService {
         SearchRequest request = new SearchRequest("store");
         request.source(sourceBuilder);
 
-        System.out.println("===== ES 요청 전 =====");
-
         SearchResponse response = client.search(
             request,
             RequestOptions.DEFAULT
         );
 
-        System.out.println("===== ES 응답 받음 =====");
-        System.out.println(
-            "검색 결과 수 = "
-            + response.getHits().getHits().length
-        );
-
         List<StoreSearchDTO> result = new ArrayList<>();
 
-        /*
-         * ES 검색 결과 → Oracle에서 상세정보 조회
-         */
+        // ES 검색 결과 → Oracle에서 상세정보 조회
         for (var hit : response.getHits().getHits()) {
 
             int sno = ((Number) hit.getSourceAsMap().get("sno")).intValue();
@@ -139,9 +339,6 @@ public class StoreSearchService {
                 System.out.println("Oracle 조회 실패 = " + sno);
             }
         }
-
-        System.out.println("===== 최종 검색 결과 =====");
-        System.out.println("결과 DTO 수 = " + result.size());
 
         return result;
     }
