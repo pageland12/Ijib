@@ -21,4 +21,5 @@ public class StoreESDTO {
 	private String sstatus;
 	
 	private List<MenuESDTO> menu;
+	private List<RatingESDTO> rating;
 }

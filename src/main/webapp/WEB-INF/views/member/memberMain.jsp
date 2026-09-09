@@ -23,7 +23,7 @@
             <div>나의 게시글</div>
         </a>
         
-        <a href="guest/main">
+        <a href="/main">
             <div class="card-name">메인 홈</div>
         </a>
         

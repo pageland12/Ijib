@@ -1,19 +1,21 @@
 package com.springboot.ijib.controller;
 
+import java.io.IOException;
 import java.security.Principal;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.springboot.ijib.dao.IMemberDAO;
 import com.springboot.ijib.dao.IRatingDAO;
 import com.springboot.ijib.dto.MemberDTO;
 import com.springboot.ijib.dto.RatingDTO;
+import com.springboot.ijib.dto.StoreESDTO;
+import com.springboot.ijib.service.StoreESService;
+import com.springboot.ijib.service.StoreService;
 
 @Controller
 public class RatingController {
@@ -22,6 +24,12 @@ public class RatingController {
 	
 	@Autowired
 	private IMemberDAO mdao;
+	
+	@Autowired
+	private StoreService storeService;
+
+	@Autowired
+	private StoreESService storeESService;
 		
 	// 후기 작성 폼
 	@RequestMapping("/board/ratingWriteForm")
@@ -33,10 +41,25 @@ public class RatingController {
 	// 후기 작성
 	@RequestMapping("/board/ratingWrite")
 	public String ratingWrite(RatingDTO rdto, Principal principal) {
-		MemberDTO mdto = mdao.findByEmail(principal.getName());
-		rdto.setMno(mdto.getMno());
-		rdao.ratingWrite(rdto);
-		return "redirect:/guest/storeView?sno=" + rdto.getSno();
+
+	    MemberDTO mdto = mdao.findByEmail(principal.getName());
+
+	    rdto.setMno(mdto.getMno());
+
+	    // 1. Oracle에 리뷰 저장
+	    rdao.ratingWrite(rdto);
+
+	    // 2. 해당 음식점 데이터를 다시 조회
+	    StoreESDTO esDto = storeService.storeESData(rdto.getSno());
+
+	    // 3. Elasticsearch에 음식점 전체 정보 갱신
+	    try {
+	        storeESService.storeSave(esDto);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+
+	    return "redirect:/guest/storeView?sno=" + rdto.getSno();
 	}
 	
 	// 수정 폼

@@ -1,4 +1,6 @@
 package com.springboot.ijib.controller;
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.springboot.ijib.dao.IMemberDAO;
 import com.springboot.ijib.dto.MemberDTO;
+import com.springboot.ijib.dto.MemberESDTO;
+import com.springboot.ijib.service.MemberESService;
+import com.springboot.ijib.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -19,6 +24,12 @@ public class MemberController {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private MemberService memberService;
+
+	@Autowired
+	private MemberESService memberESService;
 	
 	@RequestMapping("/")
 	public String root() {
@@ -54,27 +65,39 @@ public class MemberController {
 	
 	@RequestMapping("/guest/write")
 	public String write(MemberDTO mdto,
-						@RequestParam("gender") String gender,
-						@RequestParam("ageGroup") int ageGroup,
-						@RequestParam("maddr1") String maddr1,
-						@RequestParam("maddr2") String maddr2,
-						@RequestParam("mzipno") String mzipno,
-						@RequestParam("mtel1") String mtel1,
-						@RequestParam("mtel2") String mtel2,
-						@RequestParam("mtel3") String mtel3,
-						@RequestParam("maccount1") String maccount1,
-						@RequestParam("maccount2") String maccount2,
-						@RequestParam("maccount3") String maccount3
-						) {
-		mdto.setMgender(gender);
-		mdto.setMage(ageGroup);
-		mdto.setMaddr(maddr1+","+maddr2+","+mzipno);
-		mdto.setMtel(mtel1+"-"+mtel2+"-"+mtel3);
-		mdto.setMaccount(maccount1+","+maccount2+","+maccount3);
-		mdto.setMpasswd(passwordEncoder.encode(mdto.getMpasswd()));
-		
-		mdao.memberInsert(mdto);
-		return "redirect:/main";
+	                    @RequestParam("gender") String gender,
+	                    @RequestParam("ageGroup") int ageGroup,
+	                    @RequestParam("maddr1") String maddr1,
+	                    @RequestParam("maddr2") String maddr2,
+	                    @RequestParam("mzipno") String mzipno,
+	                    @RequestParam("mtel1") String mtel1,
+	                    @RequestParam("mtel2") String mtel2,
+	                    @RequestParam("mtel3") String mtel3,
+	                    @RequestParam("maccount1") String maccount1,
+	                    @RequestParam("maccount2") String maccount2,
+	                    @RequestParam("maccount3") String maccount3) {
+
+	    mdto.setMgender(gender);
+	    mdto.setMage(ageGroup);
+	    mdto.setMaddr(maddr1 + "," + maddr2 + "," + mzipno);
+	    mdto.setMtel(mtel1 + "-" + mtel2 + "-" + mtel3);
+	    mdto.setMaccount(maccount1 + "," + maccount2 + "," + maccount3);
+	    mdto.setMpasswd(passwordEncoder.encode(mdto.getMpasswd()));
+
+	    // 1. Oracle 회원 등록
+	    mdao.memberInsert(mdto);
+
+	    // 2. Elasticsearch용 회원 데이터 생성
+	    MemberESDTO esDto = memberService.memberESData(mdto.getMno());
+
+	    // 3. Elasticsearch 저장
+	    try {
+	        memberESService.memberSave(esDto);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+
+	    return "redirect:/main";
 	}
 	
 	@RequestMapping("/guest/jusoPopup")
@@ -127,9 +150,19 @@ public class MemberController {
 				model.addAttribute("update",mdto);
 				return "member/memberUpdateForm";
 			}
-			else if("delete".equals(mode)) { // 비밀번호 확인 시 회원탈퇴
-				mdao.memberDelete(mdto.getMno());
-				return "redirect:/logout";
+			else if("delete".equals(mode)) {
+
+			    // Oracle 회원 삭제
+			    mdao.memberDelete(mdto.getMno());
+
+			    // Elasticsearch 회원 삭제
+			    try {
+			        memberESService.memberDelete(mdto.getMno());
+			    } catch (IOException e) {
+			        e.printStackTrace();
+			    }
+
+			    return "redirect:/logout";
 			}
 		}
 		
@@ -180,6 +213,19 @@ public class MemberController {
 
 	    // 회원정보 수정
 	    mdao.memberUpdate(mdto);
+
+	    // Oracle 회원정보 수정
+	    mdao.memberUpdate(mdto);
+
+	    // 수정된 회원정보 다시 조회
+	    MemberESDTO esDto = memberService.memberESData(mdto.getMno());
+
+	    // Elasticsearch 회원정보 수정
+	    try {
+	        memberESService.memberSave(esDto);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
 
 	    // 마이페이지로 이동
 	    return "redirect:/member/memberMain";
