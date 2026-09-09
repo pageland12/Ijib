@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.springboot.ijib.dao.IBoardDAO;
 import com.springboot.ijib.dao.IMemberDAO;
 import com.springboot.ijib.dao.IRatingDAO;
+import com.springboot.ijib.dao.IStoreDAO;
 import com.springboot.ijib.dto.BoardDTO;
 import com.springboot.ijib.dto.MemberDTO;
 import com.springboot.ijib.dto.MemberESDTO;
+import com.springboot.ijib.dto.RatingDTO;
 import com.springboot.ijib.service.MemberESService;
 import com.springboot.ijib.service.MemberService;
-import com.springboot.ijib.dto.RatingDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -36,15 +37,19 @@ public class MemberController {
 	@Autowired
 	private MemberESService memberESService;
   
-  @Autowired
+	@Autowired
 	private IBoardDAO bdao;
 	
 	@Autowired
 	private IRatingDAO rdao;
 	
+	@Autowired
+	private IStoreDAO sdao;
+	
 	@RequestMapping("/")
-	public String root() {
-		return "guest/main";
+	public String root(Model model) {
+	    model.addAttribute("list", sdao.storeList());
+	    return "guest/main";
 	}
 	
 	@RequestMapping("/main")
@@ -327,7 +332,17 @@ public class MemberController {
 		mdao.adminUpdate(mdto);
 		return "redirect:/admin/memberView?mno=" + mdto.getMno();
 	}
+
+
+	@RequestMapping("/guest/ratingList")
+	public String ratingList(Model model) {
+	    // model.addAttribute("list", 서비스 호출 결과);
+	    return "guest/ratingList";
+	}
+	
+	@RequestMapping("/guest/bookmarkList")
+	public String bookmarkList(Model model) {
+	    // model.addAttribute("list", 서비스 호출 결과);
+	    return "guest/bookmarkList";
+	}
 }
-
-
-

@@ -7,6 +7,8 @@
 <title>구독권 상세 정보</title>
 </head>
 <body>
+    <%@ include file="../guest/header.jsp" %>
+    
 	<h3>구독권 상세 페이지</h3>
 	<table border="1">
 		<tr>
@@ -37,5 +39,8 @@
         	</td>
         </tr>
 	</table>
+	
+	<br>
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

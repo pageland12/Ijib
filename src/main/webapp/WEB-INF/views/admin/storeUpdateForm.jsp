@@ -42,6 +42,7 @@
 </script>
 
 </head>
+    <%@ include file="../guest/header.jsp" %>
 <body>
 <h3>음식점 수정 페이지</h3>
 	<form name="store" method="post" action="/admin/storeUpdate">
@@ -94,5 +95,7 @@
 		<input type="submit" value="수정">
 	    <input type="button" value="취소" onclick="history.back()">
 	</form>
+	<br>
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

@@ -9,6 +9,10 @@
 <title>게시판 목록</title>
 </head>
 <body>
+    <%@ include file="../guest/header.jsp" %>
+
+    <%@ include file="../guest/search.jsp" %>
+    
 	<table border=1 width=400>
 			<tr>
 				<th>번호</th>
@@ -39,5 +43,8 @@
 		</c:forEach>
 	</table>
 	<a href="/main">메인</a>
+
+	<br>
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

@@ -8,6 +8,9 @@
 <title>구독권 관리 페이지</title>
 </head>
 <body>
+
+    <%@ include file="../guest/header.jsp" %>
+
 	<h3>구독권 관리 페이지</h3>
 	<table border="1">
 		<tr>
@@ -23,5 +26,9 @@
         </tr>
     </c:forEach>
 	</table>	
+	
+	<br>
+    <%@ include file="../guest/footer.jsp" %>
+
 </body>
 </html>
