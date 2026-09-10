@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.springboot.ijib.dao.IBoardDAO;
@@ -114,11 +115,6 @@ public class MemberController {
 	    }
 
 	    return "redirect:/main";
-	}
-	
-	@RequestMapping("/guest/jusoPopup")
-	public String jusoPopup() {
-		return "guest/jusoPopup";
 	}
 	
 	@RequestMapping("/loginForm")
@@ -251,18 +247,17 @@ public class MemberController {
 	    return "redirect:/member/memberMain";
 	}
 	
-	// 나의 게시글
+	// 예시: 나의 작성글 페이지 이동 시에도 view 모델 추가
 	@RequestMapping("/member/myBoard")
 	public String myBoard(Authentication authentication, Model model) {
-		String memail = authentication.getName();
-		MemberDTO member = mdao.findByEmail(memail);
-		int mno = member.getMno();
-		List<BoardDTO> blist = bdao.myBoardList(mno);
-		List<RatingDTO> rlist = rdao.myRatingList(mno);
-		
-		model.addAttribute("board", blist);
-		model.addAttribute("rating", rlist);
-		return "member/myBoard";
+	    String memail = authentication.getName();
+	    MemberDTO member = mdao.findByEmail(memail);
+	    
+	    model.addAttribute("view", member); // 사이드바 회원 이름 표시용
+	    model.addAttribute("board", bdao.myBoardList(member.getMno()));
+	    model.addAttribute("rating", rdao.myRatingList(member.getMno()));
+	    
+	    return "member/myBoard";
 	}
 	
 	// 관리자페이지
@@ -356,13 +351,13 @@ public class MemberController {
 
 	@RequestMapping("/guest/ratingList")
 	public String ratingList(Model model) {
-	    // model.addAttribute("list", 서비스 호출 결과);
 	    return "guest/ratingList";
 	}
-	
-	@RequestMapping("/guest/bookmarkList")
-	public String bookmarkList(Model model) {
-	    // model.addAttribute("list", 서비스 호출 결과);
-	    return "guest/bookmarkList";
+
+	@RequestMapping("/guest/jusoPopup")
+	public String jusoPopup() {
+		return "guest/jusoPopup";
 	}
+	
+	
 }
