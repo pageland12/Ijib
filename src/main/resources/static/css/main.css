@@ -1,0 +1,433 @@
+@charset "UTF-8";
+/* =========================================
+   이집어때 메인페이지 전용 스타일
+========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+    background-color: #ffffff;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* =========================================
+   HERO
+========================================= */
+
+.hero {
+    position: relative;
+    width: 100%;
+    /* overflow는 visible 로 두어야 아래쪽 검색박스가
+       hero 밖(흰 배경 영역)으로 자연스럽게 걸쳐 보입니다. */
+    overflow: visible;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 70px 20px 40px;
+
+    /* 이미지가 아직 없을 때 보일 기본 배경(fallback) */
+    background-color: #dfe4ea;
+}
+
+/* 블러 처리될 배경 이미지 레이어 (hero 안에서만 잘리도록 overflow: hidden) */
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    border-radius: 0 0 24px 24px;
+}
+
+.hero-bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* 블러 처리 + 확대: 확대하지 않으면 블러 때문에
+       가장자리에 흐린 흰 테두리가 보일 수 있어 살짝 키워줍니다. */
+    filter: blur(14px);
+    transform: scale(1.15);
+}
+
+/* 이미지 위에 살짝 밝은 톤을 얹어 검색박스 텍스트 대비를 살립니다 */
+.hero-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.hero-inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1000px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    padding: 40px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+
+    /* 검색창을 아래로 내려서 본문 흰 배경과 자연스럽게 이어지도록 처리 */
+    margin-top: 110px;
+    margin-bottom: -70px;
+}
+
+/* 인사말 */
+.hero-greeting {
+    flex: 0 0 auto;
+}
+
+.hero-greeting .line {
+    margin: 0 0 4px;
+    font-size: 22px;
+    color: #333333;
+    line-height: 1.4;
+}
+
+.hero-greeting .brand {
+    font-weight: 700;
+    color: #2f6fed;
+    font-size: 24px;
+}
+
+/* 검색 박스 */
+.hero-search-box {
+    flex: 1 1 420px;
+    min-width: 280px;
+}
+
+.search-tabs {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.search-tabs .tab-btn {
+    background: none;
+    border: none;
+    padding: 0 2px 10px;
+    font-size: 15px;
+    color: #999999;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    font-family: inherit;
+}
+
+.search-tabs .tab-btn.active {
+    color: #2f6fed;
+    font-weight: 700;
+    border-bottom: 2px solid #2f6fed;
+}
+
+.hero-search-form {
+    display: flex;
+    align-items: center;
+    background: #f4f5f7;
+    border-radius: 999px;
+    padding: 6px 8px 6px 20px;
+}
+
+.hero-search-form input[type="text"] {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 15px;
+    padding: 10px 0;
+    color: #333333;
+}
+
+.hero-search-form input[type="text"]::placeholder {
+    color: #aaaaaa;
+}
+
+.search-submit {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: #2f6fed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.icon-search {
+    display: block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    position: relative;
+}
+
+.icon-search::after {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 8px;
+    background: #ffffff;
+    right: -3px;
+    bottom: -7px;
+    transform: rotate(-45deg);
+}
+
+/* =========================================
+   공통 섹션
+========================================= */
+
+.home-section {
+    padding: 48px 20px 8px;
+}
+
+.section-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+
+.section-head h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #222222;
+}
+
+.section-head .see-all {
+    font-size: 13px;
+    color: #999999;
+    text-decoration: underline;
+}
+
+/* =========================================
+   캐러셀 공통 (지역 칩 / 음식 카테고리 공용)
+========================================= */
+
+.carousel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.carousel-btn {
+    flex: 0 0 auto;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid #e2e5ea;
+    background: #ffffff;
+    color: #555555;
+    font-size: 20px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: opacity 0.15s ease, border-color 0.15s ease;
+}
+
+.carousel-btn:hover:not(:disabled) {
+    border-color: #2f6fed;
+    color: #2f6fed;
+}
+
+.carousel-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+/* =========================================
+   어디로 갈까요 - 지역 칩
+========================================= */
+
+.chip-scroll {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    padding: 2px 2px 8px;
+
+    flex: 1 1 auto;
+    min-width: 0;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.chip-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.area-chip {
+    flex: 0 0 auto;
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    border: 1px solid #dfe3e8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 14px;
+    color: #444444;
+    transition: border-color 0.15s ease, color 0.15s ease;
+    scroll-snap-align: start;
+}
+
+.area-chip:hover {
+    border-color: #2f6fed;
+    color: #2f6fed;
+}
+
+.area-chip.my-location {
+    border: 2px solid #2f6fed;
+    color: #2f6fed;
+    font-weight: 700;
+}
+
+.area-chip .chip-icon {
+    font-size: 18px;
+    margin-bottom: 2px;
+}
+
+/* =========================================
+   무엇을 먹을까요 - 음식 카테고리 카드
+========================================= */
+
+.food-section {
+    padding-bottom: 56px;
+}
+
+.food-scroll {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    padding: 2px 2px 8px;
+
+    flex: 1 1 auto;
+    min-width: 0;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.food-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.food-card {
+    flex: 0 0 auto;
+    width: 130px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    scroll-snap-align: start;
+}
+
+.food-thumb {
+    width: 130px;
+    height: 130px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+}
+
+.food-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333333;
+}
+
+/* 카테고리별 배경색 (실제 사진 준비되면 각 클래스에
+   background-image: url('/images/food/xxx.jpg'); 로 교체) */
+.food-thumb-1  { background: #fdece0; }
+.food-thumb-2  { background: #fdf3d9; }
+.food-thumb-3  { background: #e3f2ee; }
+.food-thumb-4  { background: #f1e6f7; }
+.food-thumb-5  { background: #fbe2e2; }
+.food-thumb-6  { background: #fff0dd; }
+.food-thumb-7  { background: #e6f0fb; }
+.food-thumb-8  { background: #eef2e0; }
+.food-thumb-9  { background: #dff4f5; }
+.food-thumb-10 { background: #fbe6ee; }
+
+/* =========================================
+   반응형
+========================================= */
+
+@media (max-width: 768px) {
+    .hero {
+        padding: 40px 16px 24px;
+    }
+
+    .hero-inner {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 28px 24px;
+        margin-top: 60px;
+        margin-bottom: -40px;
+    }
+
+    .hero-greeting .line {
+        font-size: 18px;
+    }
+
+    .hero-greeting .brand {
+        font-size: 20px;
+    }
+
+    .home-section {
+        padding: 36px 16px 8px;
+    }
+
+    .area-chip {
+        width: 72px;
+        height: 72px;
+        font-size: 12px;
+    }
+
+    .food-thumb {
+        width: 100px;
+        height: 100px;
+        font-size: 32px;
+    }
+
+    .food-card {
+        width: 100px;
+    }
+
+    .carousel-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+}

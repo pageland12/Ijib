@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -212,17 +211,16 @@ public class PassOrderController {
 		return "member/myOrder";
 	}
 
-	
-	// 관리자용 전 회원의 만료된 구독권 갱신
-	@RequestMapping("/admin/expiredPassUpdate")
-	public String expiredPassUpdate(RedirectAttributes rttr) {
-	    try {
-	        int count = poservice.expireAllOverduePasses();
-	        rttr.addFlashAttribute("msg", "구독권 만료 검증 완료: 총 " + count + "명의 회원이 일반 등급으로 강등되었습니다.");
-	    } catch (Exception e) {
-	        rttr.addFlashAttribute("msg", "검증 처리 중 오류가 발생했습니다: " + e.getMessage());
-	    }
-	    
-	    return "redirect:/admin/adminPassList";
-	}
+    // 관리자용 만료 구독권 갱신
+    @RequestMapping("/admin/expiredPassUpdate")
+    public String expiredPassUpdate(RedirectAttributes rttr) {
+        try {
+            int count = poservice.expireAllOverduePasses();
+            rttr.addFlashAttribute("msg", "구독권 만료 검증 완료: 총 " + count + "명의 회원이 일반 등급으로 강등되었습니다.");
+        } catch (Exception e) {
+            rttr.addFlashAttribute("msg", "검증 처리 중 오류가 발생했습니다: " + e.getMessage());
+        }
+        
+        return "redirect:/admin/adminPassList";
+    }
 }

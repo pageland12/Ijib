@@ -1,35 +1,56 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>구독권 조회</title>
+    <meta charset="UTF-8">
+    <title>나의 구독권</title>
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/member.css'/>">
 </head>
 <body>
-	<h2>구독권 정보</h2>
-	
-	<c:choose>
-		<c:when test="${empty start and empty end}">
-			정기권이 없습니다.
-		</c:when>
-		<c:when test="${not empty start and not empty end}">
-			<p>
-				정기 구독권
-			</p>
-			<table border="1">
-				<tr>
-					<th>시작일</th>
-					<th>만료일</th>
-				</tr>
-				<tr>
-					<td>${start}</td>
-					<td>${end}</td>
-				</tr>
-			</table>
-		</c:when>
-	</c:choose>
-	
+    <%@ include file="../guest/header.jsp" %>
+
+    <div class="member-page">
+        <%@ include file="memberSidebar.jsp" %>
+
+        <main class="member-content">
+            <div class="content-title-area">
+                <h2>나의 구독권 <span>MY PASS</span></h2>
+            </div>
+
+            <div class="pass-container">
+                <c:choose>
+                    <c:when test="${not empty pass}">
+                        <div class="pass-card active-pass">
+                            <div class="pass-badge">이용 중</div>
+                            <div class="pass-icon-big">🎫</div>                            
+                            <h3 class="pass-title">${pname}</h3>
+                            
+                            <div class="pass-dates">
+                                <div class="date-item">
+                                    <span class="date-label">구독 시작일</span>
+                                    <span class="date-val">${start}</span>
+                                </div>
+                                <div class="date-item">
+                                    <span class="date-label">구독 만료일</span>
+                                    <span class="date-val highlight">${end}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="pass-card no-pass">
+                            <div class="pass-icon-big">🎫</div>
+                            <h3>현재 이용 중인 구독권이 없습니다</h3>
+                            <p>구독권을 구매하시고 다양한 혜택을 누려보세요!</p>
+                            <a href="<c:url value='/guest/passList'/>" class="btn-buy-pass">구독권 구매하러 가기 ›</a>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+        </main>
+    </div>
+
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

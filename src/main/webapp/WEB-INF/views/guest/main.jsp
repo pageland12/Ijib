@@ -5,17 +5,224 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>메인페이지</title>
+<title>이집어때 - 메인페이지</title>
+<link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
     <%@ include file="../guest/header.jsp" %>
-
+    
+    <!-- ===================== 검색창 ===================== -->
     <%@ include file="../guest/search.jsp" %>
 
-    <%@ include file="../guest/storeList.jsp" %>
+    <!-- ===================== 히어로 영역 ===================== -->
+    <section class="hero">
+
+        <!-- 블러 배경 이미지: /assets/main-hero.jpg 파일을 넣으면 자동 적용됩니다 -->
+        <div class="hero-bg">
+            <img src="${pageContext.request.contextPath}/images/main-hero.jpg" alt="" class="hero-bg-img">
+        </div>
+
+        <div class="hero-inner">
+
+            <div class="hero-greeting">
+                <p class="line">안녕하세요.</p>
+                <p class="line brand">이집어때 입니다.</p>
+                <p class="line">어떤 맛집을 찾으시나요?</p>
+            </div>
+
+            <div class="hero-search-box">
+
+                <div class="search-tabs">
+                    <button type="button" class="tab-btn active" data-target="tab-integrated">통합검색</button>
+                    <button type="button" class="tab-btn" data-target="tab-name">식당명 검색</button>
+                </div>
+
+                <form id="tab-integrated" class="hero-search-form"
+                      action="${pageContext.request.contextPath}/guest/storeSearch" method="get">
+                    <input type="text" name="keyword" placeholder="검색어를 입력해 주세요" autocomplete="off">
+                    <button type="submit" class="search-submit" aria-label="검색">
+                        <span class="icon-search"></span>
+                    </button>
+                </form>
+
+                <form id="tab-name" class="hero-search-form" style="display:none;"
+                      action="${pageContext.request.contextPath}/guest/storeSearch" method="get">
+                    <input type="text" name="keyword" placeholder="식당 이름을 입력해 주세요" autocomplete="off">
+                    <button type="submit" class="search-submit" aria-label="검색">
+                        <span class="icon-search"></span>
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+    </section>
+    
+
+    <!-- ===================== 어디로 갈까요 ===================== -->
+    <section class="home-section">
+        <div class="section-inner">
+
+            <div class="section-head">
+                <h2>어디로 갈까요?</h2>
+                <a href="${pageContext.request.contextPath}/guest/storeList" class="see-all">모두보기</a>
+            </div>
+
+            <div class="carousel">
+
+                <button type="button" class="carousel-btn prev" data-target="areaScroll" aria-label="이전">‹</button>
+
+                <div class="chip-scroll" id="areaScroll">
+
+                    <a href="${pageContext.request.contextPath}/guest/storeList" class="area-chip my-location">
+                        <span class="chip-icon">📍</span>
+                        <span>내 주변</span>
+                    </a>
+
+                    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=서울" class="area-chip"><span>서울</span></a>
+                    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=부산" class="area-chip"><span>부산</span></a>
+                    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=인천" class="area-chip"><span>인천</span></a>
+                    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=대구" class="area-chip"><span>대구</span></a>
+                    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=대전" class="area-chip"><span>대전</span></a>
+                    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=울산" class="area-chip"><span>울산</span></a>
+                    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=경기" class="area-chip"><span>경기</span></a>
+                    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=강원특별자치도" class="area-chip"><span>강원</span></a>
+                    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=제주특별자치도" class="area-chip"><span>제주</span></a>
+
+                </div>
+
+                <button type="button" class="carousel-btn next" data-target="areaScroll" aria-label="다음">›</button>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===================== 무엇을 먹을까요 ===================== -->
+    <section class="home-section food-section">
+        <div class="section-inner">
+
+            <div class="section-head">
+                <h2>무엇을 먹을까요?</h2>
+                <a href="${pageContext.request.contextPath}/guest/storeList" class="see-all">모두보기</a>
+            </div>
+
+            <div class="carousel">
+
+                <button type="button" class="carousel-btn prev" data-target="foodScroll" aria-label="이전">‹</button>
+
+                <div class="food-scroll" id="foodScroll">
+
+                    <a href="${pageContext.request.contextPath}/guest/storeSearch?scategory=한식" class="food-card">
+                        <div class="food-thumb food-thumb-1"><span>🍚</span></div>
+                        <span class="food-label">한식</span>
+                    </a>
+
+                    <a href="${pageContext.request.contextPath}/guest/storeSearch?scategory=중식" class="food-card">
+                        <div class="food-thumb food-thumb-2"><span>🥟</span></div>
+                        <span class="food-label">중식</span>
+                    </a>
+
+                    <a href="${pageContext.request.contextPath}/guest/storeSearch?scategory=일식" class="food-card">
+                        <div class="food-thumb food-thumb-3"><span>🍣</span></div>
+                        <span class="food-label">일식</span>
+                    </a>
+
+                    <a href="${pageContext.request.contextPath}/guest/storeSearch?scategory=양식" class="food-card">
+                        <div class="food-thumb food-thumb-4"><span>🍝</span></div>
+                        <span class="food-label">양식</span>
+                    </a>
+
+                    <a href="${pageContext.request.contextPath}/guest/storeSearch?scategory=고기/구이" class="food-card">
+                        <div class="food-thumb food-thumb-5"><span>🥩</span></div>
+                        <span class="food-label">고기/구이</span>
+                    </a>
+
+                    <a href="${pageContext.request.contextPath}/guest/storeSearch?scategory=닭/오리" class="food-card">
+                        <div class="food-thumb food-thumb-6"><span>🍗</span></div>
+                        <span class="food-label">닭/오리</span>
+                    </a>
+
+                    <a href="${pageContext.request.contextPath}/guest/storeSearch?scategory=면/분식" class="food-card">
+                        <div class="food-thumb food-thumb-7"><span>🍜</span></div>
+                        <span class="food-label">면/분식</span>
+                    </a>
+
+                    <a href="${pageContext.request.contextPath}/guest/storeSearch?scategory=국/탕/백반" class="food-card">
+                        <div class="food-thumb food-thumb-8"><span>🍲</span></div>
+                        <span class="food-label">국/탕/백반</span>
+                    </a>
+
+                    <a href="${pageContext.request.contextPath}/guest/storeSearch?scategory=해산물/회" class="food-card">
+                        <div class="food-thumb food-thumb-9"><span>🦐</span></div>
+                        <span class="food-label">해산물/회</span>
+                    </a>
+
+                    <a href="${pageContext.request.contextPath}/guest/storeSearch?scategory=카페/디저트" class="food-card">
+                        <div class="food-thumb food-thumb-10"><span>🍰</span></div>
+                        <span class="food-label">카페/디저트</span>
+                    </a>
+
+                </div>
+
+                <button type="button" class="carousel-btn next" data-target="foodScroll" aria-label="다음">›</button>
+
+            </div>
+
+        </div>
+    </section>
 
     <br>
 
     <%@ include file="../guest/footer.jsp" %>
+
+    <script>
+    (function () {
+        var tabBtns = document.querySelectorAll('.search-tabs .tab-btn');
+
+        tabBtns.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                tabBtns.forEach(function (b) { b.classList.remove('active'); });
+                btn.classList.add('active');
+
+                document.querySelectorAll('.hero-search-form').forEach(function (form) {
+                    form.style.display = (form.id === btn.dataset.target) ? 'flex' : 'none';
+                });
+            });
+        });
+    })();
+
+    (function () {
+        // 어디로 갈까요 / 무엇을 먹을까요 슬라이드(캐러셀) 동작
+        function initCarousel(scrollId) {
+            var track = document.getElementById(scrollId);
+            if (!track) return;
+
+            var prevBtn = document.querySelector('.carousel-btn.prev[data-target="' + scrollId + '"]');
+            var nextBtn = document.querySelector('.carousel-btn.next[data-target="' + scrollId + '"]');
+
+            function update() {
+                var maxScroll = track.scrollWidth - track.clientWidth;
+                prevBtn.disabled = track.scrollLeft <= 4;
+                nextBtn.disabled = track.scrollLeft >= maxScroll - 4;
+            }
+
+            prevBtn.addEventListener('click', function () {
+                track.scrollBy({ left: -track.clientWidth * 0.8, behavior: 'smooth' });
+            });
+
+            nextBtn.addEventListener('click', function () {
+                track.scrollBy({ left: track.clientWidth * 0.8, behavior: 'smooth' });
+            });
+
+            track.addEventListener('scroll', update);
+            window.addEventListener('resize', update);
+            update();
+        }
+
+        initCarousel('areaScroll');
+        initCarousel('foodScroll');
+    })();
+    </script>
 </body>
 </html>

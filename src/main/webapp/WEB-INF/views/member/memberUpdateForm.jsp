@@ -10,12 +10,31 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지 - 회원정보 수정</title>
-
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/member.css'/>">
+		<script>
+		// 1. 주소 검색 팝업 창 호출
+		function goPopup() {
+		    var pop = window.open("/guest/jusoPopup", "pop", "width=570,height=420,scrollbars=yes,resizable=yes"); 
+		}
+		
+		// 2. jusoPopup.jsp에서 콜백(callback)으로 주소 데이터를 받아오는 함수
+		function jusoCallBack(roadAddrPart1, addrDetail, zipNo) {
+		    document.memberUpdate.mzipno.value = zipNo;
+		    document.memberUpdate.maddr1.value = roadAddrPart1;
+		    document.memberUpdate.maddr2.value = addrDetail;
+		}
+	</script>
 </head>
 <body>
     <%@ include file="../guest/header.jsp" %>
+    
+    <!-- 마이페이지 공통 레이아웃 구조 -->
+    <div class="member-page">
+        
+        <!-- 마이페이지 사이드바 인클루드 -->
+        <jsp:include page="/WEB-INF/views/member/memberSidebar.jsp" />
 
-        <main class="mypage-main">
+        <main class="member-content">
             <div class="content-header">
                 <h2 class="content-title">회원정보 수정</h2>
                 <div class="content-subtitle">
@@ -93,9 +112,8 @@
 					        </select>
 					    </td>
 					</tr>
-
-                    <tr>
-                        <th>주소</th>
+					<tr>
+						<th>주소</th>
                         <td>
                             <div class="address-stack">
                                 <div class="input-group-row">
@@ -147,6 +165,8 @@
                 </div>
             </form>
         </main>
+
+    </div>
 
     <%@ include file="../guest/footer.jsp" %>
 

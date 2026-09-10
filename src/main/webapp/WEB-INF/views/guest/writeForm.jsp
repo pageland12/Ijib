@@ -66,8 +66,10 @@
 				
 				<div>	
 	                <label>주소</label>
-	                <input type="text" name="mzipno" placeholder="우편번호" readonly>
-	                <input type="button" value="주소검색" class="btn-sub" onclick="goPopup();">
+	                <div class="input-group-row">
+		                <input type="text" name="mzipno" placeholder="우편번호" readonly>
+		                <input type="button" value="주소검색" class="btn-sub" onclick="goPopup();">
+	                </div>
 	                <input type="text" name="maddr1" placeholder="기본주소" readonly style="margin-bottom: 8px;">
 	                <input type="text" name="maddr2" placeholder="상세주소 입력" readonly>
 	            </div>
