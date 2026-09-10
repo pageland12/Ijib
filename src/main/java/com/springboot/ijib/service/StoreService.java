@@ -104,7 +104,7 @@ public class StoreService {
         return mnDao.menuList(sno);
     }
     
- // Elasticsearch용 음식점 데이터 생성
+	// Elasticsearch용 음식점 데이터 생성
     public StoreESDTO storeESData(int sno) {
 
         StoreDTO store = dao.storeView(sno);
@@ -144,6 +144,8 @@ public class StoreService {
         // 리뷰
         List<RatingESDTO> ratingESList = new ArrayList<>();
 
+        double ratingSum = 0;
+
         for(RatingDTO rating : ratingList) {
 
             RatingESDTO ratingES = new RatingESDTO();
@@ -152,9 +154,20 @@ public class StoreService {
             ratingES.setRfeature(rating.getRfeature());
 
             ratingESList.add(ratingES);
+
+            ratingSum += rating.getRrate();
         }
 
         esDto.setRating(ratingESList);
+
+        // 평균 별점
+        double ratingAvg = 0;
+
+        if(!ratingList.isEmpty()) {
+            ratingAvg = ratingSum / ratingList.size();
+        }
+
+        esDto.setRatingAvg(ratingAvg);
 
         return esDto;
     }
