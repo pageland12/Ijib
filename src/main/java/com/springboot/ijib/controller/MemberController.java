@@ -356,7 +356,7 @@ public class MemberController {
 
 	@RequestMapping("/guest/jusoPopup")
 	public String jusoPopup() {
-		return "guest/jusoPopup";
+	    return "guest/jusoPopup";
 	}
 	
 	
