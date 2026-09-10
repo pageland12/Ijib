@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.springboot.ijib.dto.BoardDTO;
 import com.springboot.ijib.dto.RatingDTO;
 
 @Mapper
