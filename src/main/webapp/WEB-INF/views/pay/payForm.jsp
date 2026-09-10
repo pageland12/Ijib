@@ -51,15 +51,12 @@
                 // 포트원 V2 결제창 요청
                 const response = await PortOne.requestPayment({
                     storeId: "store-30399cea-2dc5-47b1-8daa-39beeea2337e",          // Store ID 작성
-                    channelKey: "channel-key-374933b0-f383-45d1-aecd-b9327f3acb38",  // Channel Key 작성
+                    channelKey: "channel-key-ac6ec6ee-8852-4f9b-9f4e-cc679167904a",  // Channel Key 작성
                     paymentId: paymentId,
                     orderName: orderName,
                     totalAmount: totalAmount,
                     currency: "CURRENCY_KRW",
-                    payMethod: "EASY_PAY",
-                    easyPay: {
-                        provider: "KAKAO_PAY" // 카카오페이 호출
-                    },
+                  	payMethod: "CARD",
                     customer: {
                         email: buyerEmail,
                         phoneNumber: buyerTel,

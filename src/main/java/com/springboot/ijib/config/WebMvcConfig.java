@@ -1,4 +1,4 @@
-package com.springboot.ijib.config;
+ package com.springboot.ijib.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

@@ -19,6 +19,14 @@
 		   AND MPSTATUS = 'ACTIVE'
 	</select>
 	
+	<!-- 회원 번호와 주문 번호로 회원 구독권 정보 찾기 -->
+	<select id="memberPassDetail" resultType="com.springboot.ijib.dto.MemberPassesDTO">
+		SELECT MPEND, MNO, PNO
+		  FROM MEMBER_PASSES
+		 WHERE MNO = #{mno}
+		   AND ONO = #{ono}
+	</select>
+	
 	
 	<!-- 회원 구독권 등록 -->
 	<insert id="memberPassInsert">
@@ -41,5 +49,23 @@
 		 WHERE MNO = #{mno}
 		   AND MPSTATUS = 'ACTIVE'
 		   AND MPEND &lt; SYSDATE
+	</update>
+	
+	<!-- 환불된 회원 구독권 업데이트 -->
+	<update id="refundedPassUpdate">
+		UPDATE MEMBER_PASSES
+		   SET MPSTATUS = 'REFUND'
+		 WHERE MNO = #{mno}
+		   AND ONO = #{ono}
+	</update>
+	
+	<!-- 환불된 회원 구독권의 뒤에 있는 구독권 pull back -->
+	<update id="futurePassesPullBack">
+		UPDATE MEMBER_PASSES
+		   SET MPSTART = MPSTART - #{pullbackDate},
+		       MPEND = MPEND - #{pullbackDate}
+		 WHERE MNO = #{mno}
+		   AND MPSTATUS = 'ACTIVE'
+		   AND MPSTART &gt;= #{refundedMpend}
 	</update>
 </mapper>

@@ -11,6 +11,7 @@ public class OrdersDTO {
 	private	String			opayment;	// 주문 방법
 	// Date -> LocalDateTime으로 변경
 	private LocalDateTime	odate;		// 주문일
+	private String			ostatus;	// 주문 상태(주문:'PAID' or 환불:'REFUND')
 	private	int				mno;		// 회원 번호
 	
 	// 조인을 통해 얻을 컬럼

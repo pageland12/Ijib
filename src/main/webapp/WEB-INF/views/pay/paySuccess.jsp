@@ -21,7 +21,7 @@
 	</p>
 
     <a href="/main">홈으로 이동</a>
-    <a href="/member/orderList">주문내역 확인</a>
+    <a href="/member/myOrder">주문내역 확인</a>
 
 	<br>
     <%@ include file="../guest/footer.jsp" %>
