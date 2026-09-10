@@ -8,9 +8,9 @@ function check() {
 		return false;
 	}
 	
-	if(rtitle.value.length < 2 || rtitle.value.length > 15) {
-		alert("제목은 2자 이상 15자 이하로 입력해주세요.")
-		ritlte.focus();
+	if(rtitle.value.length < 2 || rtitle.value.length > 20) {
+		alert("제목은 2자 이상 20자 이하로 입력해주세요.")
+		rtitle.focus();
 		return false;
 	}
 	
