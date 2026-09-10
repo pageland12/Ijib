@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +27,7 @@
                                 <%-- 1. 가게 이미지 (sfiles 매핑) --%>
                                 <div class="card-img-wrap">
                                     <c:if test="${not empty bm.sfiles}">
-                                        <img src="<c:url value='${bm.sfiles}'/>" alt="${bm.sname}" class="card-img" />
+                                        <a href="/guest/storeView?sno=${bm.sno}"><img src="${fn:split(bm.sfiles, ',')[0]}" alt="${bm.sname}" class="card-img" /></a>
                                     </c:if>
                                     <c:if test="${empty bm.sfiles}">
                                         <div class="no-img">이미지 없음</div>
@@ -41,7 +42,7 @@
                                     </div>
 
                                     <div class="card-header">
-                                        <h3 class="store-name">${bm.sname}</h3>
+                                        <a href="/guest/storeView?sno=${bm.sno}"><h3 class="store-name">${bm.sname}</h3></a>
                                         <a href="<c:url value='/member/bookmarkDelete?bmno=${bm.bmno}'/>" 
                                            class="bookmark-btn" 
                                            title="북마크 해제"
