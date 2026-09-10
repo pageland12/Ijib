@@ -4,7 +4,9 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/member.css">
 
 <aside class="member-sidebar">
-    <div class="sidebar-title">마이페이지</div>
+    <div class="sidebar-title">
+    <a href="/member/memberMain">마이페이지</a>
+    </div>
 
     <div class="member-info">
         <span class="member-name">
