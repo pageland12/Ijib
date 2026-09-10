@@ -10,6 +10,7 @@
 </head>
 <body>
     <%@ include file="../guest/header.jsp" %>
+    <%@ include file="../guest/search.jsp" %>
 
     <!-- ===================== 히어로 영역 ===================== -->
     <section class="hero">
