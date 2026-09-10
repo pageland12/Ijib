@@ -41,6 +41,7 @@ public class StoreESService {
         data.put("sinfo", dto.getSinfo());
         data.put("sparking", dto.getSparking());
         data.put("sstatus", dto.getSstatus());
+        data.put("ratingAvg", dto.getRatingAvg());
 
         // 위도 + 경도를 Elasticsearch geo_point 형태로 저장
         Map<String, Object> location = new HashMap<>();

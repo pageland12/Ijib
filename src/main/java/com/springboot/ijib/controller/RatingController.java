@@ -72,14 +72,43 @@ public class RatingController {
 	// 수정
 	@RequestMapping("/board/ratingUpdate")
 	public String ratingUpdate(RatingDTO rdto) {
+
+	    // 1. Oracle 리뷰 수정
 	    rdao.ratingUpdate(rdto);
+
+	    // 2. 해당 음식점의 전체 데이터 다시 조회
+	    StoreESDTO esDto = storeService.storeESData(rdto.getSno());
+
+	    // 3. Elasticsearch 음식점 전체 정보 갱신
+	    try {
+	        storeESService.storeSave(esDto);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+
 	    return "redirect:/member/myBoard";
 	}
 	
 	// 삭제
 	@RequestMapping("/board/ratingDelete")
 	public String ratingDelete(@RequestParam("rno") int rno) {
+
+	    // 1. 삭제 전에 리뷰 정보 조회
+	    RatingDTO rating = rdao.ratingView(rno);
+
+	    // 2. Oracle 리뷰 삭제
 	    rdao.ratingDelete(rno);
+
+	    // 3. 해당 음식점의 전체 데이터 다시 조회
+	    StoreESDTO esDto = storeService.storeESData(rating.getSno());
+
+	    // 4. Elasticsearch 음식점 전체 정보 갱신
+	    try {
+	        storeESService.storeSave(esDto);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+
 	    return "redirect:/member/myBoard";
 	}
 }

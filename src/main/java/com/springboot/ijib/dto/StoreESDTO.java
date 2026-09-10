@@ -22,4 +22,5 @@ public class StoreESDTO {
 	
 	private List<MenuESDTO> menu;
 	private List<RatingESDTO> rating;
+	private Double ratingAvg;
 }

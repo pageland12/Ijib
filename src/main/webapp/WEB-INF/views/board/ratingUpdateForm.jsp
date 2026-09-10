@@ -12,6 +12,7 @@
     
 	<form name="ratingUpdateForm" method="post" action="/board/ratingUpdate">
 		<input type="hidden" name="rno" value="${update.rno}">
+		<input type="hidden" name="sno" value="${update.sno}">
 		<table border=1 width=400>
 			<tr>
 				<th>제목</th>
@@ -26,10 +27,10 @@
                     <td>
                         <select name="rrate">
                             <option value="5.0" ${update.rrate == 5.0 ? 'selected' : ''}> ★★★★★ (5.0) </option>
-                            <option value="5.0" ${update.rrate == 4.0 ? 'selected' : ''}> ★★★★ (4.0) </option>
-                            <option value="5.0" ${update.rrate == 3.0 ? 'selected' : ''}> ★★★ (3.0) </option>
-                            <option value="5.0" ${update.rrate == 2.0 ? 'selected' : ''}> ★★ (2.0) </option>
-                            <option value="5.0" ${update.rrate == 1.0 ? 'selected' : ''}> ★ (1.0) </option>
+                            <option value="4.0" ${update.rrate == 4.0 ? 'selected' : ''}> ★★★★ (4.0) </option>
+                            <option value="3.0" ${update.rrate == 3.0 ? 'selected' : ''}> ★★★ (3.0) </option>
+                            <option value="2.0" ${update.rrate == 2.0 ? 'selected' : ''}> ★★ (2.0) </option>
+                            <option value="1.0" ${update.rrate == 1.0 ? 'selected' : ''}> ★ (1.0) </option>
                         </select>
                     </td>
                 <th>가게 특징</th>

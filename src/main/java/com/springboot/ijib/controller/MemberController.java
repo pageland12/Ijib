@@ -221,9 +221,6 @@ public class MemberController {
 	    mdto.setMaddr(maddr1 + "," + maddr2 + "," + mzipno);
 	    mdto.setMaccount(maccount1 + "," + maccount2 + "," + maccount3);
 
-	    // 기본 정보 수정
-	    mdao.memberUpdate(mdto);
-
 	    // 새 비밀번호를 입력한 경우에만 비밀번호 변경
 	    if (newPasswd != null && !newPasswd.isBlank()) {
 	        if (!newPasswd.equals(newPasswdCheck)) {
@@ -231,6 +228,7 @@ public class MemberController {
 	            model.addAttribute("msg", "새 비밀번호가 일치하지 않습니다.");
 	            return "member/memberUpdateForm";
 	        }
+
 	        MemberDTO passwdDto = new MemberDTO();
 	        passwdDto.setMno(mdto.getMno());
 	        passwdDto.setMpasswd(passwordEncoder.encode(newPasswd));
@@ -250,7 +248,6 @@ public class MemberController {
 	        e.printStackTrace();
 	    }
 
-	    // 마이페이지로 이동
 	    return "redirect:/member/memberMain";
 	}
 	
@@ -308,9 +305,19 @@ public class MemberController {
 				model.addAttribute("update",targetmno);
 				return "admin/adminUpdateForm";
 			}
-			else if("delete".equals(mode)) { // 비밀번호 확인 시 회원탈퇴
-				mdao.adminDelete(mno);
-				return "redirect:/admin/memberList";
+			else if("delete".equals(mode)) {
+
+			    // Oracle 회원 삭제
+			    mdao.adminDelete(mno);
+
+			    // Elasticsearch 회원 삭제
+			    try {
+			        memberESService.memberDelete(mno);
+			    } catch (IOException e) {
+			        e.printStackTrace();
+			    }
+
+			    return "redirect:/admin/memberList";
 			}
 		}
 		
@@ -328,9 +335,22 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/admin/adminUpdate")
-	public String adminUpdate(MemberDTO mdto) {		
-		mdao.adminUpdate(mdto);
-		return "redirect:/admin/memberView?mno=" + mdto.getMno();
+	public String adminUpdate(MemberDTO mdto) {
+
+	    // Oracle 회원정보 수정
+	    mdao.adminUpdate(mdto);
+
+	    // 수정된 회원정보 다시 조회
+	    MemberESDTO esDto = memberService.memberESData(mdto.getMno());
+
+	    // Elasticsearch 회원정보 수정
+	    try {
+	        memberESService.memberSave(esDto);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+
+	    return "redirect:/admin/memberView?mno=" + mdto.getMno();
 	}
 
 
