@@ -58,7 +58,7 @@
                     <input type="text"
                            name="keyword"
                            value="${param.keyword}"
-                           placeholder="프레스 센터 내에서 검색해보세요.">
+                           placeholder="찾으시는 내용이 있나요?">
 
                     <button type="submit">
                         검색
