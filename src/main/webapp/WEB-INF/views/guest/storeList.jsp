@@ -51,13 +51,23 @@
         <!-- 음식점 목록 -->
         <c:choose>
 
-            <c:when test="${empty list}">
-
-                <div style="text-align:center; padding:60px 0; color:#999;">
-                    등록된 음식점이 없습니다.
-                </div>
-
-            </c:when>
+		    <c:when test="${empty list}">
+		
+		        <div style="text-align:center; padding:60px 0; color:#999;">
+		
+		            <c:choose>
+		                <c:when test="${not empty nearbyMessage}">
+		                    ${nearbyMessage}
+		                </c:when>
+		
+		                <c:otherwise>
+		                    등록된 음식점이 없습니다.
+		                </c:otherwise>
+		            </c:choose>
+		
+		        </div>
+		
+		    </c:when>
 
 
             <c:otherwise>
@@ -85,8 +95,8 @@
                                 <div class="store-tag-row">
 
                                     <span class="tag-star">
-                                        ★★
-                                    </span>
+									    ★ (<fmt:formatNumber value="${store.ratingAvg}" pattern="0.0" />)
+									</span>
 
                                     <span class="tag-recommend">
                                         추천 맛집
@@ -129,7 +139,7 @@
 
 
         <!-- 페이지네이션 -->
-        <c:if test="${totalPages > 1}">
+        <c:if test="${totalPages > 1 && empty nearbyMessage}">
 
             <div class="pagination">
 

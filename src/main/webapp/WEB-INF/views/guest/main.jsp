@@ -97,27 +97,27 @@
 			<div class="chip-scroll" id="areaScroll">
 
 			    <!-- 내 주변 -->
-			    <a href="${pageContext.request.contextPath}/guest/storeList" class="area-chip my-location">
-			        <span class="chip-icon">📍</span>
-			        <span>내 주변</span>
-			    </a>
+			    <a href="#" id="nearbyBtn" class="area-chip my-location">
+				    <span class="chip-icon">📍</span>
+				    <span>내 주변</span>
+				</a>
 			
-			    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=강원특별자치도" class="area-chip"><span>강원</span></a>
-			    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=경기" class="area-chip"><span>경기</span></a>
-			    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=경남" class="area-chip"><span>경남</span></a>
-			    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=경북" class="area-chip"><span>경북</span></a>
-			    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=대구" class="area-chip"><span>대구</span></a>
-			    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=대전" class="area-chip"><span>대전</span></a>
-			    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=부산" class="area-chip"><span>부산</span></a>
-			    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=서울" class="area-chip"><span>서울</span></a>
-			    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=세종특별자치시" class="area-chip"><span>세종</span></a>
-			    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=울산" class="area-chip"><span>울산</span></a>
-			    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=인천" class="area-chip"><span>인천</span></a>
-			    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=전남광주통합특별시" class="area-chip"><span>전남·광주</span></a>
-			    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=전북특별자치도" class="area-chip"><span>전북</span></a>
-			    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=제주특별자치도" class="area-chip"><span>제주</span></a>
-			    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=충남" class="area-chip"><span>충남</span></a>
-			    <a href="${pageContext.request.contextPath}/guest/storeSearch?ssido=충북" class="area-chip"><span>충북</span></a>
+			    <a href="${pageContext.request.contextPath}/guest/storeList?ssido=강원특별자치도" class="area-chip"><span>강원</span></a>
+			    <a href="${pageContext.request.contextPath}/guest/storeList?ssido=경기" class="area-chip"><span>경기</span></a>
+			    <a href="${pageContext.request.contextPath}/guest/storeList?ssido=경남" class="area-chip"><span>경남</span></a>
+			    <a href="${pageContext.request.contextPath}/guest/storeList?ssido=경북" class="area-chip"><span>경북</span></a>
+			    <a href="${pageContext.request.contextPath}/guest/storeList?ssido=대구" class="area-chip"><span>대구</span></a>
+			    <a href="${pageContext.request.contextPath}/guest/storeList?ssido=대전" class="area-chip"><span>대전</span></a>
+			    <a href="${pageContext.request.contextPath}/guest/storeList?ssido=부산" class="area-chip"><span>부산</span></a>
+			    <a href="${pageContext.request.contextPath}/guest/storeList?ssido=서울" class="area-chip"><span>서울</span></a>
+			    <a href="${pageContext.request.contextPath}/guest/storeList?ssido=세종특별자치시" class="area-chip"><span>세종</span></a>
+			    <a href="${pageContext.request.contextPath}/guest/storeList?ssido=울산" class="area-chip"><span>울산</span></a>
+			    <a href="${pageContext.request.contextPath}/guest/storeList?ssido=인천" class="area-chip"><span>인천</span></a>
+			    <a href="${pageContext.request.contextPath}/guest/storeList?ssido=전남광주통합특별시" class="area-chip"><span>전남·광주</span></a>
+			    <a href="${pageContext.request.contextPath}/guest/storeList?ssido=전북특별자치도" class="area-chip"><span>전북</span></a>
+			    <a href="${pageContext.request.contextPath}/guest/storeList?ssido=제주특별자치도" class="area-chip"><span>제주</span></a>
+			    <a href="${pageContext.request.contextPath}/guest/storeList?ssido=충남" class="area-chip"><span>충남</span></a>
+			    <a href="${pageContext.request.contextPath}/guest/storeList?ssido=충북" class="area-chip"><span>충북</span></a>
 			
 			</div>
 
@@ -180,7 +180,7 @@
                     <!-- 한식 -->
 
                     <a
-                        href="${pageContext.request.contextPath}/guest/storeSearch?scategory=한식"
+                        href="${pageContext.request.contextPath}/guest/storeList?scategory=한식"
                         class="food-card">
 
                         <div class="food-thumb food-thumb-1">
@@ -197,7 +197,7 @@
                     <!-- 중식 -->
 
                     <a
-                        href="${pageContext.request.contextPath}/guest/storeSearch?scategory=중식"
+                        href="${pageContext.request.contextPath}/guest/storeList?scategory=중식"
                         class="food-card">
 
                         <div class="food-thumb food-thumb-2">
@@ -214,7 +214,7 @@
                     <!-- 일식 -->
 
                     <a
-                        href="${pageContext.request.contextPath}/guest/storeSearch?scategory=일식"
+                        href="${pageContext.request.contextPath}/guest/storeList?scategory=일식"
                         class="food-card">
 
                         <div class="food-thumb food-thumb-3">
@@ -231,7 +231,7 @@
                     <!-- 양식 -->
 
                     <a
-                        href="${pageContext.request.contextPath}/guest/storeSearch?scategory=양식"
+                        href="${pageContext.request.contextPath}/guest/storeList?scategory=양식"
                         class="food-card">
 
                         <div class="food-thumb food-thumb-4">
@@ -248,7 +248,7 @@
                     <!-- 고기/구이 -->
 
                     <a
-                        href="${pageContext.request.contextPath}/guest/storeSearch?scategory=고기/구이"
+                        href="${pageContext.request.contextPath}/guest/storeList?scategory=고기/구이"
                         class="food-card">
 
                         <div class="food-thumb food-thumb-5">
@@ -265,7 +265,7 @@
                     <!-- 닭/오리 -->
 
                     <a
-                        href="${pageContext.request.contextPath}/guest/storeSearch?scategory=닭/오리"
+                        href="${pageContext.request.contextPath}/guest/storeList?scategory=닭/오리"
                         class="food-card">
 
                         <div class="food-thumb food-thumb-6">
@@ -282,7 +282,7 @@
                     <!-- 면/분식 -->
 
                     <a
-                        href="${pageContext.request.contextPath}/guest/storeSearch?scategory=면/분식"
+                        href="${pageContext.request.contextPath}/guest/storeList?scategory=면/분식"
                         class="food-card">
 
                         <div class="food-thumb food-thumb-7">
@@ -299,7 +299,7 @@
                     <!-- 국/탕/백반 -->
 
                     <a
-                        href="${pageContext.request.contextPath}/guest/storeSearch?scategory=국/탕/백반"
+                        href="${pageContext.request.contextPath}/guest/storeList?scategory=국/탕/백반"
                         class="food-card">
 
                         <div class="food-thumb food-thumb-8">
@@ -316,7 +316,7 @@
                     <!-- 해산물/회 -->
 
                     <a
-                        href="${pageContext.request.contextPath}/guest/storeSearch?scategory=해산물/회"
+                        href="${pageContext.request.contextPath}/guest/storeList?scategory=해산물/회"
                         class="food-card">
 
                         <div class="food-thumb food-thumb-9">
@@ -333,7 +333,7 @@
                     <!-- 카페/디저트 -->
 
                     <a
-                        href="${pageContext.request.contextPath}/guest/storeSearch?scategory=카페/디저트"
+                        href="${pageContext.request.contextPath}/guest/storeList?scategory=카페/디저트"
                         class="food-card">
 
                         <div class="food-thumb food-thumb-10">
@@ -504,6 +504,35 @@
 		
 		    });
 		
+	});
+	</script>
+	<script>
+	document.getElementById('nearbyBtn').addEventListener('click', function(e) {
+	    e.preventDefault();
+	
+	    if (!navigator.geolocation) {
+	        alert('이 브라우저에서는 위치 정보를 사용할 수 없습니다.');
+	        return;
+	    }
+	
+	    navigator.geolocation.getCurrentPosition(
+	        function(position) {
+	
+	            const lat = position.coords.latitude;
+	            const lon = position.coords.longitude;
+	            const contextPath = '${pageContext.request.contextPath}';
+	
+	            location.href =
+	                contextPath + '/guest/nearby?lat=' +
+	                encodeURIComponent(lat) +
+	                '&lon=' +
+	                encodeURIComponent(lon);
+	        },
+	
+	        function(error) {
+	            alert('현재 위치를 가져올 수 없습니다.');
+	        }
+	    );
 	});
 	</script>
 

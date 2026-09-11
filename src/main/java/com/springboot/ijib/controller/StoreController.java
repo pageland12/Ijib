@@ -1,7 +1,9 @@
 package com.springboot.ijib.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,14 +37,27 @@ public class StoreController {
 	@Autowired
 	private IStoreDAO sdao;
     
-    @RequestMapping("/guest/storeList")
-    public String storeList(
-            @RequestParam(value = "page", required = false, defaultValue = "1")
-            int page,
+	@RequestMapping("/guest/storeList")
+	public String storeList(
+	        @RequestParam(value = "page", required = false, defaultValue = "1")
+	        int page,
+	        @RequestParam(value = "ssido", required = false)
+	        String ssido,
+	        @RequestParam(value = "scategory", required = false)
+	        String scategory,
+	        Model model) {
 
-            Model model) {
+		List<StoreDTO> fullList;
 
-        List<StoreDTO> fullList = sdao.storeList();
+		if (ssido != null && !ssido.isEmpty()) {
+		    fullList = sdao.storeListBySsido(ssido);
+
+		} else if (scategory != null && !scategory.isEmpty()) {
+		    fullList = sdao.storeListByScategory(scategory);
+
+		} else {
+		    fullList = sdao.storeList();
+		}
 
         int totalCount = fullList.size();
         int totalPages = (int) Math.ceil((double) totalCount / PAGE_SIZE);
@@ -66,6 +81,24 @@ public class StoreController {
             pageList = new ArrayList<>();
         } else {
             pageList = fullList.subList(fromIndex, toIndex);
+        }
+        
+        try {
+            Map<Integer, Double> ratingMap =
+                    esService.storeRateAvg();
+
+            for (StoreDTO store : pageList) {
+
+                Double ratingAvg =
+                        ratingMap.get(store.getSno());
+
+                if (ratingAvg != null) {
+                    store.setRatingAvg(ratingAvg);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         model.addAttribute("list", pageList);
@@ -249,29 +282,82 @@ public class StoreController {
             Model model) {
 
         try {
+
             // Elasticsearch에서 현재 위치 반경 5km 음식점 sno 검색
             List<Integer> snoList =
                     esService.nearbyStoreSnoList(lat, lon, 5);
 
             // 검색 결과가 없으면 빈 목록
             if (snoList.isEmpty()) {
+
                 model.addAttribute("list", new ArrayList<StoreDTO>());
+                model.addAttribute("nearbyMessage", "5km 내 음식점이 없습니다.");
+
             } else {
+
                 // sno를 이용해서 Oracle에서 실제 음식점 정보 조회
-                List<StoreDTO> list =
+                List<StoreDTO> dbList =
                         sdao.storeListBySno(snoList);
 
+                // sno를 key로 음식점 정보를 Map에 저장
+                Map<Integer, StoreDTO> storeMap =
+                        new HashMap<>();
+
+                for (StoreDTO store : dbList) {
+                    storeMap.put(store.getSno(), store);
+                }
+
+                // Elasticsearch의 거리순을 유지해서 음식점 목록 생성
+                List<StoreDTO> list =
+                        new ArrayList<>();
+
+                for (Integer sno : snoList) {
+
+                    StoreDTO store =
+                            storeMap.get(sno);
+
+                    if (store != null) {
+                        list.add(store);
+                    }
+                }
+
+                // Elasticsearch에서 음식점별 평균 별점 가져오기
+                try {
+
+                    Map<Integer, Double> ratingMap =
+                            esService.storeRateAvg();
+
+                    for (StoreDTO store : list) {
+
+                        Double ratingAvg =
+                                ratingMap.get(store.getSno());
+
+                        if (ratingAvg != null) {
+                            store.setRatingAvg(ratingAvg);
+                        }
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                // 최종 음식점 목록 전달
                 model.addAttribute("list", list);
+                model.addAttribute("nearbyMessage", null);
             }
 
         } catch (Exception e) {
+
             e.printStackTrace();
 
             // 오류가 발생해도 JSP는 정상적으로 열리도록
-            model.addAttribute("list", new ArrayList<StoreDTO>());
+            model.addAttribute(
+                    "list",
+                    new ArrayList<StoreDTO>()
+            );
         }
 
-        return "guest/storeListPage";
+        return "guest/storeList";
     }
 
 }

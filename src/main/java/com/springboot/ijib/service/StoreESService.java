@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
@@ -122,6 +121,7 @@ public class StoreESService {
             double distanceKm) throws IOException {
 
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        sourceBuilder.size(100);
 
         // 현재 위치 기준 반경 검색
         sourceBuilder.query(
@@ -154,5 +154,42 @@ public class StoreESService {
         }
 
         return snoList;
+    }
+    
+    // 가게 별점 평균
+    public Map<Integer, Double> storeRateAvg() throws IOException {
+
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+
+        sourceBuilder.size(1000);
+
+        sourceBuilder.query(
+            QueryBuilders.matchAllQuery()
+        );
+
+        SearchRequest request = new SearchRequest("store");
+        request.source(sourceBuilder);
+
+        SearchResponse response =
+                client.search(request, RequestOptions.DEFAULT);
+
+        Map<Integer, Double> ratingMap = new HashMap<>();
+
+        for (org.elasticsearch.search.SearchHit hit
+                : response.getHits().getHits()) {
+
+            Map<String, Object> source = hit.getSourceAsMap();
+
+            Object ratingAvg = source.get("ratingAvg");
+
+            if (ratingAvg != null) {
+                ratingMap.put(
+                    Integer.parseInt(hit.getId()),
+                    Double.parseDouble(ratingAvg.toString())
+                );
+            }
+        }
+
+        return ratingMap;
     }
 }
