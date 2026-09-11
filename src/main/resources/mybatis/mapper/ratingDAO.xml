@@ -24,6 +24,7 @@
 		 )
 		 where rownum &lt;= 3
 	</select>
+	
 	<select id="myRatingList" resultType="com.springboot.ijib.dto.RatingDTO">
 		select r.*, m.mname, s.sname, s.sfiles
 		from rating r
@@ -41,6 +42,20 @@
 		 where r.rno = #{rno}
 	</select>
 	
+	<select id="ratingAllList" resultType="com.springboot.ijib.dto.RatingDTO">
+        SELECT r.*, m.mname, s.sname, s.sfiles
+        FROM rating r
+        JOIN member m
+            ON r.mno = m.mno
+        JOIN store s
+            ON r.sno = s.sno
+        ORDER BY r.rno DESC
+    </select>
+   
+	<select id="ratingAllCount" resultType="int">
+	    SELECT COUNT(*) FROM rating
+	</select>   
+	
 	<insert id="ratingWrite">
 		insert into rating(rno, rtitle, rcontent, rrate, rfeature, rdate, mno, sno)
 		 values(RATING_SEQ.NEXTVAL, #{rtitle}, #{rcontent}, #{rrate}, #{rfeature}, SYSDATE, #{mno}, #{sno})
@@ -56,4 +71,6 @@
 		delete from rating
 		 where rno = #{rno}
 	</delete>
+	
+	
 </mapper>

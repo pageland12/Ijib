@@ -6,8 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.reindex.UpdateByQueryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +40,8 @@ public class PassOrderESService {
             map.put("pprice", odto.getOprice());
             map.put("mno", odto.getMno());
             map.put("odate", odate);
+            // ostatus 필드 추가
+            map.put("ostatus", "PAID");
 
             // 3.ES에 저장
             // 인덱스명은 "pass", 도큐먼트 ID는 주문 고유 번호(ono)
@@ -54,5 +59,30 @@ public class PassOrderESService {
             System.err.println("Elasticsearch 색인 실패: " + e.getMessage());
             e.printStackTrace();
         }
+	}
+	
+	// 환불 성공 시 ES pass 인덱스 정보 동기화
+	public void refundStatusUpdate(String ono) {
+		try {
+			if (ono == null || ono.isBlank()) {
+				throw new IllegalStateException("주문 번호(ono)가 유효하지 않습니다.");
+			}
+			
+			// 1. 업데이트할 필드
+			Map<String, Object> map = new HashMap<>();
+			map.put("ostatus", "REFUND");
+			
+			// 2. UpdateRequest 생성 (인덱스: pass, _id: ono)
+			UpdateRequest request = new UpdateRequest("pass", ono)
+					.doc(map);
+			
+			// 3. ES 부분 갱신 요청
+			UpdateResponse response = client.update(request, RequestOptions.DEFAULT);
+			
+			System.out.println("ES 환불 상태 동기화 완료. 주문번호: " + ono + ", 결과: " + response.getResult());
+		} catch(Exception e) {
+			System.err.println("Elastic Search 환불 상태 업데이트 실패: " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 }

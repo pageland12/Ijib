@@ -24,7 +24,7 @@
                     <c:when test="${not empty list}">
                         <c:forEach var="bm" items="${list}">
                             <div class="store-card">
-                                <%-- 1. 가게 이미지 (sfiles는 콤마로 여러 장 저장 -> 첫 장만 사용) --%>
+                                <%-- 1. 가게 이미지 --%>
                                 <a href="<c:url value='/guest/storeView?sno=${bm.sno}'/>" class="card-link">
                                     <div class="card-img-wrap">
                                         <c:choose>
@@ -47,10 +47,10 @@
 
                                     <div class="card-header">
                                         <h3 class="store-name">
-                                            <a href="<c:url value='/guest/storeView?sno=${bm.sno}'/>" class="card-link">${bm.sname}</a>
+                                            <a href="<c:url value='/guest/storeView?sno=${bm.sno}'/>">${bm.sname}</a>
                                         </h3>
-                                        <a href="<c:url value='/member/bookmarkDelete?bmno=${bm.bmno}'/>"
-                                           class="bookmark-btn"
+                                        <a href="<c:url value='/member/bookmarkDelete?bmno=${bm.bmno}'/>" 
+                                           class="bookmark-btn" 
                                            title="북마크 해제"
                                            onclick="return confirm('북마크 목록에서 삭제하시겠습니까?');">
                                             🔖

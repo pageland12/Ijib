@@ -29,10 +29,51 @@ public class BoardController {
 	private PasswordEncoder passwordEncoder;
 	
 	@RequestMapping("/guest/boardList")
-	public String boardList(Model model) {
-		List<BoardDTO> boardList = bdao.boardList();
-		model.addAttribute("list", boardList);
-		return "guest/boardList";
+	public String boardList(
+	        @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+	        Model model) {
+
+	    List<BoardDTO> boardList = bdao.boardList();
+
+	    int pageSize = 10;
+
+	    int totalCount = boardList.size();
+
+	    int totalPage = (int) Math.ceil((double) totalCount / pageSize);
+
+	    if (pageNum < 1) {
+	        pageNum = 1;
+	    }
+
+	    if (totalPage > 0 && pageNum > totalPage) {
+	        pageNum = totalPage;
+	    }
+
+	    int startIndex = (pageNum - 1) * pageSize;
+	    int endIndex = Math.min(startIndex + pageSize, totalCount);
+
+	    List<BoardDTO> pageList =
+	            boardList.subList(startIndex, endIndex);
+
+	    int pageBlock = 5;
+
+	    int startPage =
+	            ((pageNum - 1) / pageBlock) * pageBlock + 1;
+
+	    int endPage = startPage + pageBlock - 1;
+
+	    if (endPage > totalPage) {
+	        endPage = totalPage;
+	    }
+
+	    model.addAttribute("list", pageList);
+
+	    model.addAttribute("pageNum", pageNum);
+	    model.addAttribute("totalPage", totalPage);
+	    model.addAttribute("startPage", startPage);
+	    model.addAttribute("endPage", endPage);
+
+	    return "guest/boardList";
 	}
 	
 	@RequestMapping("/board/boardWriteForm")

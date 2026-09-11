@@ -197,7 +197,12 @@ footer {
             Copyright © Ijib Corp. All rights reserved.
 
         </div>
+        
+        <%@ include file="../guest/chatbotWidget.jsp" %>
 
     </div>
-
+	
+	
+	
+	
 </footer>

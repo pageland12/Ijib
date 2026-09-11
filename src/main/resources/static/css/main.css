@@ -18,50 +18,33 @@ a {
     color: inherit;
 }
 
-/* =========================================
-   HERO
-========================================= */
-
 .hero {
     position: relative;
     width: 100%;
-    /* overflow는 visible 로 두어야 아래쪽 검색박스가
-       hero 밖(흰 배경 영역)으로 자연스럽게 걸쳐 보입니다. */
     overflow: visible;
     display: flex;
     align-items: flex-start;
     justify-content: center;
     padding: 70px 20px 40px;
-
-    /* 이미지가 아직 없을 때 보일 기본 배경(fallback) */
-    background-color: #dfe4ea;
 }
 
-/* 블러 처리될 배경 이미지 레이어 (hero 안에서만 잘리도록 overflow: hidden) */
+
 .hero-bg {
     position: absolute;
     inset: 0;
     overflow: hidden;
     z-index: 0;
     border-radius: 0 0 24px 24px;
+    background-color: transparent; 
 }
 
 .hero-bg-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* 블러 처리 + 확대: 확대하지 않으면 블러 때문에
-       가장자리에 흐린 흰 테두리가 보일 수 있어 살짝 키워줍니다. */
     filter: blur(14px);
     transform: scale(1.15);
-}
-
-/* 이미지 위에 살짝 밝은 톤을 얹어 검색박스 텍스트 대비를 살립니다 */
-.hero-bg::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.25);
+    display: block;
 }
 
 .hero-inner {
@@ -187,9 +170,6 @@ a {
     transform: rotate(-45deg);
 }
 
-/* =========================================
-   공통 섹션
-========================================= */
 
 .home-section {
     padding: 48px 20px 8px;
@@ -218,10 +198,6 @@ a {
     color: #999999;
     text-decoration: underline;
 }
-
-/* =========================================
-   캐러셀 공통 (지역 칩 / 음식 카테고리 공용)
-========================================= */
 
 .carousel {
     position: relative;
@@ -257,10 +233,6 @@ a {
     opacity: 0.3;
     cursor: default;
 }
-
-/* =========================================
-   어디로 갈까요 - 지역 칩
-========================================= */
 
 .chip-scroll {
     display: flex;
@@ -314,9 +286,6 @@ a {
     margin-bottom: 2px;
 }
 
-/* =========================================
-   무엇을 먹을까요 - 음식 카테고리 카드
-========================================= */
 
 .food-section {
     padding-bottom: 56px;
@@ -367,8 +336,6 @@ a {
     color: #333333;
 }
 
-/* 카테고리별 배경색 (실제 사진 준비되면 각 클래스에
-   background-image: url('/images/food/xxx.jpg'); 로 교체) */
 .food-thumb-1  { background: #fdece0; }
 .food-thumb-2  { background: #fdf3d9; }
 .food-thumb-3  { background: #e3f2ee; }
@@ -379,10 +346,6 @@ a {
 .food-thumb-8  { background: #eef2e0; }
 .food-thumb-9  { background: #dff4f5; }
 .food-thumb-10 { background: #fbe6ee; }
-
-/* =========================================
-   반응형
-========================================= */
 
 @media (max-width: 768px) {
     .hero {
@@ -430,4 +393,50 @@ a {
         height: 30px;
         font-size: 16px;
     }
+}
+
+.hero-search-box {
+    position: relative;
+    overflow: visible;
+}
+
+.filter-button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    background: white;
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.filter-button.active {
+    background: #333;
+    color: white;
+}
+
+.filter-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    max-width: 90vw;
+    padding: 24px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+    z-index: 1000;
+}
+
+.filter-dropdown.active {
+    display: block;
+}
+
+.hero-greeting {
+    flex: 0 0 auto;
+    padding-right: 36px;
+    border-right: 1px solid #e2e8f0;
 }
