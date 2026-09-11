@@ -15,4 +15,6 @@ public interface IStoreDAO {
 	public int storeUpdate(StoreDTO dto);
 	public int storeDelete(int sno);
 	public List<StoreDTO> storeListBySno(List<Integer> snoList);
+	public List<StoreDTO> storeListBySsido(String ssido);
+	public List<StoreDTO> storeListByScategory(String scategory);
 }

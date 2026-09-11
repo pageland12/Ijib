@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +21,7 @@
 
         <main class="member-content">
             <h2>게시판</h2>
-            <table border=1 width=400>
+            <table border=1 width=800>
                 <tr>
                     <th>번호</th>
                     <th>제목</th>
@@ -47,7 +48,7 @@
 
             <br>
             <h2>후기</h2>
-            <table border=1 width=400>
+            <table border=1 width=800>
                 <tr>
                     <th>번호</th>
                     <th>사진</th>
@@ -61,8 +62,8 @@
                 <c:forEach var="rating" items="${rating}">
                     <tr>
                         <td>${rating.rno}</td>
-                        <td><img src="/images/${rating.sfiles}"></td>
-                        <td>${rating.rtitle}</td>
+                        <td><a href="/guest/storeView?sno=${rating.sno}"><img src="${fn:split(rating.sfiles, ',')[0]}" width="200"></a></td>
+                        <td><a href="/guest/storeView?sno=${rating.sno}">${rating.rtitle}</a></td>
                         <td>${rating.rrate}</td>
                         <td>${rating.mname}</td>
                         <td><fmt:formatDate value="${rating.rdate}" pattern="yyyy-MM-dd" /></td>
@@ -71,7 +72,6 @@
                     </tr>
                 </c:forEach>
             </table>
-            <a href="/member/memberMain">마이페이지</a>
         </main>
 
     </div>

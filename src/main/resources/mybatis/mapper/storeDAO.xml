@@ -8,6 +8,20 @@
 	     from store
 	     order by sno asc
 	</select>
+	
+	<select id="storeListBySsido" parameterType="String" resultType="com.springboot.ijib.dto.StoreDTO">
+	    select *
+	    from store
+	    where ssido = #{ssido}
+	    order by sno asc
+	</select>
+	
+	<select id="storeListByScategory" parameterType="String" resultType="com.springboot.ijib.dto.StoreDTO">
+	    select *
+	    from store
+	    where scategory = #{scategory}
+	    order by sno asc
+	</select>
 
 	<select id="storeView" resultType="com.springboot.ijib.dto.StoreDTO">
 	    select sno, sname, sfiles, scategory, skeyword,

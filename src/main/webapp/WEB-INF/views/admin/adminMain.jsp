@@ -8,7 +8,11 @@
 <link rel="stylesheet" href="/css/adminMain.css">
 </head>
 <body>
-
+	<c:if test="not empty ${msg}">
+		<script>alert</script>
+	</c:if>
+	
+	
     <!-- 상단 헤더 포함 -->
     <%@ include file="../guest/header.jsp" %>
 
@@ -48,6 +52,10 @@
                 <a href="/main">
                     <div class="admin-card">메인 홈</div>
                 </a>
+                
+                <button type="button" onclick="location.href='/admin/expiredPassUpdate'">
+                	전체 회원 구독권 검사
+                </button>
 
             </div>
         </div>
@@ -56,6 +64,6 @@
 
     <!-- 하단 푸터 포함 -->
     <%@ include file="../guest/footer.jsp" %>
-
+	
 </body>
 </html>
