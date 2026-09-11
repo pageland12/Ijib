@@ -24,15 +24,19 @@
                     <c:when test="${not empty list}">
                         <c:forEach var="bm" items="${list}">
                             <div class="store-card">
-                                <%-- 1. 가게 이미지 (sfiles 매핑) --%>
-                                <div class="card-img-wrap">
-                                    <c:if test="${not empty bm.sfiles}">
-                                        <a href="/guest/storeView?sno=${bm.sno}"><img src="${fn:split(bm.sfiles, ',')[0]}" alt="${bm.sname}" class="card-img" /></a>
-                                    </c:if>
-                                    <c:if test="${empty bm.sfiles}">
-                                        <div class="no-img">이미지 없음</div>
-                                    </c:if>
-                                </div>
+                                <%-- 1. 가게 이미지 --%>
+                                <a href="<c:url value='/guest/storeView?sno=${bm.sno}'/>" class="card-link">
+                                    <div class="card-img-wrap">
+                                        <c:choose>
+                                            <c:when test="${not empty bm.sfiles}">
+                                                <img src="${fn:split(bm.sfiles, ',')[0]}" alt="${bm.sname}" class="card-img" />
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="no-img">이미지 없음</div>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
+                                </a>
 
                                 <%-- 2. 카드 본문 정보 --%>
                                 <div class="card-body">
@@ -42,7 +46,9 @@
                                     </div>
 
                                     <div class="card-header">
-                                        <a href="/guest/storeView?sno=${bm.sno}"><h3 class="store-name">${bm.sname}</h3></a>
+                                        <h3 class="store-name">
+                                            <a href="<c:url value='/guest/storeView?sno=${bm.sno}'/>">${bm.sname}</a>
+                                        </h3>
                                         <a href="<c:url value='/member/bookmarkDelete?bmno=${bm.bmno}'/>" 
                                            class="bookmark-btn" 
                                            title="북마크 해제"
