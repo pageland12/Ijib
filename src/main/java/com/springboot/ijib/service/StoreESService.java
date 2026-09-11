@@ -14,6 +14,13 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 
 import com.springboot.ijib.dto.MenuESDTO;
 import com.springboot.ijib.dto.RatingESDTO;
@@ -106,5 +113,45 @@ public class StoreESService {
                 request,
                 RequestOptions.DEFAULT
         );
+    }
+    
+    // 내 주변 음식점 검색
+    public List<Map<String, Object>> nearbyStoreList(
+            double lat,
+            double lon,
+            double distanceKm) throws IOException {
+
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+
+        sourceBuilder.query(
+            QueryBuilders.geoDistanceQuery("location")
+                .point(lat, lon)
+                .distance(distanceKm, org.elasticsearch.common.unit.DistanceUnit.KILOMETERS)
+        );
+
+        // 가까운 순으로 정렬
+        sourceBuilder.sort(
+            SortBuilders.geoDistanceSort("location", lat, lon)
+                .order(SortOrder.ASC)
+        );
+
+        SearchRequest request = new SearchRequest("store");
+        request.source(sourceBuilder);
+
+        SearchResponse response =
+                client.search(request, RequestOptions.DEFAULT);
+
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        for (org.elasticsearch.search.SearchHit hit : response.getHits().getHits()) {
+            Map<String, Object> data = new HashMap<>(hit.getSourceAsMap());
+
+            // Elasticsearch 문서 ID
+            data.put("sno", Integer.parseInt(hit.getId()));
+
+            list.add(data);
+        }
+
+        return list;
     }
 }
