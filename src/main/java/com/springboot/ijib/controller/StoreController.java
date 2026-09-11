@@ -72,7 +72,7 @@ public class StoreController {
         model.addAttribute("page", page);
         model.addAttribute("totalPages", totalPages);
 
-        return "guest/storeListPage";   
+        return "guest/storeList";   
     }
 
     @RequestMapping("/admin/storeWriteForm")
