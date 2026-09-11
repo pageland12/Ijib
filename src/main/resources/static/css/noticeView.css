@@ -1,0 +1,164 @@
+@charset "UTF-8";
+
+/* 기본 배경 - 깔끔한 흰색 / 연한 쿨그레이 */
+body {
+    margin: 0;
+    padding: 0;
+    color: #222;
+    background-color: #f8f9fa;
+    font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+}
+
+/* 메인 레이아웃 (흰색 카드 형태) */
+.notice-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 40px auto 80px;
+    padding: 40px;
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+/* 상단 노티스 헤더 */
+.notice-page-header {
+    margin-bottom: 25px;
+}
+
+.notice-badge {
+    display: inline-block;
+    color: #173b67;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+}
+
+.notice-page-title {
+    margin: 0;
+    color: #111;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* 1. 게시글 헤더 */
+.notice-header {
+    margin-top: 20px;
+    margin-bottom: 16px;
+}
+
+.notice-title {
+    margin: 0 0 14px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #222;
+    line-height: 1.4;
+}
+
+.notice-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: #777;
+}
+
+.notice-meta strong {
+    color: #444;
+    font-weight: 600;
+}
+
+.meta-divider {
+    color: #dee2e6;
+    font-size: 11px;
+}
+
+/* 경계 구분선 */
+.notice-divider {
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid #e9ecef;
+}
+
+/* 2. 첨부 이미지 (본문 상단) */
+.notice-image-wrap {
+    margin: 25px 0;
+    text-align: left;
+}
+
+.notice-image-wrap img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    display: block;
+}
+
+/* 3. 본문 내용 */
+.notice-content {
+    min-height: 250px;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #333;
+    white-space: pre-wrap;
+    word-break: break-all;
+    margin: 20px 0;
+}
+/* 4. 하단 버튼 영역 스타일 */
+.notice-footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    background: none; /* 혹시 남아있을지 모를 배경 제거 */
+    padding: 0;
+}
+
+/* 기본 버튼 공통 (라운드 알약 모양) */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 26px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 50px; /* 양끝이 완전 둥근 알약 스타일 */
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* 목록 버튼 (블루 알약 스타일) */
+.btn-list {
+    background-color: #1a62d6; /* 첨부 이미지의 선명한 파란색 */
+    color: #ffffff !important;
+}
+
+.btn-list:hover {
+    background-color: #134db0;
+    box-shadow: 0 4px 10px rgba(26, 98, 214, 0.3);
+}
+
+/* 수정 버튼 */
+.btn-edit {
+    background-color: #173b67;
+    color: #ffffff !important;
+    margin-right: 6px;
+}
+
+.btn-edit:hover {
+    background-color: #102a4b;
+}
+
+/* 삭제 버튼 */
+.btn-delete {
+    background-color: #dc3545;
+    color: #ffffff !important;
+}
+
+.btn-delete:hover {
+    background-color: #bd2130;
+}
