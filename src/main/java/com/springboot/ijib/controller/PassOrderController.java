@@ -261,6 +261,6 @@ public class PassOrderController {
             rttr.addFlashAttribute("msg", "검증 처리 중 오류가 발생했습니다: " + e.getMessage());
         }
         
-        return "redirect:/admin/adminPassList";
+        return "redirect:/admin/adminMain";
     }
 }
