@@ -1,0 +1,353 @@
+@charset "UTF-8";
+
+.sv-wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+}
+
+/* ===== 캐러셀 ===== */
+.sv-carousel {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 420px;
+    margin-bottom: 24px;
+    background: #f4f5f7;
+}
+
+.sv-carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+.sv-carousel-slide {
+    flex: 0 0 100%;
+    height: 100%;
+}
+
+.sv-carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.sv-carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.35);
+    color: #ffffff;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.sv-carousel-arrow:hover {
+    background: rgba(0, 0, 0, 0.55);
+}
+
+.sv-carousel-arrow.prev { left: 14px; }
+.sv-carousel-arrow.next { right: 14px; }
+
+.sv-carousel-dots {
+    position: absolute;
+    bottom: 14px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    z-index: 5;
+}
+
+.sv-carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    border: none;
+    padding: 0;
+}
+
+.sv-carousel-dot.active {
+    background: #ffffff;
+}
+
+.sv-gallery-empty {
+    height: 420px;
+    border-radius: 16px;
+    background: #f4f5f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaaaaa;
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+/* ===== 헤더 정보 ===== */
+.sv-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eeeeee;
+    margin-bottom: 20px;
+}
+
+.sv-category-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #eef4ff;
+    color: #2f6fed;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.sv-name {
+    margin: 0 0 10px;
+    font-size: 26px;
+    font-weight: 800;
+    color: #222222;
+}
+
+.sv-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.sv-tag {
+    font-size: 12px;
+    color: #2f6fed;
+    background: #f4f8ff;
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+
+.sv-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+    color: #555555;
+}
+
+.sv-info-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    list-style: none;
+}
+
+.sv-info-icon {
+    flex-shrink: 0;
+    width: 18px;
+    text-align: center;
+}
+
+.sv-status-badge {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.sv-status-open {
+    background: #e8f6ee;
+    color: #1ea672;
+}
+
+.sv-status-close {
+    background: #fdecec;
+    color: #e0473f;
+}
+
+/* ===== 섹션 공통 ===== */
+.sv-section {
+    margin-bottom: 32px;
+}
+
+.sv-section h3 {
+    font-size: 18px;
+    color: #222222;
+    margin: 0 0 14px;
+}
+
+.sv-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #444444;
+    white-space: pre-line;
+}
+
+/* ===== 메뉴 ===== */
+.sv-menu-list {
+    border-top: 1px solid #eeeeee;
+}
+
+.sv-menu-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 4px;
+    border-bottom: 1px solid #f2f2f2;
+    font-size: 14px;
+}
+
+.sv-menu-name {
+    color: #333333;
+}
+
+.sv-menu-price {
+    flex-shrink: 0;
+    color: #2f6fed;
+    font-weight: 700;
+}
+
+/* ===== 후기 ===== */
+.rating-item {
+    padding: 16px;
+    margin-bottom: 10px;
+    border: 1px solid #eeeeee;
+    border-radius: 12px;
+}
+
+.rating-item strong {
+    font-size: 14px;
+    color: #222222;
+}
+
+.rating-rate {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 13px;
+    color: #ff9d00;
+    font-weight: 700;
+}
+
+.rating-meta {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #999999;
+}
+
+.rating-more-btn {
+    display: inline-block;
+    border: 1px solid #dfe3e8;
+    background: #ffffff;
+    color: #555555;
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.rating-more-btn:hover {
+    border-color: #2f6fed;
+    color: #2f6fed;
+}
+
+.sv-empty-review {
+    font-size: 14px;
+    color: #999999;
+}
+
+.rating-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.rating-modal-content {
+    position: relative;
+    background-color: white;
+    width: 600px;
+    max-width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 16px;
+    box-sizing: border-box;
+}
+
+.rating-close {
+    position: absolute;
+    top: 14px;
+    right: 20px;
+    font-size: 26px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #999999;
+}
+
+.rating-close:hover {
+    color: #555555;
+}
+
+/* ===== 하단 액션 버튼 ===== */
+.sv-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 24px;
+    border-top: 1px solid #eeeeee;
+}
+
+.sv-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.sv-btn-primary {
+    background: #2f6fed;
+    color: #ffffff;
+}
+
+.sv-btn-outline {
+    background: #ffffff;
+    color: #555555;
+    border: 1px solid #dfe3e8;
+}
+
+.sv-btn-danger {
+    background: #ffffff;
+    color: #e0473f;
+    border: 1px solid #f6cfcd;
+}
+
+@media (max-width: 640px) {
+    .sv-carousel { height: 260px; }
+    .sv-head { flex-direction: column; }
+}

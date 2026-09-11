@@ -35,4 +35,20 @@
 	    delete from store
 	     where sno = #{sno}
 	</delete>
+	
+	<select id="storeListBySno" parameterType="java.util.List" resultType="com.springboot.ijib.dto.StoreDTO">
+	    select sno, sname, sfiles, scategory, skeyword,
+	           scontent, saddr, slat, slong, stel,
+	           sinfo, sparking, sstatus, ssido, ssigungu
+	    from store
+	    where sno in
+	    <foreach collection="list"
+	             item="sno"
+	             open="("
+	             separator=","
+	             close=")">
+	        #{sno}
+	    </foreach>
+	    order by sno asc
+	</select>
 </mapper>

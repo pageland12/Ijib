@@ -102,4 +102,5 @@ public class StoreNameSearchController {
 
         return "guest/storeNameSearch";
     }
+    
 }

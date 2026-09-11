@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springboot.ijib.dao.IStoreDAO;
+import com.springboot.ijib.dao.IStoreSearchDAO;
 import com.springboot.ijib.dto.StoreDTO;
 import com.springboot.ijib.dto.StoreSearchDTO;
 
@@ -30,6 +31,9 @@ public class StoreSearchService {
 
     @Autowired
     private IStoreDAO storeDAO;
+    
+    @Autowired
+    private IStoreSearchDAO storeSearchDAO;
 
 
     // 음식점 검색
@@ -640,7 +644,9 @@ public class StoreSearchService {
             }
         }
 
-        // ES 검색 결과 → Oracle 상세정보 조회
+     // ES 검색 결과 → Oracle 상세정보 조회
+        System.out.println("===== ES 응답 총 건수 = " + response.getHits().getTotalHits().value + " =====");
+
         List<StoreSearchDTO> result =
             new ArrayList<>();
 
@@ -933,8 +939,10 @@ public class StoreSearchService {
 
             result.add(map);
         }
-
-
         return result;
+    }
+    
+    public List<StoreSearchDTO> searchStoresFromDb(StoreSearchDTO searchDTO) {
+        return storeSearchDAO.searchStores(searchDTO);
     }
 }

@@ -351,12 +351,6 @@ public class MemberController {
 	    return "redirect:/admin/memberView?mno=" + mdto.getMno();
 	}
 
-
-	@RequestMapping("/guest/ratingList")
-	public String ratingList(Model model) {
-	    return "guest/ratingList";
-	}
-
 	@RequestMapping("/guest/jusoPopup")
 	public String jusoPopup() {
 	    return "guest/jusoPopup";
