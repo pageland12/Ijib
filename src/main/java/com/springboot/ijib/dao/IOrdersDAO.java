@@ -12,6 +12,9 @@ public interface IOrdersDAO {
 	// 주문 목록: 회원
 	public List<OrdersDTO> mordersList(int mno);
 	
+	// 주문 상세
+	public OrdersDTO orderView(String ono);
+	
 	// 주문 목록 등록
 	public int orderInsert(OrdersDTO dto);
 	

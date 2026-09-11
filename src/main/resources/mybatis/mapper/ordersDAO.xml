@@ -15,6 +15,13 @@
 		 ORDER BY O.ONO DESC
 	</select>
 	
+	<!-- 주문 번호로 해당 주문 찾기 -->
+	<select id="orderView" resultType="com.springboot.ijib.dto.OrdersDTO">
+		SELECT ODATE, OSTATUS, MNO
+		  FROM ORDERS
+		 WHERE ONO = #{ono}
+	</select>
+	
 	<!-- 주문 목록 등록 -->
 	<insert id="orderInsert">
 		INSERT INTO ORDERS(ONO, OPRICE, OPAYMENT, ODATE, MNO)

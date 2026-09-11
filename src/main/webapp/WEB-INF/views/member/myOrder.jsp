@@ -9,8 +9,23 @@
 <title>주문 내역</title>
 <script>
 // 모달 열기
-function openRefundModal(paymentId, prodName) {
-    document.getElementById("modalPaymentId").value = paymentId;
+function openRefundModal(paymentId, prodName, status, odate) {
+    if (status === 'REFUND') {
+    	alert("이미 환불된 주문입니다.");
+    	return;
+    }
+    
+    // 주문일(odate) 기준 7일 계산
+    const orderDate = new Date(odate.replace(" ", "T"));
+    const limitDate = new Date(orderDate.getTime() + (7 * 24 * 60 * 60 * 1000));
+    const now = new Date();
+    
+    if (now > limitDate) {
+    	alert("걸제일로부터 7일이 경과하여 환불 신청이 불가능합니다.\n고객센터에 문의해주세요.");
+    	return;
+    }
+	
+	document.getElementById("modalPaymentId").value = paymentId;
     document.getElementById("modalProdName").innerText = prodName;
     document.getElementById("refundReasonSelect").value = "단순 변심";
     document.getElementById("customReasonBox").style.display = "none";
@@ -108,7 +123,7 @@ function submitRefund() {
                     <td>
                         <c:choose>
                             <c:when test="${order.ostatus eq 'PAID'}">
-                                <button type="button" onclick="openRefundModal('${order.ono}', '${order.pname}')">
+                                <button type="button" onclick="openRefundModal('${order.ono}', '${order.pname}', '${order.ostatus}', '${odates[status.index]}')">
                                     환불 신청
                                 </button>
                             </c:when>
