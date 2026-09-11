@@ -1,0 +1,251 @@
+@charset "UTF-8";
+@font-face {
+    font-family: 'SeochoBatang';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/2608211044@seochobatang-regular/seochobatang-regular/SeochoBatang-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #4d6a8a;
+    background-image: 
+        linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, transparent 35%, 
+        rgba(255, 255, 255, 0.1) 50%, transparent 75%, rgba(0, 0, 0, 0.08) 100%),
+        radial-gradient(circle at 50% 20%, #5d7b9d 0%, #3d5a7a 100%);
+    background-attachment: fixed; 
+    font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+}
+
+.premium-page {
+    width: 100%;
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 55px 45px 75px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(23, 40, 65, 0.2);
+    box-sizing: border-box;
+}
+
+/* 메인 영역 컨테이너 */
+.premium-page {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 20px 100px;
+}
+
+/* 상단 타이틀 영역 */
+.premium-header {
+    text-align: center;
+    padding: 20px 0 60px;
+}
+
+.premium-label {
+    display: none; /* 레퍼런스 스타일을 위해 상단 미니 라벨 숨김 (필요시 block으로 전환) */
+}
+
+.premium-header h1 {
+    margin: 0 0 16px;
+    color: #222;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.premium-description {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* 혜택 세션 (세로 리스트 형태) */
+.premium-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    margin-bottom: 70px;
+    border: none;
+}
+
+.benefit-item {
+    min-height: auto;
+    padding: 0;
+    border: none;
+}
+
+.benefit-number {
+    margin-bottom: 6px;
+    color: #333;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.benefit-item h3 {
+    display: inline-block;
+    margin: 0 0 6px;
+    color: #222;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+/* BENEFIT 01과 제목을 한 줄처럼 연출하기 위한 처리 */
+.benefit-number {
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.benefit-item p {
+    margin: 4px 0 0;
+    color: #666;
+    font-size: 13.5px;
+    line-height: 1.6;
+}
+
+.benefit-number::before {
+    content: "✓";
+    display: inline-block;
+    margin-right: 6px;
+    color: #173b67; 
+    font-weight: bold;
+}
+
+/* 상품 카드 영역 */
+.premium-product-section {
+    width: 100%;
+}
+
+.section-title {
+    display: none; /* 이미지 레이아웃에 맞춰 세션 타이틀은 숨김 처리 */
+}
+
+.premium-products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    align-items: stretch;
+}
+
+/* 이용권 상품 카드 */
+.premium-product {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #fff;
+    border: 1px solid #c9d0d8;
+    border-radius: 12px;
+    text-decoration: none;
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.premium-product:hover {
+    border-color: #173b67;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transform: none; /* Y축 이동 애니메이션 제거 */
+}
+
+/* 카드 상단 (이미지 영역) */
+.product-image {
+    width: 100%;
+    padding: 30px 15px 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+    text-align: center;
+}
+
+.product-image img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 140px;
+    margin: 0 auto;
+    object-fit: contain;
+    transition: none;
+}
+
+.premium-product:hover .product-image img {
+    transform: none;
+}
+
+/* 카드 하단 (구매하기 버튼 영역) */
+.product-buy {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    height: 48px;
+    min-height: 48px;
+    padding: 0;
+    border-top: 1px dashed #c9d0d8;
+    color: #555;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.product-buy .arrow {
+    color: #555;
+    font-size: 13px;
+    transition: none;
+}
+
+.premium-product:hover .product-buy .arrow {
+    transform: none;
+}
+
+/* 하단 안내문구 */
+.premium-notice {
+    margin-top: 40px;
+    padding-top: 0;
+    border-top: none;
+}
+
+.premium-notice p {
+    margin: 4px 0;
+    color: #888;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* 반응형 모바일 */
+@media screen and (max-width: 768px) {
+    .premium-page {
+        padding: 40px 16px 60px;
+    }
+
+    .premium-products {
+        grid-template-columns: 1fr;
+        max-width: 360px;
+        margin: 0 auto;
+    }
+}
+
+.premium-product {
+    position: relative;
+    overflow: hidden;
+}
+
+.premium-product::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: #173b67; /* 메인 컬러 */
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.premium-product:hover::before {
+    opacity: 1;
+}
+
+.premium-title-font {
+    font-family: 'SeochoBatang', serif !important;
+}

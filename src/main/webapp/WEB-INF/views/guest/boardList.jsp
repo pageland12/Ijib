@@ -12,8 +12,7 @@
 
     <title>게시판</title>
 
-    <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/css/boardList.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/boardList.css">
 
 </head>
 

@@ -1,0 +1,205 @@
+@charset "UTF-8";
+
+/* 1. 기본 배경 및 레이아웃 (남회색 실크 컨셉 유지) */
+body {
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #4d6a8a;
+    background-image: 
+        linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, transparent 35%, rgba(255, 255, 255, 0.1) 50%, transparent 75%, rgba(0, 0, 0, 0.08) 100%),
+        radial-gradient(circle at 50% 20%, #5d7b9d 0%, #3d5a7a 100%);
+    background-attachment: fixed;
+    font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+}
+
+/* 중앙 공통 컨테이너 */
+.pay-container {
+    width: 100%;
+    max-width: 520px; /* 주문/영수증에 최적화된 컴팩트 폭 */
+    margin: 60px auto;
+    padding: 45px 40px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(23, 40, 65, 0.2);
+    box-sizing: border-box;
+}
+
+/* ===================================================
+   [주문 / 결제 폼 - payForm]
+   =================================================== */
+.pay-title {
+    margin: 0 0 30px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #173b67;
+    text-align: center;
+    letter-spacing: -0.5px;
+}
+
+.order-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #eef2f6;
+}
+
+.order-info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    font-size: 14.5px;
+}
+
+.order-info-item span:first-child {
+    color: #777;
+    font-weight: 500;
+}
+
+.order-info-item span:last-child {
+    color: #222;
+    font-weight: 600;
+}
+
+/* 결제 금액 강조 */
+.order-info-item.total-price span:last-child {
+    font-size: 18px;
+    color: #173b67;
+    font-weight: 700;
+}
+
+/* 결제 버튼 */
+.btn-pay {
+    width: 100%;
+    height: 52px;
+    background-color: #173b67;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-pay:hover {
+    background-color: #102a4b;
+    transform: translateY(-2px);
+}
+
+
+/* ===================================================
+   [영수증 컨셉 주문 완료 - payResult]
+   =================================================== */
+.receipt-container {
+    position: relative;
+    border-top: 5px solid #173b67; /* 상단 포인트 컬러 바 */
+}
+
+/* 영수증 타이틀 아이콘 & 헤더 */
+.receipt-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.receipt-icon {
+    display: inline-block;
+    width: 42px;
+    height: 42px;
+    line-height: 42px;
+    background-color: #e8f0fe;
+    color: #173b67;
+    border-radius: 50%;
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+.receipt-header h2 {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #222;
+}
+
+.receipt-header p {
+    margin: 0;
+    font-size: 13.5px;
+    color: #777;
+}
+
+/* 영수증 점선 구분선 (Receipt Divider) */
+.receipt-divider {
+    margin: 25px 0;
+    border: none;
+    border-top: 2px dashed #d1d9e0;
+}
+
+/* 영수증 내역 리스트 */
+.receipt-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background-color: #f9fbfd;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #eaedf1;
+}
+
+.receipt-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    font-size: 13.5px;
+}
+
+.receipt-row span {
+    color: #666;
+}
+
+.receipt-row strong {
+    color: #222;
+    font-weight: 600;
+    word-break: break-all;
+}
+
+/* 버튼 그룹 */
+.receipt-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.btn-receipt {
+    flex: 1;
+    display: inline-block;
+    height: 46px;
+    line-height: 46px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.btn-receipt.secondary {
+    background-color: #f1f3f5;
+    color: #495057;
+}
+
+.btn-receipt.secondary:hover {
+    background-color: #e9ecef;
+}
+
+.btn-receipt.primary {
+    background-color: #173b67;
+    color: #ffffff;
+}
+
+.btn-receipt.primary:hover {
+    background-color: #102a4b;
+}

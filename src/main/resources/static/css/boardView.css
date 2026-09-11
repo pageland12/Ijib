@@ -1,0 +1,114 @@
+@charset "UTF-8";
+
+body {
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 게시판 전체 감싸는 박스 (상단 여백 포함) */
+.board-wrapper {
+    width: 100%;
+    max-width: 860px;
+    margin: 30px auto 60px;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* 이미지 속 카드 틀 */
+.board-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+/* COMMUNITY 카테고리 태그 */
+.board-category {
+    font-size: 11px;
+    font-weight: 700;
+    color: #4a5568;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+/* 이집어때 게시판 메인 타이틀 */
+.board-main-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0 0 28px 0;
+}
+
+/* 실제 게시글 제목 */
+.board-post-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0 0 12px 0;
+}
+
+/* 작성자 | 날짜 | 조회수 메타 정보 */
+.board-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #a0aec0;
+    margin-bottom: 20px;
+}
+
+.board-meta strong {
+    color: #718096;
+    font-weight: 600;
+}
+
+.board-meta .divider {
+    color: #e2e8f0;
+    font-size: 11px;
+}
+
+/* 구분선 */
+.board-line {
+    border: none;
+    border-top: 1px solid #edf2f7;
+    margin: 20px 0;
+}
+
+/* 본문 영역 */
+.board-content {
+    min-height: 220px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #2d3748;
+    white-space: pre-wrap;
+    word-break: break-all;
+    padding: 10px 0;
+}
+
+/* 하단 목록 버튼 영역 */
+.board-btn-wrap {
+    margin-top: 20px;
+    text-align: left;
+}
+
+/* 파란색 알약 버튼 */
+.btn-list {
+    display: inline-block;
+    padding: 8px 24px;
+    background-color: #1a62d6;
+    color: #ffffff !important;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 20px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-list:hover {
+    background-color: #134db0;
+}

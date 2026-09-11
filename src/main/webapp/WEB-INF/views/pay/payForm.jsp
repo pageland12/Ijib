@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
@@ -8,32 +7,37 @@
     <title>주문 / 결제</title>
     <!-- 포트원 V2 SDK 스크립트 -->
     <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/payStyle.css">
 </head>
 <body>
     <%@ include file="../guest/header.jsp" %>
     
-	<h2 class="pay-title">주문 / 결제</h2>
-	
-	<p>
-		<span>주문 상품</span>
-		<span>${prodName}</span>
-	</p>
-	
-	<p>
-		<span>주문자 이메일</span>
-		<span>${buyerEmail}</span>
-	</p>
-	
-	<p>
-		<span>결제 금액</span>
-		<span>${totalAmount}</span>
-	</p>
+    <main class="pay-container">
+        <h2 class="pay-title">주문 / 결제</h2>
+        
+        <div class="order-info-list">
+            <p class="order-info-item">
+                <span>주문 상품</span>
+                <span>${prodName}</span>
+            </p>
+            
+            <p class="order-info-item">
+                <span>주문자 이메일</span>
+                <span>${buyerEmail}</span>
+            </p>
+            
+            <p class="order-info-item total-price">
+                <span>결제 금액</span>
+                <span>${totalAmount}</span>
+            </p>
+        </div>
 
-    <p>
-	    <button type="button" onclick="requestPayment()">
-	        <fmt:formatNumber value="${totalAmount}" pattern="#,###" />원 결제하기
-	    </button>
-    </p>
+        <p class="btn-wrap">
+            <button type="button" class="btn-pay" onclick="requestPayment()">
+                <fmt:formatNumber value="${totalAmount}" pattern="#,###" />원 결제하기
+            </button>
+        </p>
+    </main>
 	
     <script th:inline="javascript">
         async function requestPayment() {
