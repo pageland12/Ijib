@@ -250,7 +250,7 @@ public class MemberController {
 	    return "redirect:/member/memberMain";
 	}
 	
-	// 예시: 나의 작성글 페이지 이동 시에도 view 모델 추가
+	// 나의 게시글
 	@RequestMapping("/member/myBoard")
 	public String myBoard(Authentication authentication, Model model) {
 	    String memail = authentication.getName();
