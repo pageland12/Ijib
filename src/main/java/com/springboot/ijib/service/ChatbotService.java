@@ -74,7 +74,7 @@ public class ChatbotService {
 		    for (StoreDTO s : stores) {
 		        // 기존 프로젝트의 상세 페이지 매핑 URL 형식에 맞게 sno를 연결합니다.
 		        // 예: /store/storeView?sno= 또는 /store/detail?sno=
-		        String detailUrl = "/store/storeView?sno=" + s.getSno();
+		        String detailUrl = "/guest/storeView?sno=" + s.getSno();
 
 		        sb.append(rank++).append(". <strong>").append(s.getSname()).append("</strong> ");
 		        
