@@ -14,4 +14,5 @@ public interface IStoreDAO {
 	public int storeWrite(StoreDTO dto);
 	public int storeUpdate(StoreDTO dto);
 	public int storeDelete(int sno);
+	public List<StoreDTO> storeListBySno(List<Integer> snoList);
 }

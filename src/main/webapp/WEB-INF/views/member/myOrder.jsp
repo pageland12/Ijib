@@ -11,8 +11,8 @@
 // 모달 열기
 function openRefundModal(paymentId, prodName, status, odate) {
     if (status === 'REFUND') {
-       alert("이미 환불된 주문입니다.");
-       return;
+    	alert("이미 환불된 주문입니다.");
+    	return;
     }
     
     // 주문일(odate) 기준 7일 계산
@@ -21,11 +21,11 @@ function openRefundModal(paymentId, prodName, status, odate) {
     const now = new Date();
     
     if (now > limitDate) {
-       alert("걸제일로부터 7일이 경과하여 환불 신청이 불가능합니다.\n고객센터에 문의해주세요.");
-       return;
+    	alert("걸제일로부터 7일이 경과하여 환불 신청이 불가능합니다.\n고객센터에 문의해주세요.");
+    	return;
     }
-   
-   document.getElementById("modalPaymentId").value = paymentId;
+	
+	document.getElementById("modalPaymentId").value = paymentId;
     document.getElementById("modalProdName").innerText = prodName;
     document.getElementById("refundReasonSelect").value = "단순 변심";
     document.getElementById("customReasonBox").style.display = "none";

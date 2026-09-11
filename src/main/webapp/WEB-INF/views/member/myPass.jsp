@@ -20,12 +20,8 @@
 
             <div class="pass-container">
                 <c:choose>
-                    <c:when test="${not empty pass}">
+                    <c:when test="${not empty start && not empty end}">
                         <div class="pass-card active-pass">
-                            <div class="pass-badge">이용 중</div>
-                            <div class="pass-icon-big">🎫</div>                            
-                            <h3 class="pass-title">${pname}</h3>
-                            
                             <div class="pass-dates">
                                 <div class="date-item">
                                     <span class="date-label">구독 시작일</span>

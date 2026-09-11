@@ -1,5 +1,6 @@
 package com.springboot.ijib.controller;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -132,6 +133,7 @@ public class PassOrderController {
 										HttpServletRequest request,
 										@AuthenticationPrincipal User user) {
 		Map<String, Object> result = new HashMap<>();
+		final long refundableDate = 7;
 		
 		// 1. 로그인 검증
 		if (user == null) {
@@ -149,17 +151,54 @@ public class PassOrderController {
 		}
 		
 		try {
+			// 2. 환불 기간(구매일 후 7일 이내) 및 주문 상태(PAID) 검증
+			OrdersDTO order = odao.orderView(ono);
+			if (order == null) {
+				result.put("success", false);
+				result.put("message", "존재하지 않는 주문 내역입니다.");
+				return result;
+			}
+			
+			LocalDateTime odate = order.getOdate();
+			LocalDateTime refundableLimit = odate.plusDays(refundableDate);
+			LocalDateTime now = LocalDateTime.now();
+			String ostatus = order.getOstatus(); 
+			
+			// 본인의 주문내역인지 확인
+			if (mno != order.getMno()) {
+				result.put("success", false);
+				result.put("message", "본인의 주문 내역만 환불 요청이 가능합니다.");
+				return result;
+			}
+			
+			// 이미 환불 처리된 주문인지 확인
+			if ("REFUND".equals(ostatus))  {
+				result.put("success", false);
+				result.put("message", "이미 환불 처리된 주문 내역입니다.");
+				return result;
+			}
+				
+			// 구매일로부터 7일 이내인 주문인지 확인
+			if (now.isAfter(refundableLimit)) {
+				result.put("success", false);
+				result.put("message", "환불 기간(" + refundableDate + "일)이 지나 환불이 불가능합니다.");
+				return result;
+			}
+			
 			// 3. 포트원 V2 취소 API 통신
 			poservice.cancelPortOnePayment(ono, reason);
 			
 			// 4. DB 트랜잭션, 주문 내역/회원 구독권 상태 갱신
 			String dbRole = poservice.refundPass(mno, ono);
 			
-			// 5. DB 권한과 세션 권한 비교 후 불일치 시 세션 인증 토큰 재발급
+			// 5. Elasticsearch의 주문 상태를 환불로 동기화
+			poEsservice.refundStatusUpdate(ono);
+			
+			// 6. DB 권한과 세션 권한 비교 후 불일치 시 세션 인증 토큰 재발급
 			if (!poservice.checkDBandSecurityAuth(dbRole, user.getAuthorities())) {
 				poservice.refreshUserAuthentication(dbRole, request);
 			}
-			
+		
 			result.put("success", true);
 			result.put("message", "환불 처리가 완료됐습니다.");
 			
