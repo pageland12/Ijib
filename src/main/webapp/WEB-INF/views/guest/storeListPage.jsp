@@ -9,9 +9,6 @@
 </head>
 <body>
     <%@ include file="../guest/header.jsp" %>
-
-    <%@ include file="../guest/search.jsp" %>
-
     <%@ include file="../guest/storeList.jsp" %>
 
     <br>

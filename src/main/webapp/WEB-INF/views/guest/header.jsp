@@ -19,21 +19,7 @@
         </a>
 
         <!-- 오른쪽: 검색창 + 로그인/로그아웃 + 햄버거 -->
-        <div class="header-right">
-            
-            <!-- [추가] 메인 페이지(/, /main)가 아닐 때만 검색창 표시 -->
-            <c:set var="currentURI" value="${pageContext.request.requestURI}" />
-            <c:if test="${currentURI != '/' && currentURI != '/main' && currentURI != '/WEB-INF/views/guest/main.jsp'}">
-                <form action="/guest/storeSearch" method="get" class="header-search">
-                    <button type="submit" class="search-btn" aria-label="검색">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
-                    </button>
-                    <input type="text" name="keyword" value="${keyword}" class="search-input" placeholder="장소, 메뉴명, 식당명을 입력하세요." autocomplete="off">
-                </form>
-            </c:if>
+        <div class="header-right">        
 
             <sec:authorize access="!isAuthenticated()">
                 <a href="/loginForm" class="auth-link">로그인</a>

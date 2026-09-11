@@ -1,0 +1,768 @@
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family:
+        "Noto Sans KR",
+        "Malgun Gothic",
+        Arial,
+        sans-serif;
+
+    color: #222;
+    background: #fff;
+
+    font-size: 14px;
+}
+
+.board-page {
+    width: 100%;
+    background: #fff;
+}
+
+
+.board-header {
+
+    width: calc(100% - 140px);
+    max-width: 1070px;
+
+    min-height: 160px;
+
+    margin: 0 auto;
+
+    background: #fff;
+
+    border-radius: 0 0 18px 18px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 30px 38px;
+
+    position: relative;
+
+    z-index: 10;
+}
+
+
+/* 왼쪽 */
+
+.board-header-left {
+
+    width: 325px;
+
+    flex-shrink: 0;
+}
+
+
+/* 페이지 제목 */
+
+.board-title {
+
+    font-size: 22px;
+
+    font-weight: 500;
+
+    color: #222;
+
+    margin-bottom: 25px;
+
+    letter-spacing: -0.7px;
+}
+
+
+/* 탭 */
+
+.board-tabs {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 32px;
+}
+
+
+.board-tab {
+
+    position: relative;
+
+    display: inline-block;
+
+    padding: 0 0 11px 0;
+
+    color: #aaa;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    transition: all 0.2s ease;
+}
+
+
+.board-tab:hover {
+
+    color: #222;
+}
+
+
+/* 현재 페이지 */
+
+.board-tab.active {
+
+    color: #1456d9;
+
+    font-weight: 500;
+}
+
+
+.board-tab.active::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    bottom: 0;
+
+    height: 1px;
+
+    background: #1456d9;
+}
+
+
+
+.board-header-line {
+
+    width: 1px;
+
+    height: 74px;
+
+    background: #d8dce4;
+
+    margin: 0 42px;
+}
+
+
+
+.board-search {
+
+    flex: 1;
+
+    min-width: 0;
+}
+
+
+.board-search form {
+
+    width: 100%;
+
+    margin: 0;
+}
+
+
+.search-box {
+
+    width: 100%;
+
+    height: 44px;
+
+    border: 1px solid #eeeeee;
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.10);
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 0 5px 0 14px;
+
+    background: #fff;
+}
+
+
+/* 돋보기 */
+
+.search-icon {
+
+    font-size: 27px;
+
+    line-height: 1;
+
+    color: #444;
+
+    transform: rotate(-20deg);
+
+    display: inline-block;
+
+    margin-right: 8px;
+
+    flex-shrink: 0;
+}
+
+
+/* 검색 input */
+
+.search-box input {
+
+    flex: 1;
+
+    min-width: 0;
+
+    height: 100%;
+
+    border: 0;
+
+    outline: none;
+
+    background: transparent;
+
+    font-size: 13px;
+
+    color: #333;
+}
+
+
+.search-box input::placeholder {
+
+    color: #b5b5b5;
+}
+
+
+/* 검색 버튼 */
+
+.search-box button {
+
+    width: 61px;
+
+    height: 36px;
+
+    border-radius: 20px;
+
+    border: 1px solid #1456d9;
+
+    background: #fff;
+
+    color: #1456d9;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+
+.search-box button:hover {
+
+    background: #1456d9;
+
+    color: #fff;
+}
+
+.board-container {
+
+    width: calc(100% - 194px);
+
+    max-width: 970px;
+
+    margin: 0 auto;
+
+    padding: 25px 0 80px;
+}
+
+
+
+.board-list {
+
+    width: 100%;
+
+    border-top: 1px solid #dedede;
+}
+
+
+/* 각각의 게시글 */
+
+.board-item {
+
+    width: 100%;
+
+    border-bottom: 1px solid #e5e5e5;
+
+    transition: background 0.2s ease;
+}
+
+
+.board-item:hover {
+
+    background: #fafafa;
+}
+
+
+/* 링크 */
+
+.board-item-link {
+
+    width: 100%;
+
+    min-height: 105px;
+
+    padding: 27px 10px 25px 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    text-decoration: none;
+
+    color: inherit;
+}
+
+
+/* 내용 */
+
+.board-item-content {
+
+    flex: 1;
+
+    min-width: 0;
+}
+
+
+/* 제목 */
+
+.board-item-title {
+
+    font-size: 15px;
+
+    font-weight: 500;
+
+    color: #222;
+
+    line-height: 1.5;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    margin-bottom: 9px;
+}
+
+
+/* 작성자 / 날짜 / 조회수 */
+
+.board-item-info {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    color: #999;
+
+    font-size: 11px;
+}
+
+
+.info-divider {
+
+    color: #ddd;
+}
+
+
+/* 오른쪽 화살표 */
+
+.board-arrow {
+
+    width: 32px;
+
+    flex-shrink: 0;
+
+    color: #c7cbd0;
+
+    font-size: 34px;
+
+    font-weight: 200;
+
+    text-align: right;
+
+    line-height: 1;
+}
+
+.secret-icon {
+
+    font-size: 12px;
+
+    margin-right: 5px;
+}
+
+.board-button-area {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-top: 25px;
+}
+
+
+.board-write-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    height: 40px;
+
+    padding: 0 20px;
+
+    border: 1px solid #222;
+
+    background: #fff;
+
+    color: #222;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    transition: all 0.2s ease;
+}
+
+
+.board-write-button:hover {
+
+    background: #222;
+
+    color: #fff;
+}
+
+
+.board-empty {
+
+    width: 100%;
+
+    padding: 80px 0;
+
+    text-align: center;
+
+    color: #999;
+
+    font-size: 13px;
+}
+
+
+.review-item {
+    width: 100%;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 0;
+}
+
+.review-card {
+    position: relative;
+    padding: 14px 0 15px 0;
+}
+
+
+.review-store {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+
+/* 식당 이름 버튼 */
+
+.review-store .store-name {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 90px;
+    height: 34px;
+
+    padding: 0 18px;
+
+    background-color: #173b67;
+    border: 1px solid #173b67;
+    border-radius: 18px;
+
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 500;
+
+    box-sizing: border-box;
+}
+
+
+/* 식당 이름 앞 아이콘 */
+
+.review-store .store-icon {
+    display: none;
+}
+
+
+
+.review-card .board-item-title {
+    color: #222;
+    font-size: 15px;
+    font-weight: 500;
+
+    line-height: 1.6;
+
+    margin-bottom: 7px;
+}
+
+
+.review-rating {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 7px;
+
+    font-size: 13px;
+}
+
+.review-rating .star {
+    color: #e7a900;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.review-rating .rating-number {
+    color: #555;
+    font-size: 13px;
+}
+
+.review-rating .rating-text {
+    color: #999;
+    font-size: 12px;
+    margin-left: 2px;
+}
+
+
+.review-card .board-item-info {
+    display: flex;
+    align-items: center;
+
+    color: #999;
+    font-size: 11px;
+}
+
+.review-card .info-divider {
+    margin: 0 9px;
+    color: #ddd;
+}
+
+
+
+@media screen and (max-width: 900px) {
+
+    .board-header {
+
+        width: calc(100% - 40px);
+
+        padding: 25px;
+
+        flex-wrap: wrap;
+    }
+
+
+    .board-header-left {
+
+        width: 280px;
+    }
+
+
+    .board-header-line {
+
+        margin: 0 20px;
+    }
+
+
+    .board-container {
+
+        width: calc(100% - 80px);
+    }
+
+}
+
+
+@media screen and (max-width: 700px) {
+
+    .board-header {
+
+        width: calc(100% - 20px);
+
+        padding: 25px 20px;
+
+        display: block;
+    }
+
+
+    .board-header-left {
+
+        width: 100%;
+    }
+
+
+    .board-header-line {
+
+        display: none;
+    }
+
+
+    .board-search {
+
+        margin-top: 25px;
+
+        width: 100%;
+    }
+
+
+    .board-tabs {
+
+        gap: 25px;
+    }
+
+
+    .board-container {
+
+        width: calc(100% - 40px);
+
+        padding-top: 20px;
+    }
+
+
+    .board-item-link {
+
+        padding: 22px 5px;
+
+        min-height: 90px;
+    }
+
+
+    .board-item-title {
+
+        font-size: 14px;
+    }
+
+
+    .board-item-info {
+
+        font-size: 10px;
+    }
+
+
+    .review-image {
+
+        width: 65px;
+
+        height: 65px;
+
+        margin-right: 15px;
+    }
+
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 45px;
+    margin-bottom: 30px;
+}
+
+
+/* 페이지 번호 */
+
+.page-number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 34px;
+    height: 34px;
+
+    border: 1px solid #e1e1e1;
+    border-radius: 50%;
+
+    background-color: #ffffff;
+
+    color: #777;
+    font-size: 13px;
+
+    text-decoration: none;
+
+    box-sizing: border-box;
+
+    transition: all 0.2s ease;
+}
+
+
+
+.page-number:hover {
+    border-color: #173b67;
+    color: #173b67;
+}
+
+
+.page-number.active {
+    background-color: #173b67;
+    border-color: #173b67;
+
+    color: #ffffff;
+
+    font-weight: 500;
+}
+
+
+
+.page-arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 34px;
+    height: 34px;
+
+    color: #777;
+
+    font-size: 16px;
+
+    text-decoration: none;
+
+    border-radius: 50%;
+
+    transition: all 0.2s ease;
+}
+
+
+.page-arrow:hover {
+    color: #173b67;
+    background-color: #f5f7fa;
+}

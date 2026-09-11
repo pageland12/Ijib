@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.springboot.ijib.dto.StoreDTO;
+import com.springboot.ijib.dto.StoreSearchDTO;
 
 @Mapper
 public interface IStoreDAO {
