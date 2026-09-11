@@ -1,5 +1,6 @@
 package com.springboot.ijib.controller;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,18 +9,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.springboot.ijib.dao.IBoardDAO;
 import com.springboot.ijib.dao.IMemberDAO;
 import com.springboot.ijib.dao.IRatingDAO;
 import com.springboot.ijib.dao.IStoreDAO;
-import com.springboot.ijib.dto.BoardDTO;
 import com.springboot.ijib.dto.MemberDTO;
 import com.springboot.ijib.dto.MemberESDTO;
-import com.springboot.ijib.dto.RatingDTO;
+import com.springboot.ijib.dto.MemberSearchDTO;
 import com.springboot.ijib.service.MemberESService;
+import com.springboot.ijib.service.MemberSearchService;
 import com.springboot.ijib.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -46,6 +46,9 @@ public class MemberController {
 	
 	@Autowired
 	private IStoreDAO sdao;
+	
+	@Autowired
+	private MemberSearchService memberSearchService;
 	
 	@RequestMapping("/")
 	public String root(Model model) {
@@ -332,13 +335,13 @@ public class MemberController {
 	@RequestMapping("/admin/adminUpdate")
 	public String adminUpdate(MemberDTO mdto) {
 
-	    // Oracle 회원정보 수정
+	    // 1. Oracle 회원정보 수정
 	    mdao.adminUpdate(mdto);
 
-	    // 수정된 회원정보 다시 조회
+	    // 2. int 타입인 mno를 전달 (에러 해결)
 	    MemberESDTO esDto = memberService.memberESData(mdto.getMno());
 
-	    // Elasticsearch 회원정보 수정
+	    // 3. Elasticsearch 회원정보 수정
 	    try {
 	        memberESService.memberSave(esDto);
 	    } catch (IOException e) {
@@ -359,5 +362,33 @@ public class MemberController {
 	    return "guest/jusoPopup";
 	}
 	
+	@RequestMapping("/admin/memberList")
+	public String memberList(Model model) {
+		model.addAttribute("list", mdao.memberList());
+		
+		return "admin/memberList";
+	}
+	
+	@RequestMapping("/admin/memberSearch")
+	public String memberSearch(
+	        MemberSearchDTO searchDTO,
+	        Model model) {
+
+	    try {
+
+	        List<MemberDTO> list =
+	                memberSearchService.search(searchDTO);
+
+	        model.addAttribute("list", list);
+
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        model.addAttribute("list", new ArrayList<>());
+	    }
+
+	    model.addAttribute("search", searchDTO);
+
+	    return "admin/memberList";
+	}
 	
 }

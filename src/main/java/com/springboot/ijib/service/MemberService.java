@@ -21,10 +21,12 @@ public class MemberService {
         MemberESDTO esDto = new MemberESDTO();
 
         esDto.setMno(member.getMno());
+        esDto.setMemail(member.getMemail());
         esDto.setMname(member.getMname());
         esDto.setMgender(member.getMgender());
         esDto.setMage(member.getMage());
         esDto.setMaddr(member.getMaddr());
+        esDto.setMtel(member.getMtel());
         esDto.setMauth(member.getMauth());
         esDto.setMdate(member.getMdate());
 
