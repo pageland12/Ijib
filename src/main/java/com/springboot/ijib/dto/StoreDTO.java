@@ -22,4 +22,5 @@ public class StoreDTO {
     private String sparking;
     private String sstatus;
     private List<MenuDTO> menus;
+    private double ratingAvg;
 }
