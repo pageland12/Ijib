@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>음식점 상세</title>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=15391f6ee0fb08be799838347829fce8"></script>
 <style>
     /* 후기 하나 */
     .rating-item {
@@ -57,8 +58,16 @@
     /* X 버튼 마우스 올렸을 때 */
     .rating-close:hover {
         color: #777;
+        
+        
     }
-
+	
+	#map {
+	    width: 100%;
+	    height: 350px;
+	    margin-top: 20px;
+	    margin-bottom: 20px;
+	}
 </style>
 <script>
     // 전체 후기 모달 열기
@@ -178,8 +187,62 @@
             alert("${msg}");
         </script>
     </c:if>
-
+	
+	<h3>위치</h3>
+		<div id="map"></div>
+	
+	<script>
+	    const latitude = ${view.slat};
+	    const longitude = ${view.slong};
+	
+	    const position = new kakao.maps.LatLng(
+	        latitude,
+	        longitude
+	    );
+	
+	    const mapContainer = document.getElementById("map");
+	
+	    const mapOption = {
+	        center: position,
+	        level: 3
+	    };
+	
+	    const map = new kakao.maps.Map(
+	        mapContainer,
+	        mapOption
+	    );
+	
+	    const marker = new kakao.maps.Marker({
+	        position: position
+	    });
+	
+	    marker.setMap(map);
+	
+	
+	    const nameElement = document.createElement("div");
+	
+	    nameElement.textContent = "${view.sname}";
+	
+	    nameElement.style.padding = "6px 10px";
+	    nameElement.style.background = "white";
+	    nameElement.style.border = "1px solid #333";
+	    nameElement.style.borderRadius = "5px";
+	    nameElement.style.fontSize = "14px";
+	    nameElement.style.fontWeight = "bold";
+	    nameElement.style.whiteSpace = "nowrap";
+	
+	
+	    const customOverlay = new kakao.maps.CustomOverlay({
+	        position: position,
+	        content: nameElement,
+	        yAnchor: 2.5
+	    });
+	
+	    customOverlay.setMap(map);
+	</script>
+	
 	<br>
+	
     <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

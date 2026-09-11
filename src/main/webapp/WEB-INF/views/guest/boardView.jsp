@@ -34,7 +34,6 @@
 			<td>${view.bcontent}</td>
 		</tr>
 	</table>
-	<a href="/guest/boardList">목록</a>
 	
     <%@ include file="../guest/footer.jsp" %>
 </body>

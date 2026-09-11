@@ -37,7 +37,6 @@
                 	<td><input type="text" name="rfeature" value="${update.rfeature}"></td>
                 </tr>	
 		</table>
-		<a href="/guest/ratingList">목록</a>
 		<input type="submit" value="등록" onclick="return check()">
 	</form>
 

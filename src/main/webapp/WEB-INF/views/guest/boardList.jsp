@@ -42,7 +42,6 @@
 			</tr>
 		</c:forEach>
 	</table>
-	<a href="/main">메인</a>
 	<a href="/board/boardWriteForm">게시글 작성</a>
 	<%@ include file="../guest/footer.jsp" %>
 </body>

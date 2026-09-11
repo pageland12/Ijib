@@ -30,7 +30,6 @@
 			</tr>
 		</c:forEach>
 	</table>
-	<a href="/main">메인</a>
 	<sec:authorize access="hasRole('ADMIN')">
 		<a href="/admin/noticeWriteForm">공지사항 작성</a>
 	</sec:authorize>

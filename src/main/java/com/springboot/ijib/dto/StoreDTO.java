@@ -15,8 +15,8 @@ public class StoreDTO {
     private String saddr;
     private String ssido;
     private String ssigungu;
-    private double slat;
-    private double slong;
+    private Double slat;
+    private Double slong;
     private String stel;
     private String sinfo;
     private String sparking;

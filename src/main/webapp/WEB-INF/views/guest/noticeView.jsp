@@ -42,7 +42,6 @@
 	<a href="/admin/noticeUpdateForm?nno=${view.nno}">수정</a>
 	<a href="/admin/noticeDelete?nno=${view.nno}">삭제</a>
 	</sec:authorize>
-	<a href="/guest/noticeList">목록</a>
 	
     <%@ include file="../guest/footer.jsp" %>
 </body>
