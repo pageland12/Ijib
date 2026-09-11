@@ -14,4 +14,6 @@ public class MemberESDTO {
     private String maddr;
     private String mauth;
     private Date mdate;
+    private String memail;
+    private String mtel;
 }
