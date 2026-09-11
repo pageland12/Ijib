@@ -151,6 +151,70 @@
             </a>
 
         </div>
+        <c:if test="${totalPage > 0}">
+
+    <div class="pagination">
+
+        <!-- 이전 -->
+        <c:if test="${startPage > 1}">
+
+            <a href="${pageContext.request.contextPath}/guest/boardList?pageNum=${startPage - 1}"
+               class="page-arrow">
+
+                &lt;
+
+            </a>
+
+        </c:if>
+
+
+        <!-- 페이지 번호 -->
+        <c:forEach
+            var="page"
+            begin="${startPage}"
+            end="${endPage}">
+
+            <c:choose>
+
+                <c:when test="${page == pageNum}">
+
+                    <span class="page-number active">
+                        ${page}
+                    </span>
+
+                </c:when>
+
+                <c:otherwise>
+
+                    <a href="${pageContext.request.contextPath}/guest/boardList?pageNum=${page}"
+                       class="page-number">
+
+                        ${page}
+
+                    </a>
+
+                </c:otherwise>
+
+            </c:choose>
+
+        </c:forEach>
+
+
+        <!-- 다음 -->
+        <c:if test="${endPage < totalPage}">
+
+            <a href="${pageContext.request.contextPath}/guest/boardList?pageNum=${endPage + 1}"
+               class="page-arrow">
+
+                &gt;
+
+            </a>
+
+        </c:if>
+
+    </div>
+
+</c:if>
 
     </main>
 
