@@ -99,9 +99,20 @@ function submitRefund() {
 </script>
 </head>
 <body>
+    <%@ include file="../guest/header.jsp" %>
+
+    <!-- 마이페이지 공통 레이아웃 구조 -->
+    <div class="member-page">
+
+        <!-- 마이페이지 사이드바 인클루드 -->
+        <jsp:include page="/WEB-INF/views/member/memberSidebar.jsp" />
+	<div class="content-title-area">
     <h2>주문 내역</h2>
+    </div>
     
-    <table border="1">
+	 <main class="member-content">
+	    <h2>게시판</h2>
+	    <table border=1 width=400>
         <thead>
             <tr>
                 <th>주문 번호</th>
@@ -169,5 +180,7 @@ function submitRefund() {
             </div>
         </div>
     </div>
+    
+    <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

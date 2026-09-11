@@ -9,6 +9,7 @@
 </head>
 <body>
     <%@ include file="../guest/header.jsp" %>
+	<jsp:include page="/WEB-INF/views/guest/headerSearch.jsp" />    
 	<h1>이집어때 프리미엄 콘텐츠  이용권 구매</h1>
 	<p>이집어때 프리미엄 콘텐츠 이용권을 구매하시면 다음과 같이 다양한 서비스를 이용하실 수 있습니다.</p>
 	<h3>혜택 1.</h3>

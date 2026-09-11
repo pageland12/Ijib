@@ -20,6 +20,9 @@ import com.springboot.ijib.service.StoreService;
 @Controller
 public class StoreController {
 
+    // 한 페이지에 보여줄 음식점 수 (4열 x 6행)
+    private static final int PAGE_SIZE = 24;
+
     @Autowired
     private StoreService service;
     
@@ -33,8 +36,42 @@ public class StoreController {
 	private IStoreDAO sdao;
     
     @RequestMapping("/guest/storeList")
-    public String storeList(Model model) {
-        model.addAttribute("list", sdao.storeList());
+    public String storeList(
+            @RequestParam(value = "page", required = false, defaultValue = "1")
+            int page,
+
+            Model model) {
+
+        List<StoreDTO> fullList = sdao.storeList();
+
+        int totalCount = fullList.size();
+        int totalPages = (int) Math.ceil((double) totalCount / PAGE_SIZE);
+
+        if (totalPages < 1) {
+            totalPages = 1;
+        }
+
+        if (page < 1) {
+            page = 1;
+        } else if (page > totalPages) {
+            page = totalPages;
+        }
+
+        int fromIndex = (page - 1) * PAGE_SIZE;
+        int toIndex = Math.min(fromIndex + PAGE_SIZE, totalCount);
+
+        List<StoreDTO> pageList;
+
+        if (fromIndex >= totalCount) {
+            pageList = new ArrayList<>();
+        } else {
+            pageList = fullList.subList(fromIndex, toIndex);
+        }
+
+        model.addAttribute("list", pageList);
+        model.addAttribute("page", page);
+        model.addAttribute("totalPages", totalPages);
+
         return "guest/storeListPage";   
     }
 
@@ -173,6 +210,34 @@ public class StoreController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return "redirect:/guest/storeList";
+    }
+    
+ // 오라클에 있는 모든 가게를 Elasticsearch에 재색인 (검색 결과 없음 문제 해결용, 1회성)
+    @RequestMapping("/admin/storeReindex")
+    public String storeReindex(Model model) {
+
+        List<StoreDTO> all = sdao.storeList();
+
+        int successCount = 0;
+        int failCount = 0;
+
+        for (StoreDTO store : all) {
+
+            try {
+                StoreESDTO esDto = service.storeESData(store.getSno());
+                esService.storeSave(esDto);
+                successCount++;
+
+            } catch (Exception e) {
+                failCount++;
+                System.out.println("===== 재색인 실패 sno = " + store.getSno() + " =====");
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("===== 재색인 완료 : 성공 " + successCount + "건 / 실패 " + failCount + "건 =====");
 
         return "redirect:/guest/storeList";
     }

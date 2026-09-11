@@ -1,0 +1,230 @@
+@charset "UTF-8";
+
+/* 검색 컨테이너 */
+.search-container-relative {
+    position: relative;
+    max-width: 720px;
+    margin: 20px auto 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 1. 상단 탭 (검색박스 중앙 위 배치) */
+.search-tab-group {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 12px;
+    width: 100%;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
+    color: #888888;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.tab-btn.active {
+    color: #1a56be;
+    font-weight: 700;
+    border-bottom: 2px solid #1a56be;
+}
+
+/* 2. 검색바 박스 */
+.search-form-wrap {
+    width: 100%;
+    position: relative;
+}
+
+.search-bar-box {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid #dcdfe6;
+    border-radius: 999px;
+    padding: 6px 14px 6px 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+
+.search-icon-left {
+    color: #888;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.search-input-field {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    background: transparent;
+    padding: 6px 0;
+}
+
+.btn-filter-trigger {
+    background: #fff;
+    border: 1px solid #1a56be;
+    color: #1a56be;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    margin-left: 8px;
+    flex-shrink: 0;
+    transition: all 0.2s;
+}
+
+.btn-filter-trigger:hover, 
+.btn-filter-trigger.active {
+    background: #1a56be;
+    color: #ffffff;
+}
+
+/* 3. 고급 필터 패널 (드롭다운) */
+.advanced-filter-panel {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 12px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    z-index: 1000;
+    max-height: 550px;
+    overflow-y: auto;
+}
+
+.advanced-filter-panel.open {
+    display: block;
+}
+
+.filter-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 16px;
+}
+
+.filter-panel-header h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0;
+    color: #333;
+}
+
+.filter-panel-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #999;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.filter-section {
+    margin-bottom: 20px;
+}
+
+.filter-section h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #444;
+    margin: 0 0 10px 0;
+}
+
+.filter-chip-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.filter-chip-group label {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #495057;
+    cursor: pointer;
+    user-select: none;
+}
+
+.filter-chip-group input[type="checkbox"],
+.filter-chip-group input[type="radio"] {
+    margin-right: 6px;
+}
+
+.filter-price-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.filter-price-row input[type="number"] {
+    width: 130px;
+    padding: 6px 10px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+#sigunguArea {
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #666;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.filter-panel-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid #eee;
+    margin-top: 20px;
+}
+
+.filter-reset-link {
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.filter-apply-btn {
+    background: #1a56be;
+    color: #fff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+}

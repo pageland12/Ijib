@@ -11,6 +11,7 @@
 </head>
 <body>
 	<%@ include file="../guest/header.jsp" %>
+	<jsp:include page="/WEB-INF/views/guest/headerSearch.jsp" />
     
 	<table border=1 width=400>
 		<tr>

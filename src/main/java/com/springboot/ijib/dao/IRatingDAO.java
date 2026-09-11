@@ -11,6 +11,12 @@ public interface IRatingDAO {
 	// 목록
 	public List<RatingDTO> ratingList(int sno);
 	
+    // 후기 전체 목록
+    public List<RatingDTO> ratingAllList(int start, int end);
+
+    // 후기 전체 개수
+    public int ratingAllCount();    
+    
 	// 일부 후기 조회
 	public List<RatingDTO> ratingPreview(int sno);
 	
