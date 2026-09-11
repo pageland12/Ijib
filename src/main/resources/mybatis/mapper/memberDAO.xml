@@ -62,5 +62,11 @@
 	     WHERE MNO=#{mno}
 	</update>
 	
+	<update id="adminUpdate">
+		UPDATE MEMBER
+		   SET MAUTH=#{mauth}, MSTATUS=#{mstatus}
+		 WHERE MNO=#{mno}
+	</update>
+	
 </mapper>
 
