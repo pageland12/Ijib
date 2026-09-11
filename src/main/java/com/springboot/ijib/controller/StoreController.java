@@ -241,5 +241,37 @@ public class StoreController {
 
         return "redirect:/guest/storeList";
     }
+    
+    @RequestMapping("/guest/nearby")
+    public String nearby(
+            @RequestParam("lat") double lat,
+            @RequestParam("lon") double lon,
+            Model model) {
+
+        try {
+            // Elasticsearch에서 현재 위치 반경 5km 음식점 sno 검색
+            List<Integer> snoList =
+                    esService.nearbyStoreSnoList(lat, lon, 5);
+
+            // 검색 결과가 없으면 빈 목록
+            if (snoList.isEmpty()) {
+                model.addAttribute("list", new ArrayList<StoreDTO>());
+            } else {
+                // sno를 이용해서 Oracle에서 실제 음식점 정보 조회
+                List<StoreDTO> list =
+                        sdao.storeListBySno(snoList);
+
+                model.addAttribute("list", list);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            // 오류가 발생해도 JSP는 정상적으로 열리도록
+            model.addAttribute("list", new ArrayList<StoreDTO>());
+        }
+
+        return "guest/storeListPage";
+    }
 
 }

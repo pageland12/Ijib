@@ -115,21 +115,25 @@ public class StoreESService {
         );
     }
     
-    // 내 주변 음식점 검색
-    public List<Map<String, Object>> nearbyStoreList(
+    // 내 주변 음식점 sno 검색
+    public List<Integer> nearbyStoreSnoList(
             double lat,
             double lon,
             double distanceKm) throws IOException {
 
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 
+        // 현재 위치 기준 반경 검색
         sourceBuilder.query(
             QueryBuilders.geoDistanceQuery("location")
                 .point(lat, lon)
-                .distance(distanceKm, org.elasticsearch.common.unit.DistanceUnit.KILOMETERS)
+                .distance(
+                    distanceKm,
+                    org.elasticsearch.common.unit.DistanceUnit.KILOMETERS
+                )
         );
 
-        // 가까운 순으로 정렬
+        // 가까운 음식점부터 정렬
         sourceBuilder.sort(
             SortBuilders.geoDistanceSort("location", lat, lon)
                 .order(SortOrder.ASC)
@@ -141,17 +145,14 @@ public class StoreESService {
         SearchResponse response =
                 client.search(request, RequestOptions.DEFAULT);
 
-        List<Map<String, Object>> list = new ArrayList<>();
+        List<Integer> snoList = new ArrayList<>();
 
-        for (org.elasticsearch.search.SearchHit hit : response.getHits().getHits()) {
-            Map<String, Object> data = new HashMap<>(hit.getSourceAsMap());
+        for (org.elasticsearch.search.SearchHit hit
+                : response.getHits().getHits()) {
 
-            // Elasticsearch 문서 ID
-            data.put("sno", Integer.parseInt(hit.getId()));
-
-            list.add(data);
+            snoList.add(Integer.parseInt(hit.getId()));
         }
 
-        return list;
+        return snoList;
     }
 }
