@@ -96,9 +96,20 @@ public class PassOrderService {
 	// 결제: 주문 내역/회원 구독권 등록
 	@Transactional(rollbackFor = Exception.class)
 	public String buyOrExtendPass(int mno, OrdersDTO odto, MemberPassesDTO mpdto) {
+		// 중복 결제 요청 1차 방어: 시간차가 있는 재요청 조회
+		String ono = odto.getOno();	// 발급 받은 주문 번호
+		OrdersDTO existingOrder = odao.orderView(ono);
+		if (existingOrder != null) {
+			MemberDTO member = mdao.memberView(mno);
+			return member != null ? member.getMauth() : "SUBSCRIBER";
+		}
+		
 		// 1. 주문 내역(Orders) 등록
 		odao.orderInsert(odto);
-		String ono = odto.getOno();	// 등록 후 발급 받은 주문 번호 저장
+		
+		// 동시성 등록 방어: 회원 레코드에 배타적 락(FOR UPDATE) 획득
+		// 다른 주문 혹은 환불 트랜잭션이 동일한 회원의 구독권을 연장 혹은 환불 중이라면, 여기서 대기함
+		mdao.memberViewForUpdate(mno);
 		
 		// 2. 해당 회원이 활성화된 구독권이 있는지 확인(있으면 가장 늦은 mpend 반환)
 		LocalDateTime latestMpend = mpdao.findActivePass(mno);
@@ -175,6 +186,24 @@ public class PassOrderService {
 	    }
 	}
 	
+	// 환불 선점: PAID -> REFUND_PENDING
+	@Transactional(rollbackFor = Exception.class)
+	public boolean markRefundPending(int mno, String ono) {
+	    OrdersDTO odto = new OrdersDTO();
+	    odto.setMno(mno);
+	    odto.setOno(ono);
+	    return odao.markRefundPending(odto) == 1;
+	}
+
+	// 환불 롤백: REFUND_PENDING -> PAID
+	@Transactional(rollbackFor = Exception.class)
+	public void rollbackRefundPending(int mno, String ono) {
+	    OrdersDTO odto = new OrdersDTO();
+	    odto.setMno(mno);
+	    odto.setOno(ono);
+	    odao.rollbackRefundOrder(odto);
+	}
+	
 	// 환불: 주문 내역/회원 구독권 상태 갱신
 	@Transactional(rollbackFor = Exception.class)
 	public String refundPass(int mno, String ono) {
@@ -186,8 +215,33 @@ public class PassOrderService {
 		mpdto.setMno(mno);
 		mpdto.setOno(ono);
 		
+		// 1차 방어: 멱등성 검증 (주문 정보 조회 및 상태 확인)
+		OrdersDTO order = odao.orderView(ono);
+		if (order == null) {
+			throw new IllegalArgumentException("존재하지 않는 주문 번호입니다. ono=" + ono);
+		}
+		
+		// 이미 환불 처리된 건이면 날짜 차감 없이 바로 현재 권한 반환
+		if ("REFUND".equalsIgnoreCase(order.getOstatus())) {
+			MemberDTO currentMember = mdao.memberView(mno);
+			return currentMember != null ? currentMember.getMauth() : "NORMAL";
+		}
+		
 		// 1. 주문 내역의 상태(ostatus)를 'REFUND'로 변경
-		odao.refundedOrderUpdate(odto);
+		int updatedCount = odao.refundedOrderUpdate(odto);
+		
+		// 2차 방어: 동시 진입 시 오직 한 스레드만 updatedCount에 1을 반환받음
+		// 업데이트가 안된 스레드는 0을 반환받음
+		if (updatedCount == 0) {
+		    // 0.001초 차이로 다른 스레드가 먼저 'REFUND'로 바꿨다는 뜻
+		    MemberDTO currentMember = mdao.memberView(mno);
+		    return currentMember != null ? currentMember.getMauth() : "NORMAL";
+		}
+		
+		// updatedCount가 1인 유일한 요청만 아래 코드를 실행
+		// 동시성 등록 방어: 회원 레코드에 배타적 락(FOR UPDATE) 획득
+		// 다른 주문 혹은 환불 트랜잭션이 동일한 회원의 구독권을 연장 혹은 환불 중이라면, 여기서 대기함
+		mdao.memberViewForUpdate(mno);
 		
 		// 2-1. 해당 회원 구독권 상태(mpstatus)를 'REFUND'로 변경
 		mpdao.refundedPassUpdate(mpdto);

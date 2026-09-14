@@ -28,11 +28,30 @@
 		 VALUES(#{ono}, #{oprice}, #{opayment}, SYSDATE, #{mno})
 	</insert>
 	
-	<!-- 주문 상태 갱신(환불) -->
+	<!-- 조건부 UPDATE: 오직 PAID 상태인 주문만 환불 진행 중으로 선점 -->
+	<update id="markRefundPending">
+	    UPDATE ORDERS
+	       SET OSTATUS = 'REFUND_PENDING'
+	     WHERE MNO = #{mno}
+	       AND ONO = #{ono}
+	       AND OSTATUS = 'PAID'
+	</update>
+	
+	<!-- PG 취소 실패 시 원래 상태로 원복 -->
+	<update id="rollbackRefundOrder">
+	    UPDATE ORDERS
+	       SET OSTATUS = 'PAID'
+	     WHERE MNO = #{mno}
+	       AND ONO = #{ono}
+	       AND OSTATUS = 'REFUND_PENDING'
+	</update>
+	
+	<!-- 최종 주문 상태 갱신(환불) -->
 	<update id="refundedOrderUpdate">
 		UPDATE ORDERS
 		   SET OSTATUS = 'REFUND'
 		 WHERE MNO = #{mno}
 		   AND ONO = #{ono}
+		   AND OSTATUS = 'REFUND_PENDING'
 	</update>
 </mapper>

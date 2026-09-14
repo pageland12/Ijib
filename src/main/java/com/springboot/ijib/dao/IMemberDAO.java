@@ -14,6 +14,9 @@ public interface IMemberDAO {
 		
 		//회원정보상세보기, 수정폼
 		public MemberDTO memberView(int mno);
+		
+		// 동시성 제어용 회원 레코드 비관적 락 조회
+		MemberDTO memberViewForUpdate(int mno);
 			
 		// 회원 등록
 		public int memberInsert(MemberDTO dto);
