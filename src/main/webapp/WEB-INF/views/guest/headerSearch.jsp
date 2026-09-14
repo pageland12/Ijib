@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!-- 분리된 CSS 불러오기 -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/headerSearch.css">
@@ -15,12 +16,21 @@
 
     <!-- 1. 통합 검색 영역 -->
     <div id="totalSearch" style="width: 100%; display: ${empty param.searchType || param.searchType == 'total' ? 'block' : 'none'};">
-        <form action="${pageContext.request.contextPath}/guest/storeSearch" method="get" class="search-form-wrap">
+        <form action="${pageContext.request.contextPath}/guest/storeSearch" method="get" class="search-form-wrap" onsubmit="return handleFilterSubmit(event)">
             <input type="hidden" name="searchType" value="total">
 
             <div class="search-bar-box">
                 <span class="search-icon-left">🔍</span>
-                <input type="text" name="keyword" value="${param.keyword}" placeholder="음식점이나 메뉴를 검색하세요" class="search-input-field" autocomplete="off">
+                <input type="text"
+			       id="totalKeyword"
+			       name="keyword"
+			       value="${param.keyword}"
+			       placeholder="음식점이나 메뉴를 검색하세요"
+			       class="search-input-field"
+			       autocomplete="off">
+			
+			<!-- 자동완성 -->
+			<div id="totalAutocomplete" class="autocomplete-box"></div>
                 <button type="button" id="filterToggleBtn" class="btn-filter-trigger" aria-label="필터" onclick="toggleFilterPanel()">
                     ⚙️
                 </button>
@@ -177,7 +187,16 @@
             <input type="hidden" name="searchType" value="store">
             <div class="search-bar-box">
                 <span class="search-icon-left">🔍</span>
-                <input type="text" name="keyword" value="${param.keyword}" placeholder="식당명을 입력하세요" class="search-input-field" autocomplete="off">
+                <input type="text"
+			       id="storeKeyword"
+			       name="keyword"
+			       value="${param.keyword}"
+			       placeholder="식당명을 입력하세요"
+			       class="search-input-field"
+			       autocomplete="off">
+			
+			<!-- 자동완성 -->
+			<div id="storeAutocomplete" class="autocomplete-box"></div>
                 <button type="submit" class="filter-apply-btn" style="padding: 6px 16px;">검색</button>
             </div>
         </form>
@@ -186,6 +205,34 @@
 </div>
 
 <script>
+/* 구독자 권한 확인 (Controller의 model값 + Security 권한을 종합 체크) */
+var isSubscriber = ${not empty isSubscriber and isSubscriber};
+
+<sec:authorize access="hasAnyRole('ROLE_SUBSCRIBER', 'SUBSCRIBER', 'ROLE_ADMIN', 'ADMIN')">
+    isSubscriber = true;
+</sec:authorize>
+
+/* 비구독자 알림 후 이동 */
+function alertSubscriberOnly() {
+    alert("상세 필터 검색 기능은 프리미엄 구독자 전용 혜택입니다.\n구독권 구매 페이지로 이동합니다.");
+    location.href = "${pageContext.request.contextPath}/guest/passList";
+}
+
+/* 폼 제출 (필터 적용 버튼 또는 Enter 검색) 핸들러 */
+function handleFilterSubmit(e) {
+    const panel = document.getElementById("advancedFilterPanel");
+
+    // 필터 패널이 열려 있는 상태에서 '필터 적용' 제출할 때만 비구독자 체크
+    if (panel && panel.classList.contains("open")) {
+        if (!isSubscriber) {
+            e.preventDefault();
+            alertSubscriberOnly();
+            return false;
+        }
+    }
+    return true;
+}
+
 /* 탭 전환 함수 */
 function changeSearchType(type) {
     const totalSearch = document.getElementById("totalSearch");
@@ -207,7 +254,7 @@ function changeSearchType(type) {
     }
 }
 
-/* 필터 토글 함수 */
+/* 필터 토글 함수 (⚙️ 버튼 클릭시 권한 상관없이 토글 가능) */
 function toggleFilterPanel(forceOpen) {
     const panel = document.getElementById("advancedFilterPanel");
     const btn = document.getElementById("filterToggleBtn");
@@ -291,5 +338,107 @@ function showSigungu() {
 
 document.addEventListener("DOMContentLoaded", function() {
     showSigungu();
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const totalKeyword = document.getElementById("totalKeyword");
+    const storeKeyword = document.getElementById("storeKeyword");
+
+    const totalAutocomplete = document.getElementById("totalAutocomplete");
+    const storeAutocomplete = document.getElementById("storeAutocomplete");
+
+    if (totalKeyword) {
+        totalKeyword.addEventListener("input", function () {
+
+            const keyword = this.value.trim();
+
+            if (keyword.length === 0) {
+                totalAutocomplete.innerHTML = "";
+                totalAutocomplete.style.display = "none";
+                return;
+            }
+
+            autocomplete(
+                keyword,
+                "total",
+                totalAutocomplete,
+                totalKeyword
+            );
+        });
+    }
+
+    if (storeKeyword) {
+        storeKeyword.addEventListener("input", function () {
+
+            const keyword = this.value.trim();
+
+            if (keyword.length === 0) {
+                storeAutocomplete.innerHTML = "";
+                storeAutocomplete.style.display = "none";
+                return;
+            }
+
+            autocomplete(
+                keyword,
+                "store",
+                storeAutocomplete,
+                storeKeyword
+            );
+        });
+    }
+
+    function autocomplete(
+        keyword,
+        searchType,
+        autocompleteBox,
+        input
+    ) {
+        fetch(
+            "${pageContext.request.contextPath}/guest/storeAutocomplete"
+            + "?keyword="
+            + encodeURIComponent(keyword)
+            + "&searchType="
+            + encodeURIComponent(searchType)
+        )
+        .then(response => response.json())
+        .then(data => {
+
+            autocompleteBox.innerHTML = "";
+
+            if (!data || data.length === 0) {
+                autocompleteBox.style.display = "none";
+                return;
+            }
+
+            data.forEach(function (item) {
+
+                const div = document.createElement("div");
+
+                div.className = "autocomplete-item";
+                div.innerHTML = item.highlight;
+
+                div.addEventListener("click", function () {
+
+                    input.value = item.sname;
+
+                    autocompleteBox.innerHTML = "";
+                    autocompleteBox.style.display = "none";
+                });
+
+                autocompleteBox.appendChild(div);
+            });
+
+            autocompleteBox.style.display = "block";
+        })
+        .catch(error => {
+
+            console.error("자동완성 오류:", error);
+
+            autocompleteBox.innerHTML = "";
+            autocompleteBox.style.display = "none";
+        });
+    }
+
 });
 </script>

@@ -12,7 +12,6 @@
 </head>
 <body>
     <%@ include file="../guest/header.jsp" %>
-    <jsp:include page="/WEB-INF/views/guest/boardSearch.jsp" />
     
     <div class="board-wrapper">
         <div class="board-card">

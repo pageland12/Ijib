@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,8 +42,10 @@
                                 <%-- 2. 카드 본문 정보 --%>
                                 <div class="card-body">
                                     <div class="card-badge-wrap">
-                                        <span class="badge badge-star">★★</span>
-                                        <span class="badge badge-tag">추천 맛집</span>
+                                        <span class="badge badge-star">
+										    ★ (<fmt:formatNumber value="${bm.ratingAvg}" pattern="0.0" />)
+										</span>
+                                        <span class="badge badge-tag">${bm.scategory}</span>
                                     </div>
 
                                     <div class="card-header">
@@ -57,7 +60,20 @@
                                         </a>
                                     </div>
 
-                                    <p class="store-category">#맛집 #추천식당</p>
+                                    <div class="store-card-hashtags">
+									    <c:choose>
+									        <c:when test="${not empty bm.skeyword}">
+									            <c:forEach var="tag" items="${fn:split(bm.skeyword, ',')}" varStatus="status">
+									                <c:if test="${status.index < 3}">
+									                    <div class="hashtag-row">#${fn:trim(tag)}</div>
+									                </c:if>
+									            </c:forEach>
+									        </c:when>
+									        <c:otherwise>
+									            <div class="hashtag-row">#이집어때 추천맛집</div>
+									        </c:otherwise>
+									    </c:choose>
+									</div>
                                     <p class="store-address">📍 ${bm.saddr}</p>
                                 </div>
                             </div>

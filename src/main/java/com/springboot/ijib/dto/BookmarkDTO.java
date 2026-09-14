@@ -10,4 +10,7 @@ public class BookmarkDTO {
 	private String sfiles;
 	private String sname;
 	private String saddr;
+	private String skeyword;
+	private String scategory;
+	private double ratingAvg;
 }

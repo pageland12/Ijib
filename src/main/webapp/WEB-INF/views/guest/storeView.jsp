@@ -22,7 +22,6 @@
 
     /* 전체 후기 모달 */
     .rating-modal {
-        /* 처음에는 숨김 */
         display: none;
         position: fixed;
         z-index: 1000;
@@ -57,11 +56,8 @@
         cursor: pointer;
     }
 
-    /* X 버튼 마우스 올렸을 때 */
     .rating-close:hover {
         color: #777;
-        
-        
     }
 	
 	#map {
@@ -87,6 +83,14 @@
         }
     }
 </script>
+
+<!-- 북마크 등록/중복 안내 알림창 처리 -->
+<c:if test="${not empty msg}">
+    <script>
+        alert("${msg}");
+    </script>
+</c:if>
+
 </head>
 <body>
     <%@ include file="../guest/header.jsp" %>
@@ -247,29 +251,23 @@
         </div>
 
         <%-- ===================== 액션 버튼 ===================== --%>
-        <div class="sv-actions">
-            <a href="/board/ratingWriteForm?sno=${view.sno}" class="sv-btn sv-btn-primary">후기 작성</a>
-            <a href="/member/bookmarkInsert?sno=${view.sno}" class="sv-btn sv-btn-outline">북마크</a>
-
-            <sec:authorize access="hasRole('ADMIN')">
-                <a href="/admin/storeUpdateForm?sno=${view.sno}" class="sv-btn sv-btn-outline">수정</a>
-                <a href="/admin/storeDelete?sno=${view.sno}" class="sv-btn sv-btn-danger">삭제</a>
-            </sec:authorize>
-
-            <a href="/guest/storeList" class="sv-btn sv-btn-outline">목록</a>
-        </div>
+		<div class="sv-actions">
+		    <a href="/board/ratingWriteForm?sno=${view.sno}" class="sv-btn sv-btn-primary">후기 작성</a>
+		    
+		    <a href="/guest/bookmarkInsert?sno=${view.sno}" class="sv-btn sv-btn-outline">북마크</a>
+		
+		    <sec:authorize access="hasRole('ADMIN')">
+		        <a href="/admin/storeUpdateForm?sno=${view.sno}" class="sv-btn sv-btn-outline">수정</a>
+		        <a href="/admin/storeDelete?sno=${view.sno}" class="sv-btn sv-btn-danger">삭제</a>
+		    </sec:authorize>
+		
+		    <a href="/guest/storeList" class="sv-btn sv-btn-outline">목록</a>
+		</div>
 
     </div>
 
-    <c:if test="${not empty msg}">
-        <script>
-            alert("${msg}");
-        </script>
-    </c:if>
-	
 	<h3>위치</h3>
-		<div id="map"></div>
-	
+    <div id="map"></div>
 
     <%@ include file="../guest/footer.jsp" %>
 
@@ -316,53 +314,51 @@
         resetTimer();
     })();
       
-     const latitude = ${view.slat};
-	    const longitude = ${view.slong};
-	
-	    const position = new kakao.maps.LatLng(
-	        latitude,
-	        longitude
-	    );
-	
-	    const mapContainer = document.getElementById("map");
-	
-	    const mapOption = {
-	        center: position,
-	        level: 3
-	    };
-	
-	    const map = new kakao.maps.Map(
-	        mapContainer,
-	        mapOption
-	    );
-	
-	    const marker = new kakao.maps.Marker({
-	        position: position
-	    });
-	
-	    marker.setMap(map);
-	
-	
-	    const nameElement = document.createElement("div");
-	
-	    nameElement.textContent = "${view.sname}";
-	
-	    nameElement.style.padding = "6px 10px";
-	    nameElement.style.background = "white";
-	    nameElement.style.border = "1px solid #333";
-	    nameElement.style.borderRadius = "5px";
-	    nameElement.style.fontSize = "14px";
-	    nameElement.style.fontWeight = "bold";
-	    nameElement.style.whiteSpace = "nowrap";
-	
-	
-	    const customOverlay = new kakao.maps.CustomOverlay({
-	        position: position,
-	        content: nameElement,
-	        yAnchor: 2.5
-	    });
-	
-	    customOverlay.setMap(map);
+    const latitude = ${view.slat};
+    const longitude = ${view.slong};
+
+    const position = new kakao.maps.LatLng(
+        latitude,
+        longitude
+    );
+
+    const mapContainer = document.getElementById("map");
+
+    const mapOption = {
+        center: position,
+        level: 3
+    };
+
+    const map = new kakao.maps.Map(
+        mapContainer,
+        mapOption
+    );
+
+    const marker = new kakao.maps.Marker({
+        position: position
+    });
+
+    marker.setMap(map);
+
+    const nameElement = document.createElement("div");
+
+    nameElement.textContent = "${view.sname}";
+
+    nameElement.style.padding = "6px 10px";
+    nameElement.style.background = "white";
+    nameElement.style.border = "1px solid #333";
+    nameElement.style.borderRadius = "5px";
+    nameElement.style.fontSize = "14px";
+    nameElement.style.fontWeight = "bold";
+    nameElement.style.whiteSpace = "nowrap";
+
+    const customOverlay = new kakao.maps.CustomOverlay({
+        position: position,
+        content: nameElement,
+        yAnchor: 2.5
+    });
+
+    customOverlay.setMap(map);
     </script>
 </body>
 </html>

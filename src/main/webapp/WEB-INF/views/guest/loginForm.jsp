@@ -3,37 +3,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>로그인</title>
-<script src="/js/loginForm.js"></script>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/member.css'/>">
+    <script src="/js/loginForm.js"></script>
 </head>
 <body>
     <%@ include file="../guest/header.jsp" %>
 
     <div class="login-wrapper">
-        <div class="login-container">
-            <h2 class="login-title">로그인</h2>
+        <div class="login-card">
+            <h2 class="login-title">로그인 <span>LOGIN</span></h2>
+            <div class="login-card-line"></div>
             
-            <form name="login" method="post" action="/j_spring_security_check">
-                <div class="form-group">
-                    <label class="form-label" for="memail">이메일</label>
-                    <input type="text" id="memail" name="memail" class="form-input" placeholder="이메일을 입력해 주세요" autofocus required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="mpasswd">비밀번호</label>
-                    <input type="password" id="mpasswd" name="mpasswd" class="form-input" placeholder="비밀번호를 입력해 주세요" required>
+            <form name="login" method="post" action="<c:url value='/j_spring_security_check'/>" onsubmit="return check()">
+                <div class="login-input-row">
+                    <div class="login-fields">
+                        <input type="text" id="memail" name="memail" class="login-input" placeholder="이메일" autofocus required>
+                        <input type="password" id="mpasswd" name="mpasswd" class="login-input" placeholder="비밀번호" required>
+                    </div>
+                    <button type="submit" class="login-submit-btn">로그인</button>
                 </div>
 
-                <div class="button-group">
-                    <input type="submit" class="btn-submit" value="로그인" onclick="return check()">
-                    <button type="button" class="btn-cancel" onclick="history.back()">취소</button>
+                <div class="login-sub-links">
+                    <a href="<c:url value='#'/>">아이디 찾기</a>
+                    <span class="dot">•</span>
+                    <a href="<c:url value='#'/>">비밀번호 찾기</a>
+                    <span class="dot">•</span>
+                    <a href="<c:url value='/guest/writeForm'/>">회원가입</a>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- 컨트롤러에서 msg가 넘어왔을 때만 alert 띄우기 -->
     <c:if test="${not empty msg}">
         <script>
             alert("${msg}");

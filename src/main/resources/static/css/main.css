@@ -440,3 +440,142 @@ a {
     padding-right: 36px;
     border-right: 1px solid #e2e8f0;
 }
+
+.random-section {
+    padding-top: 48px;
+    padding-bottom: 56px;
+}
+
+.random-section .section-head {
+    justify-content: flex-start;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.random-section .section-sub {
+    font-size: 13px;
+    color: #888888;
+}
+
+/* 기존 느낌을 세련되게 다듬은 중앙 정렬 카드 박스 */
+.random-card-box {
+    max-width: 600px;
+    margin: 0 auto; /* 중앙 정렬 */
+    padding: 40px 30px;
+    background: #fcfdfe; /* 아주 부드러운 푸른빛이 도는 흰색 */
+    border: 1px solid #eef1f6;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(135, 150, 180, 0.06); /* 부드러운 그림자 */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+/* 랜덤 뽑기 버튼 */
+.random-btn {
+    border: none;
+    padding: 13px 32px;
+    border-radius: 50px;
+    background: #2f6fed;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(47, 111, 237, 0.25);
+    transition: all 0.2s ease;
+}
+
+.random-btn:hover {
+    background: #1f5ed6;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(47, 111, 237, 0.35);
+}
+
+.random-btn:active {
+    transform: translateY(0);
+}
+
+/* 결과 표시 영역 */
+.random-result-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.result-label {
+    font-size: 14px;
+    color: #777777;
+    font-weight: 500;
+}
+
+/* 뽑힌 결과 카드 */
+.random-category-name {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 140px;
+    padding: 10px 24px;
+    background: #f4f7fe;
+    color: #2f6fed;
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: 12px;
+    border: 1px solid #dbe5fa;
+    transition: all 0.2s ease;
+}
+
+.random-category-link:hover .random-category-name {
+    background: #2f6fed;
+    color: #ffffff;
+    transform: scale(1.03);
+}
+
+/* 기본 대기 상태 */
+.random-category-name.empty {
+    background: #f8f9fa;
+    color: #aaaaaa;
+    border-color: #e9ecef;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+/* 결과 애니메이션 */
+.random-category-name.show {
+    animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .random-card-box {
+        padding: 32px 20px;
+        margin: 0 16px;
+    }
+    .random-category-name {
+        font-size: 18px;
+        padding: 8px 20px;
+    }
+}
+
+/* 1. '무엇을 먹을까요?' 섹션의 하단 여백을 다른 섹션(8px)과 통일 */
+.food-section {
+    padding-bottom: 8px;
+}
+
+/* 2. '오늘 뭐 먹지?' 섹션 스타일 정돈 */
+.random-section {
+    padding-top: 48px;     /* 상단 간격을 다른 home-section과 동일한 48px로 설정 */
+    padding-bottom: 56px;
+}
+
+/* 3. '오늘 뭐 먹지?' 제목과 아래 흰색 박스 사이 여백 통일 */
+.random-section .section-head {
+    margin-bottom: 22px;   /* 상단 섹션들의 제목 하단 간격(22px)과 동일하게 설정 */
+}

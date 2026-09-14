@@ -140,6 +140,7 @@
     overflow: hidden;
     text-decoration: none;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%; /* 카드 전체 높이 고정 */
 }
 
 .store-card:hover {
@@ -166,6 +167,7 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
+    flex: 1; /* 남은 빈 공간을 체워서 아래 주소를 밀어냄 */
 }
 
 .store-tag-row {
@@ -201,13 +203,23 @@
 .store-card-hashtags {
     font-size: 13px;
     color: #888888;
-    margin: 0;
+    margin: 4px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.hashtag-row {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .store-card-addr {
     font-size: 13px;
     color: #555555;
-    margin-top: 4px;
+    margin-top: auto; /* 상단 여백을 자동으로 채워 주소를 항상 맨 아래로 이동 */
+    padding-top: 8px; /* 해시태그와의 간격 유지 */
     display: flex;
     align-items: center;
     gap: 4px;
@@ -238,6 +250,10 @@
     color: #555555;
     font-size: 14px;
     text-decoration: none;
+}
+
+.pagination .page-btn {
+    cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
 }
 
 .page-btn.active {
