@@ -10,4 +10,5 @@ public class BookmarkDTO {
 	private String sfiles;
 	private String sname;
 	private String saddr;
+	private double ratingAvg;
 }

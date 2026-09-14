@@ -228,3 +228,36 @@
     cursor: pointer;
     font-size: 14px;
 }
+
+.search-bar-box {
+    position: relative;
+}
+
+.search-bar-box .autocomplete-box {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    z-index: 2000;
+}
+
+.search-bar-box .autocomplete-item {
+    padding: 13px 16px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.search-bar-box .autocomplete-item:hover {
+    background: #f5f5f5;
+}
+
+.search-bar-box .autocomplete-item em {
+    font-style: normal;
+    font-weight: 700;
+}

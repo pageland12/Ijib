@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +42,9 @@
                                 <%-- 2. 카드 본문 정보 --%>
                                 <div class="card-body">
                                     <div class="card-badge-wrap">
-                                        <span class="badge badge-star">★★</span>
+                                        <span class="badge badge-star">
+										    ★ (<fmt:formatNumber value="${bm.ratingAvg}" pattern="0.0" />)
+										</span>
                                         <span class="badge badge-tag">추천 맛집</span>
                                     </div>
 

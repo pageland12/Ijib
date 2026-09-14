@@ -1,6 +1,8 @@
 package com.springboot.ijib.controller;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,6 +17,7 @@ import com.springboot.ijib.dao.IBookmarkDAO;
 import com.springboot.ijib.dao.IMemberDAO;
 import com.springboot.ijib.dao.IStoreDAO;
 import com.springboot.ijib.dto.BookmarkDTO;
+import com.springboot.ijib.service.StoreESService;
 
 @Controller
 public class BookmarkController {
@@ -27,6 +30,9 @@ public class BookmarkController {
 
     @Autowired
     private IStoreDAO sdao;
+    
+    @Autowired
+    private StoreESService esService;
 
 
     @RequestMapping("/member/bookmarkInsert")
@@ -68,12 +74,22 @@ public class BookmarkController {
     @RequestMapping("/member/bookmarkList")
     public String bookmarkList(
             Model model,
-            @AuthenticationPrincipal User user) {
+            @AuthenticationPrincipal User user) throws IOException {
 
         String memail = user.getUsername();
         int mno = mdao.findByEmail(memail).getMno();
 
         List<BookmarkDTO> list = dao.bookmarkList(mno);
+
+        Map<Integer, Double> ratingMap = esService.storeRateAvg();
+
+        for (BookmarkDTO bookmark : list) {
+            Double ratingAvg = ratingMap.get(bookmark.getSno());
+
+            if (ratingAvg != null) {
+                bookmark.setRatingAvg(ratingAvg);
+            }
+        }
 
         model.addAttribute("list", list);
 
