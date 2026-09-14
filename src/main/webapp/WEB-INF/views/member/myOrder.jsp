@@ -7,6 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <title>주문 내역</title>
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/form.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/member.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/myOrder.css'/>">
 <script>
 // 모달 열기
 function openRefundModal(paymentId, prodName, status, odate) {
@@ -21,7 +24,7 @@ function openRefundModal(paymentId, prodName, status, odate) {
     const now = new Date();
     
     if (now > limitDate) {
-    	alert("걸제일로부터 7일이 경과하여 환불 신청이 불가능합니다.\n고객센터에 문의해주세요.");
+    	alert("결제일로부터 7일이 경과하여 환불 신청이 불가능합니다.\n고객센터에 문의해주세요.");
     	return;
     }
 	
@@ -30,7 +33,7 @@ function openRefundModal(paymentId, prodName, status, odate) {
     document.getElementById("refundReasonSelect").value = "단순 변심";
     document.getElementById("customReasonBox").style.display = "none";
     document.getElementById("customReasonText").value = "";
-    document.getElementById("refundModal").style.display = "block";
+    document.getElementById("refundModal").style.display = "flex"; // flex로 변경하여 중앙 정렬
 }
 
 // 모달 닫기
@@ -54,7 +57,6 @@ function submitRefund() {
     const selectVal = document.getElementById("refundReasonSelect").value;
     const customText = document.getElementById("customReasonText").value.trim();
 
-    // 최종 사유 결정
     let finalReason = selectVal;
     if (selectVal === "기타") {
         if (!customText) {
@@ -68,7 +70,6 @@ function submitRefund() {
         return;
     }
 
-    // 백엔드로 환불 요청 전송
     fetch("/pay/refund", {
         method: "POST",
         headers: {
@@ -83,7 +84,7 @@ function submitRefund() {
     .then(data => {
         if (data.success) {
             alert("환불 처리가 완료되었습니다.");
-            location.reload();				// 환불이 완료되면 페이지 새로고침
+            location.reload();
         } else {
             alert("환불 처리 실패: " + data.message);
         }
@@ -106,61 +107,73 @@ function submitRefund() {
 
         <!-- 마이페이지 사이드바 인클루드 -->
         <jsp:include page="/WEB-INF/views/member/memberSidebar.jsp" />
-	<div class="content-title-area">
-    <h2>주문 내역</h2>
+
+        <!-- 본문 영역을 sidebar 우측에 정확히 위치시키기 위해 통합 -->
+        <main class="member-content">
+            <div class="content-title-area">
+                <h2>주문 내역 <span>ORDERS</span></h2>
+            </div>
+            
+            <table class="order-table">
+                <thead>
+                    <tr>
+                        <th>주문 번호</th>
+                        <th>결제액</th>
+                        <th>결제 방법</th>
+                        <th>결제일</th>
+                        <th>상품 이름</th>
+                        <th>환불</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:choose>
+                        <c:when test="${empty orders}">
+                            <tr>
+                                <td colspan="6" style="padding: 40px; color: #777;">주문 내역이 존재하지 않습니다.</td>
+                            </tr>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach var="order" items="${orders}" varStatus="status">
+                                <tr>
+                                    <td>${order.ono}</td>
+                                    <td><fmt:formatNumber value="${order.oprice}" pattern="#,###" />원</td>
+                                    <td>${order.opayment}</td>
+                                    <td>${odates[status.index]}</td>
+                                    <td style="font-weight: 600; color: #222;">${order.pname}</td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${order.ostatus eq 'PAID'}">
+                                                <button type="button" class="btn-refund-sm" onclick="openRefundModal('${order.ono}', '${order.pname}', '${order.ostatus}', '${odates[status.index]}')">
+                                                    환불 신청
+                                                </button>
+                                            </c:when>
+                                            <c:when test="${order.ostatus eq 'REFUND'}">
+                                                <span class="status-refunded">환불 완료</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="status-none">-</span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                </tbody>
+            </table>
+        </main>
     </div>
     
-	 <main class="member-content">
-	    <h2>게시판</h2>
-	    <table border=1 width=400>
-        <thead>
-            <tr>
-                <th>주문 번호</th>
-                <th>결제액</th>
-                <th>결제 방법</th>
-                <th>결제일</th>
-                <th>상품 이름</th>
-                <th>환불</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach var="order" items="${orders}" varStatus="status">
-                <tr>
-                    <td>${order.ono}</td>
-                    <td><fmt:formatNumber value="${order.oprice}" pattern="#,###" />원</td>
-                    <td>${order.opayment}</td>
-                    <td>${odates[status.index]}</td>
-                    <td>${order.pname}</td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${order.ostatus eq 'PAID'}">
-                                <button type="button" onclick="openRefundModal('${order.ono}', '${order.pname}', '${order.ostatus}', '${odates[status.index]}')">
-                                    환불 신청
-                                </button>
-                            </c:when>
-                            <c:when test="${order.ostatus eq 'REFUND'}">
-                                <span>환불 완료</span>
-                            </c:when>
-                            <c:otherwise>
-                                <span>-</span>
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                </tr>
-            </c:forEach>
-        </tbody>
-    </table>
-    
     <!-- 환불 사유 입력 모달 영역 -->
-    <div id="refundModal" style="display: none;">
-        <div>
+    <div id="refundModal" class="custom-modal-overlay">
+        <div class="custom-modal-box">
             <h3>구독권 환불 신청</h3>
             <p><strong>상품명: </strong><span id="modalProdName"></span></p>
             
             <!-- 숨겨둘 paymentId -->
             <input type="hidden" id="modalPaymentId" value="" />
     
-            <div>
+            <div class="modal-form-group">
                 <label for="refundReasonSelect">환불 사유 선택</label>
                 <select id="refundReasonSelect" onchange="toggleCustomReason(this.value)">
                     <option value="단순 변심">단순 변심 / 서비스 불필요</option>
@@ -170,13 +183,13 @@ function submitRefund() {
                 </select>
             </div>
     
-            <div id="customReasonBox" style="display: none;">
+            <div id="customReasonBox" class="modal-form-group" style="display: none;">
                 <textarea id="customReasonText" placeholder="상세 사유를 입력해 주세요 (최대 100자)"></textarea>
             </div>
     
-            <div>
-                <button type="button" onclick="closeRefundModal()">취소</button>
-                <button type="button" onclick="submitRefund()">환불 확인</button>
+            <div class="modal-btn-group">
+                <button type="button" class="btn-modal-cancel" onclick="closeRefundModal()">취소</button>
+                <button type="button" class="btn-modal-confirm" onclick="submitRefund()">환불 확인</button>
             </div>
         </div>
     </div>

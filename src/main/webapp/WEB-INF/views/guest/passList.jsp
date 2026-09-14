@@ -11,6 +11,13 @@
 
 <link rel="stylesheet"
       href="${pageContext.request.contextPath}/css/passList.css">
+      
+<c:if test="${not empty msg}">
+    <script>
+        alert("${msg}");
+    </script>
+</c:if>
+
 </head>
 
 <body>

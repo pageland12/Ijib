@@ -7,8 +7,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>나의 게시글</title>
+<title>나의 활동 내역</title>
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/form.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/member.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/myBoard.css'/>">
 </head>
 <body>
     <%@ include file="../guest/header.jsp" %>
@@ -20,60 +22,104 @@
         <jsp:include page="/WEB-INF/views/member/memberSidebar.jsp" />
 
         <main class="member-content">
-            <h2>게시판</h2>
-            <table border=1 width=800>
-                <tr>
-                    <th>번호</th>
-                    <th>제목</th>
-                    <th>작성자</th>
-                    <th>작성일</th>
-                    <th>조회수</th>
-                    <th>비밀글 여부</th>
-                    <th>수정</th>
-                    <th>삭제</th>
-                </tr>
-                <c:forEach var="board" items="${board}">
-                    <tr>
-                        <td>${board.bno}</td>
-                        <td><a href="/guest/boardView?bno=${board.bno}">${board.btitle}</a></td>
-                        <td>${board.mname}</td>
-                        <td><fmt:formatDate value="${board.bdate}" pattern="yyyy-MM-dd" /></td>
-                        <td>${board.bhit}</td>
-                        <td>${board.bcategory}</td>
-                        <td><a href="/board/boardUpdateForm?bno=${board.bno}">수정</a></td>
-                        <td><a href="/board/boardDelete?bno=${board.bno}" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a></td>
-                    </tr>
-                </c:forEach>
-            </table>
+            
+            <!-- 게시글 섹션 -->
+            <div class="mypage-section">
+                <div class="content-title-area">
+                    <h2>내가 쓴 게시글 <span>BOARD</span></h2>
+                </div>
+                <table class="mypage-table">
+                    <thead>
+                        <tr>
+                            <th width="8%">번호</th>
+                            <th width="32%">제목</th>
+                            <th width="12%">작성자</th>
+                            <th width="12%">작성일</th>
+                            <th width="8%">조회수</th>
+                            <th width="10%">카테고리</th>
+                            <th width="10%">수정</th>
+                            <th width="10%">삭제</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:choose>
+                            <c:when test="${empty board}">
+                                <tr>
+                                    <td colspan="8" style="padding: 30px; color: #777;">작성한 게시글이 없습니다.</td>
+                                </tr>
+                            </c:when>
+                            <c:otherwise>
+                                <c:forEach var="b" items="${board}">
+                                    <tr>
+                                        <td>${b.bno}</td>
+                                        <td style="text-align: left; padding-left: 15px;">
+                                            <a href="/guest/boardView?bno=${b.bno}">${b.btitle}</a>
+                                        </td>
+                                        <td>${b.mname}</td>
+                                        <td><fmt:formatDate value="${b.bdate}" pattern="yyyy-MM-dd" /></td>
+                                        <td>${b.bhit}</td>
+                                        <td>${b.bcategory}</td>
+                                        <td><a href="/board/boardUpdateForm?bno=${b.bno}" class="btn-action btn-edit">수정</a></td>
+                                        <td><a href="/board/boardDelete?bno=${b.bno}" class="btn-action btn-delete" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a></td>
+                                    </tr>
+                                </c:forEach>
+                            </c:otherwise>
+                        </c:choose>
+                    </tbody>
+                </table>
+            </div>
 
-            <br>
-            <h2>후기</h2>
-            <table border=1 width=800>
-                <tr>
-                    <th>번호</th>
-                    <th>사진</th>
-                    <th>제목</th>
-                    <th>평점</th>
-                    <th>작성자</th>
-                    <th>작성일</th>
-                    <th>수정</th>
-                    <th>삭제</th>
-                </tr>
-                <c:forEach var="rating" items="${rating}">
-                    <tr>
-                        <td>${rating.rno}</td>
-                        <td><a href="/guest/storeView?sno=${rating.sno}"><img src="${fn:split(rating.sfiles, ',')[0]}" width="200"></a></td>
-                        <td><a href="/guest/storeView?sno=${rating.sno}">${rating.rtitle}</a></td>
-                        <td>${rating.rrate}</td>
-                        <td>${rating.mname}</td>
-                        <td><fmt:formatDate value="${rating.rdate}" pattern="yyyy-MM-dd" /></td>
-                        <td><a href="/board/ratingUpdateForm?rno=${rating.rno}">수정</a></td>
-                        <td><a href="/board/ratingDelete?rno=${rating.rno}" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a></td>
-                    </tr>
-                </c:forEach>
-            </table>
+            <!-- 후기 섹션 -->
+            <div class="mypage-section">
+                <div class="content-title-area">
+                    <h2>내가 쓴 후기 <span>REVIEW</span></h2>
+                </div>
+                <table class="mypage-table">
+                    <thead>
+                        <tr>
+                            <th width="8%">번호</th>
+                            <th width="12%">사진</th>
+                            <th width="30%">제목</th>
+                            <th width="10%">평점</th>
+                            <th width="10%">작성자</th>
+                            <th width="12%">작성일</th>
+                            <th width="9%">수정</th>
+                            <th width="9%">삭제</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:choose>
+                            <c:when test="${empty rating}">
+                                <tr>
+                                    <td colspan="8" style="padding: 30px; color: #777;">작성한 후기가 없습니다.</td>
+                                </tr>
+                            </c:when>
+                            <c:otherwise>
+                                <c:forEach var="r" items="${rating}">
+                                    <tr>
+                                        <td>${r.rno}</td>
+                                        <td>
+                                            <a href="/guest/storeView?sno=${r.sno}">
+                                                <img src="${fn:split(r.sfiles, ',')[0]}" class="review-thumb">
+                                            </a>
+                                        </td>
+                                        <td style="text-align: left; padding-left: 15px;">
+                                            <a href="/guest/storeView?sno=${r.sno}">${r.rtitle}</a>
+                                        </td>
+                                        <td>★ ${r.rrate}</td>
+                                        <td>${r.mname}</td>
+                                        <td><fmt:formatDate value="${r.rdate}" pattern="yyyy-MM-dd" /></td>
+                                        <td><a href="/board/ratingUpdateForm?rno=${r.rno}" class="btn-action btn-edit">수정</a></td>
+                                        <td><a href="/board/ratingDelete?rno=${r.rno}" class="btn-action btn-delete" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a></td>
+                                    </tr>
+                                </c:forEach>
+                            </c:otherwise>
+                        </c:choose>
+                    </tbody>
+                </table>
+            </div>
+
         </main>
-
     </div>
 
     <%@ include file="../guest/footer.jsp" %>

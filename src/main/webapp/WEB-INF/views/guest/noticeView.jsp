@@ -12,7 +12,6 @@
 </head>
 <body>
     <%@ include file="../guest/header.jsp" %>
-    <jsp:include page="/WEB-INF/views/guest/boardSearch.jsp" />
     
     <main class="notice-container">
         <!-- 상단 타이틀 영역 -->
