@@ -15,7 +15,7 @@
                 <c:otherwise><sec:authentication property="principal.username"/></c:otherwise>
             </c:choose>
         </span><span class="member-nim">님</span>
-        <a href="<c:url value='/member/passwordCheckForm?mode=update'/>" class="account-link">
+        <a href="<c:url value='/member/memberMain'/>" class="account-link">
             계정 관리 <span>›</span>
         </a>
     </div>

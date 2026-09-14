@@ -72,7 +72,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/guest/emailCheck")
-	public String idCheck(Model model, @RequestParam("memail") String memail) {
+	public String emailCheck(@RequestParam("memail") String memail, Model model) {
 		// isDuplicated는 중복이라면 true, 중복이 아니라면 false
 		boolean isDuplicated = (mdao.findByEmail(memail) != null);
 		

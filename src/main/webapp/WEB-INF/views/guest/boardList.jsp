@@ -1,8 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
-
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +14,7 @@
     <%@ include file="../guest/header.jsp" %>
     <c:set var="pageTitle" value="게시판" />
 
-    <!-- 인클루드 대신 기존 상단 헤더 코드를 직접 삽입 -->
+    <!-- 검색창 인클루드 대신 상단 헤더 직접 삽입 -->
     <div class="board-page">
         <div class="board-header">
             <div class="board-header-left">
@@ -46,13 +45,29 @@
                 <div class="board-item">
                     <c:choose>
                         <c:when test="${list.bcategory == '비밀글'}">
-                            <a href="${pageContext.request.contextPath}/guest/passwordCheckForm?bno=${list.bno}"
+
+                            <sec:authorize access="hasRole('ADMIN')" var="isAdmin" />
+                            <c:set var="isAuthor" value="${not empty loginMno && loginMno == list.mno}" />
+                            <c:set var="canView" value="${isAdmin || isAuthor}" />
+                            
+                            <a href="${pageContext.request.contextPath}${canView ? '/guest/boardView' : '/guest/passwordCheckForm'}?bno=${list.bno}"
                                class="board-item-link">
+                            
                                 <div class="board-item-content">
+                            
                                     <div class="board-item-title">
-                                        <span class="secret-icon">🔒</span>
-                                        비밀글입니다.
+                                        <c:choose>
+                                            <c:when test="${canView}">
+                                                <span class="secret-icon">🔒</span>
+                                                ${list.btitle}
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="secret-icon">🔒</span>
+                                                비밀글입니다.
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
+                            
                                     <div class="board-item-info">
                                         <span>${list.mname}</span>
                                         <span class="info-divider">|</span>
@@ -60,10 +75,15 @@
                                         <span class="info-divider">|</span>
                                         <span>조회 ${list.bhit}</span>
                                     </div>
+                            
                                 </div>
+                            
                                 <div class="board-arrow">›</div>
+                            
                             </a>
+
                         </c:when>
+
                         <c:otherwise>
                             <a href="${pageContext.request.contextPath}/guest/boardView?bno=${list.bno}"
                                class="board-item-link">

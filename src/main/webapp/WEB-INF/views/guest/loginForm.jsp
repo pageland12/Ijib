@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>로그인</title>
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/member.css'/>">
+    <script src="/js/loginForm.js"></script>
 </head>
 <body>
     <%@ include file="../guest/header.jsp" %>
@@ -15,7 +16,7 @@
             <h2 class="login-title">로그인 <span>LOGIN</span></h2>
             <div class="login-card-line"></div>
             
-            <form name="login" method="post" action="<c:url value='/j_spring_security_check'/>">
+            <form name="login" method="post" action="<c:url value='/j_spring_security_check'/>" onsubmit="return check()">
                 <div class="login-input-row">
                     <div class="login-fields">
                         <input type="text" id="memail" name="memail" class="login-input" placeholder="이메일" autofocus required>
