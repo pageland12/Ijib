@@ -364,11 +364,34 @@
         </div>
 
     </section>
-
-
+    
+	<!-- ===================== 오늘 뭐 먹지? ===================== -->
+	<section class="home-section random-section">
+	    <div class="section-inner">
+	        <div class="section-head">
+	            <h2>오늘 뭐 먹지? 🤔</h2>
+	            <span class="section-sub">고민될 땐 랜덤으로 골라보세요!</span>
+	        </div>
+	
+	        <!-- 원래의 중앙 집중형 박스 레이아웃을 다듬은 형태 -->
+	        <div class="random-card-box">
+	            <button type="button" class="random-btn" id="randomCategoryBtn">
+	                🎲 랜덤으로 뽑기
+	            </button>
+	
+	            <div class="random-result-area">
+				    <span class="result-label">오늘의 추천 카테고리는</span>
+				    <a href="#" class="random-category-link" id="randomCategoryLink">
+				        <span class="random-category-name empty" id="randomCategoryName">
+				            버튼을 눌러주세요
+				        </span>
+				    </a>
+				</div>
+	        </div>
+	    </div>
+	</section>
 
     <br>
-
 
     <!-- ===================== 푸터 ===================== -->
 
@@ -534,6 +557,46 @@
 	        }
 	    );
 	});
+	</script>
+	
+	<script>
+	    // 카테고리명과 해당하는 이모지를 객체 배열로 구성
+	    const randomCategoryData = [
+	        { name: "한식", emoji: "🍚" },
+	        { name: "중식", emoji: "🥟" },
+	        { name: "일식", emoji: "🍣" },
+	        { name: "양식", emoji: "🍝" },
+	        { name: "고기/구이", emoji: "🥩" },
+	        { name: "닭/오리", emoji: "🍗" },
+	        { name: "면/분식", emoji: "🍜" },
+	        { name: "국/탕/백반", emoji: "🍲" },
+	        { name: "해산물/회", emoji: "🦐" },
+	        { name: "카페/디저트", emoji: "🍰" }
+	    ];
+	
+	    const randomCategoryBtn = document.getElementById("randomCategoryBtn");
+	    const randomCategoryName = document.getElementById("randomCategoryName");
+	    const randomCategoryLink = document.getElementById("randomCategoryLink");
+	
+	    randomCategoryBtn.addEventListener("click", function () {
+	        // 1. 랜덤 인덱스 뽑기
+	        const randomIndex = Math.floor(Math.random() * randomCategoryData.length);
+	        const selected = randomCategoryData[randomIndex];
+	
+	        // 2. 이모지와 텍스트 함께 표시 (예: 🍣 일식)
+	        randomCategoryName.textContent = selected.emoji + " " + selected.name;
+	
+	        // 3. 스타일 클래스 적용 (empty 클래스 제거 및 애니메이션 재실행)
+	        randomCategoryName.classList.remove("empty");
+	        randomCategoryName.classList.remove("show");
+	        void randomCategoryName.offsetWidth; // 리플로우 강제 (애니메이션 리셋)
+	        randomCategoryName.classList.add("show");
+	
+	        // 4. 클릭 시 해당 카테고리 페이지로 이동하도록 URL 설정
+	        randomCategoryLink.href =
+	            "${pageContext.request.contextPath}/guest/storeList?scategory="
+	            + encodeURIComponent(selected.name);
+	    });
 	</script>
 
 </body>

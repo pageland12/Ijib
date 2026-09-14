@@ -9,17 +9,31 @@
             <if test="keyword != null and keyword != ''">
                 AND (sname LIKE '%' || #{keyword} || '%' OR scategory LIKE '%' || #{keyword} || '%')
             </if>
-            <if test="scategory != null and scategory.size() > 0">
+
+            <if test="scategoryList != null and scategoryList.size() > 0">
                 AND 
-                <foreach item="item" collection="scategory" open="(" separator=" OR " close=")">
+                <foreach item="item" collection="scategoryList" open="(" separator=" OR " close=")">
                     scategory LIKE '%' || #{item} || '%'
                 </foreach>
             </if>
+
+            <if test="skeywordList != null and skeywordList.size() > 0">
+                AND 
+                <foreach item="item" collection="skeywordList" open="(" separator=" OR " close=")">
+                    skeyword LIKE '%' || #{item} || '%'
+                </foreach>
+            </if>
+
             <if test="ssido != null and ssido != ''">
                 AND ssido = #{ssido}
             </if>
+
             <if test="sparking != null and sparking != ''">
                 AND sparking = #{sparking}
+            </if>
+
+            <if test="sstatus != null and sstatus != ''">
+                AND sstatus = #{sstatus}
             </if>
         </where>
         ORDER BY sno ASC

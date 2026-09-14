@@ -39,7 +39,6 @@ public class StoreSearchController {
     @Autowired
     private IMemberDAO mdao;
 
-
     // 음식점 검색
     @RequestMapping("/guest/storeSearch")
     public String storeSearch(
@@ -47,8 +46,6 @@ public class StoreSearchController {
             @RequestParam(value = "keyword", required = false, defaultValue = "")
             String keyword,
 
-            // total = 통합검색
-            // store = 음식점명 검색
             @RequestParam(value = "searchType", required = false, defaultValue = "total")
             String searchType,
 
@@ -82,20 +79,38 @@ public class StoreSearchController {
             @RequestParam(value = "sstatus", required = false)
             String sstatus,
 
-            // 페이지네이션 (기본 1페이지, 24개씩)
             @RequestParam(value = "page", required = false, defaultValue = "1")
             int page,
 
             Principal principal,
+            org.springframework.security.core.Authentication authentication,
 
             Model model) throws IOException {
 
-        // [개선 1] null 예외 방지를 위해 빈 ArrayList로 초기화
+        // 🔒 권한 체크 (SUBSCRIBER 또는 ADMIN 여부)
+        boolean isSubscriber = false;
+        if (authentication != null && authentication.isAuthenticated()) {
+            for (org.springframework.security.core.GrantedAuthority auth : authentication.getAuthorities()) {
+                String role = auth.getAuthority();
+                if ("ROLE_SUBSCRIBER".equals(role) || "SUBSCRIBER".equals(role) ||
+                    "ROLE_ADMIN".equals(role) || "ADMIN".equals(role)) {
+                    isSubscriber = true;
+                    break;
+                }
+            }
+        }
+
+        // 🔒 권한 없는 유저가 URL로 ?page=2 이상 직접 접근 시 1페이지로 고정
+        if (!isSubscriber && page > 1) {
+            page = 1;
+        }
+
+        // null 예외 방지를 위해 빈 ArrayList로 초기화
         List<StoreSearchDTO> result = new ArrayList<>();
         int totalPages = 1;
         int totalCount = 0;
 
-        // [개선 2] StringUtils.hasText() 사용하여 null 및 공백문자 안전 검사
+        // StringUtils.hasText() 사용하여 null 및 공백문자 안전 검사
         boolean hasKeyword = StringUtils.hasText(keyword);
         boolean hasCategory = scategory != null && !scategory.isEmpty();
         boolean hasSkeyword = skeyword != null && !skeyword.isEmpty();
@@ -113,8 +128,8 @@ public class StoreSearchController {
             StoreSearchDTO searchDTO = new StoreSearchDTO();
 
             searchDTO.setKeyword(keyword);
-            searchDTO.setScategory(scategory);
-            searchDTO.setSkeyword(skeyword);
+            searchDTO.setScategoryList(scategory); // 리스트 필드명으로 매핑 수정
+            searchDTO.setSkeywordList(skeyword);   // 리스트 필드명으로 매핑 수정
             searchDTO.setSsido(ssido);
             searchDTO.setSsigungu(ssigungu);
             searchDTO.setSinfo(sinfo);
@@ -128,7 +143,6 @@ public class StoreSearchController {
             List<StoreSearchDTO> searchList = storeSearchService.search(searchDTO, searchType);
 
             if (searchList != null) {
-                // 1-1. 페이지네이션 처리 (24개씩, 숫자 페이지)
                 totalCount = searchList.size();
                 totalPages = (int) Math.ceil((double) totalCount / PAGE_SIZE);
 
@@ -149,29 +163,17 @@ public class StoreSearchController {
                     result = searchList.subList(fromIndex, toIndex);
                 }
                 
-                // Elasticsearch에서 음식점별 평균 별점 가져오기
                 try {
-
-                    Map<Integer, Double> ratingMap =
-                            esService.storeRateAvg();
+                    Map<Integer, Double> ratingMap = esService.storeRateAvg();
 
                     for (StoreSearchDTO store : result) {
-
-                        Double ratingAvg =
-                                ratingMap.get(store.getSno());
-
+                        Double ratingAvg = ratingMap.get(store.getSno());
                         if (ratingAvg != null) {
-
                             store.setRatingAvg(ratingAvg);
-
                         }
-
                     }
-
                 } catch (Exception e) {
-
                     e.printStackTrace();
-
                 }
             }
 
@@ -218,7 +220,7 @@ public class StoreSearchController {
             );
         }
 
-        // JSP 전달 (JSP 헤더/필터에서 다시 보여주기 위한 모델 바인딩)
+        // JSP 전달
         model.addAttribute("keyword", keyword);
         model.addAttribute("searchType", searchType);
 
@@ -240,6 +242,7 @@ public class StoreSearchController {
         model.addAttribute("page", page);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("totalCount", totalCount);
+        model.addAttribute("isSubscriber", isSubscriber);
 
         return "guest/storeSearch";
     }

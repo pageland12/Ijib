@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,30 +36,44 @@ public class StoreController {
     @Autowired
     private IRatingDAO rdao;
     
-	@Autowired
-	private IStoreDAO sdao;
+    @Autowired
+    private IStoreDAO sdao;
     
-	@RequestMapping("/guest/storeList")
-	public String storeList(
-	        @RequestParam(value = "page", required = false, defaultValue = "1")
-	        int page,
-	        @RequestParam(value = "ssido", required = false)
-	        String ssido,
-	        @RequestParam(value = "scategory", required = false)
-	        String scategory,
-	        Model model) {
+    @RequestMapping("/guest/storeList")
+    public String storeList(
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "ssido", required = false) String ssido,
+            @RequestParam(value = "scategory", required = false) String scategory,
+            Authentication authentication,
+            Model model) {
 
-		List<StoreDTO> fullList;
+        // 1. 로그인 유저의 권한 체크 (SUBSCRIBER 또는 ADMIN 인지 확인)
+        boolean isSubscriber = false;
+        if (authentication != null && authentication.isAuthenticated()) {
+            for (GrantedAuthority auth : authentication.getAuthorities()) {
+                String role = auth.getAuthority();
+                if ("ROLE_SUBSCRIBER".equals(role) || "SUBSCRIBER".equals(role) ||
+                    "ROLE_ADMIN".equals(role) || "ADMIN".equals(role)) {
+                    isSubscriber = true;
+                    break;
+                }
+            }
+        }
 
-		if (ssido != null && !ssido.isEmpty()) {
-		    fullList = sdao.storeListBySsido(ssido);
+        // 2. 권한이 없는 유저가 주소창(URL)으로 page=2 이상 직접 들어왔을 때 1페이지로 고정
+        if (!isSubscriber && page > 1) {
+            page = 1;
+        }
 
-		} else if (scategory != null && !scategory.isEmpty()) {
-		    fullList = sdao.storeListByScategory(scategory);
+        List<StoreDTO> fullList;
 
-		} else {
-		    fullList = sdao.storeList();
-		}
+        if (ssido != null && !ssido.isEmpty()) {
+            fullList = sdao.storeListBySsido(ssido);
+        } else if (scategory != null && !scategory.isEmpty()) {
+            fullList = sdao.storeListByScategory(scategory);
+        } else {
+            fullList = sdao.storeList();
+        }
 
         int totalCount = fullList.size();
         int totalPages = (int) Math.ceil((double) totalCount / PAGE_SIZE);
@@ -84,19 +100,14 @@ public class StoreController {
         }
         
         try {
-            Map<Integer, Double> ratingMap =
-                    esService.storeRateAvg();
+            Map<Integer, Double> ratingMap = esService.storeRateAvg();
 
             for (StoreDTO store : pageList) {
-
-                Double ratingAvg =
-                        ratingMap.get(store.getSno());
-
+                Double ratingAvg = ratingMap.get(store.getSno());
                 if (ratingAvg != null) {
                     store.setRatingAvg(ratingAvg);
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -104,6 +115,9 @@ public class StoreController {
         model.addAttribute("list", pageList);
         model.addAttribute("page", page);
         model.addAttribute("totalPages", totalPages);
+        model.addAttribute("ssido", ssido);         
+        model.addAttribute("scategory", scategory);   
+        model.addAttribute("isSubscriber", isSubscriber); // ★ 권한 정보를 JSP로 전달
 
         return "guest/storeList";   
     }
@@ -146,7 +160,7 @@ public class StoreController {
             StoreESDTO esDto = service.storeESData(dto.getSno());
             esService.storeSave(esDto);
         } catch (Exception e) {
-        	System.out.println("===== Elasticsearch 저장 실패 =====");
+            System.out.println("===== Elasticsearch 저장 실패 =====");
             e.printStackTrace();
         }
 
@@ -235,7 +249,7 @@ public class StoreController {
     @RequestMapping("/admin/storeDelete")
     public String storeDelete(@RequestParam("sno") int sno) {
 
-    	service.storeDelete(sno);
+        service.storeDelete(sno);
 
         try {
             esService.storeDelete(sno);
@@ -247,7 +261,7 @@ public class StoreController {
         return "redirect:/guest/storeList";
     }
     
- // 오라클에 있는 모든 가게를 Elasticsearch에 재색인 (검색 결과 없음 문제 해결용, 1회성)
+    // 오라클에 있는 모든 가게를 Elasticsearch에 재색인 (검색 결과 없음 문제 해결용, 1회성)
     @RequestMapping("/admin/storeReindex")
     public String storeReindex(Model model) {
 
