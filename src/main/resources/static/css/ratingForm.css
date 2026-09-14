@@ -1,0 +1,152 @@
+@charset "UTF-8";
+@charset "UTF-8";
+
+body {
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 전체 감싸는 레이아웃 박스 */
+.rating-wrapper {
+    width: 100%;
+    max-width: 860px;
+    margin: 30px auto 60px;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* 카드 형태 컨테이너 */
+.rating-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+/* 상단 카테고리 태그 */
+.rating-category {
+    font-size: 11px;
+    font-weight: 700;
+    color: #4a5568;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+/* 메인 타이틀 */
+.rating-main-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0 0 28px 0;
+}
+
+/* 폼 테이블 대체 그리드 구조 */
+.rating-form-table {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-row-group {
+    display: flex;
+    gap: 20px;
+}
+
+.form-row-group .form-group {
+    flex: 1;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+/* 입력 필드 공통 스타일 */
+.form-group input[type="text"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #2d3748;
+    box-sizing: border-box;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input[type="text"]:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #2f6fed;
+}
+
+.form-group textarea {
+    min-height: 200px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+/* 구분선 */
+.rating-line {
+    border: none;
+    border-top: 1px solid #edf2f7;
+    margin: 28px 0;
+}
+
+/* 하단 버튼 영역 */
+.rating-action-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 버튼 공통 및 개별 스타일 (기존 목록/삭제 버튼과 규격 일치) */
+.btn-list,
+.btn-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    padding: 0 20px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    border: none;
+    transition: background-color 0.2s ease;
+}
+
+.btn-list {
+    background-color: #f1f3f5;
+    color: #495057 !important;
+}
+
+.btn-list:hover {
+    background-color: #e2e6ea;
+}
+
+.btn-submit {
+    background-color: #2f6fed;
+    color: #ffffff;
+}
+
+.btn-submit:hover {
+    background-color: #1f5ed6;
+}
