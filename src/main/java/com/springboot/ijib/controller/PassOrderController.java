@@ -81,41 +81,71 @@ public class PassOrderController {
 	public Map<String, Object> paySuccess(@RequestBody Map<String, Object> reqData,
 										HttpServletRequest request,
 										@AuthenticationPrincipal User user) {
-		// 1. JS에서 보낸 JSON 데이터를 reqData.get()으로 꺼내서 사용
-	    String paymentId = (String) reqData.get("paymentId");
-	    int pno = ((Number) reqData.get("pno")).intValue();
-	    int totalAmount = ((Number) reqData.get("totalAmount")).intValue();
-	    String payment = (String) reqData.get("payment");
-	    String buyerEmail = (String) reqData.get("buyerEmail");
-		
-		// 2. 구매 혹은 연장 실행
-	    int mno = mdao.findByEmail(buyerEmail).getMno();
-	    
-	    OrdersDTO odto = new OrdersDTO();
-	    odto.setMno(mno);
-	    odto.setOno(paymentId);
-	    odto.setOpayment(payment);
-	    odto.setOprice(totalAmount);
-	    
-	    MemberPassesDTO mpdto = new MemberPassesDTO();
-	    mpdto.setPno(pno);
-	    
-	    String dbRole = poservice.buyOrExtendPass(mno, odto, mpdto);
-	    
-	    // 3. ES의 pass 인덱스에 등록
-	    PassDTO pdto = pdao.passView(pno);
-	    poEsservice.save(odto, pdto);
-	    
-	    // 4. 로그인 인증 객체 재발급
-	    // 만약 DB와 스프링 인증 객체의 권한이 다르다면 재발급
-	    if (!poservice.checkDBandSecurityAuth(dbRole, user.getAuthorities())) {
-	    	poservice.refreshUserAuthentication(dbRole, request);
-	    }
-	    
-	    // 5. 완료 폼으로 이동
-	    Map<String, Object> result = new HashMap<>();
-	    result.put("success", true);
-	    return result;
+		Map<String, Object> result = new HashMap<>();
+		 
+		try { 
+			// 1. JS에서 보낸 JSON 데이터를 reqData.get()으로 꺼내서 사용
+		    String paymentId = (String) reqData.get("paymentId");
+		    int pno = ((Number) reqData.get("pno")).intValue();
+		    int totalAmount = ((Number) reqData.get("totalAmount")).intValue();
+		    String payment = (String) reqData.get("payment");
+		    String buyerEmail = (String) reqData.get("buyerEmail");
+			
+			// 2. 구매 혹은 연장 실행
+		    int mno = mdao.findByEmail(buyerEmail).getMno();
+		    
+		    OrdersDTO odto = new OrdersDTO();
+		    odto.setMno(mno);
+		    odto.setOno(paymentId);
+		    odto.setOpayment(payment);
+		    odto.setOprice(totalAmount);
+		    
+		    MemberPassesDTO mpdto = new MemberPassesDTO();
+		    mpdto.setPno(pno);
+		    
+		    String dbRole = poservice.buyOrExtendPass(mno, odto, mpdto);
+		    
+		    // 3. ES의 pass 인덱스에 등록
+		    PassDTO pdto = pdao.passView(pno);
+		    poEsservice.save(odto, pdto);
+		    
+		    // 4. 로그인 인증 객체 재발급
+		    // 만약 DB와 스프링 인증 객체의 권한이 다르다면 재발급
+		    if (!poservice.checkDBandSecurityAuth(dbRole, user.getAuthorities())) {
+		    	poservice.refreshUserAuthentication(dbRole, request);
+		    }
+		    
+		    // 5. 완료 폼으로 이동
+		    result.put("success", true);
+		    return result;
+		} catch (org.springframework.dao.DuplicateKeyException e) {
+			// 중복 결제 요청 2차 방어: 시간차가 거의 없는 중복 요청 처리
+			// 0.001초 차이로 동시 요청이 들어와 다른 스레드가 먼저 결제를 완료시킨 경우
+			System.out.println("동시 결제 요청 차단 (이미 등록 완료된 주문): " + reqData.get("paymentId"));
+			
+			// 사용자 화면은 이미 결제가 잘 된 것이므로 에러를 내뿜지 않고 성공으로 안내
+			result.put("success", true);
+			result.put("message", "이미 정상 처리된 결제 건입니다.");
+			return result;
+		} catch (Exception e) {
+			// 그 외 시스템 장애나 비즈니스 예외 (PG 자동 취소 등 연계)
+			System.err.println("결제 처리 중 예외 발생: " + e.getMessage());
+			
+			// 보상 트랜잭션: DB 혹은 ES 저장 실패 시 고객 돈을 즉시 자동 환불
+			String paymentId = (String) reqData.get("paymentId");
+		    try {
+		        if (paymentId != null) {
+		            poservice.cancelPortOnePayment(paymentId, "서버 내부 처리 오류로 인한 자동 승인 취소");
+		        }
+		    } catch (Exception cancelEx) {
+		        // 자동 취소 통신마저 실패한 경우: 실무에서는 별도 결제실패 로그 테이블에 적재하거나 슬랙/문자로 관리자 호출
+		        System.err.println("CRITICAL: 자동 결제 취소 API 실패! 수동 확인 필요: " + cancelEx.getMessage());
+		    }
+			
+			result.put("success", false);
+			result.put("message", "결제 처리 중 오류가 발생했습니다: " + e.getMessage());
+			return result;
+		}
 	}
 	
 	@RequestMapping("/pay/payResult")
@@ -135,7 +165,7 @@ public class PassOrderController {
 		Map<String, Object> result = new HashMap<>();
 		final long refundableDate = 7;
 		
-		// 1. 로그인 검증
+		// 0. 로그인 검증
 		if (user == null) {
 			result.put("success", false);
 			result.put("message", "로그인이 필요한 서비스입니다.");
@@ -150,64 +180,79 @@ public class PassOrderController {
 			reason = "단순 변심";
 		}
 		
-		try {
-			// 2. 환불 기간(구매일 후 7일 이내) 및 주문 상태(PAID) 검증
-			OrdersDTO order = odao.orderView(ono);
-			if (order == null) {
-				result.put("success", false);
-				result.put("message", "존재하지 않는 주문 내역입니다.");
-				return result;
-			}
-			
-			LocalDateTime odate = order.getOdate();
-			LocalDateTime refundableLimit = odate.plusDays(refundableDate);
-			LocalDateTime now = LocalDateTime.now();
-			String ostatus = order.getOstatus(); 
-			
-			// 본인의 주문내역인지 확인
-			if (mno != order.getMno()) {
-				result.put("success", false);
-				result.put("message", "본인의 주문 내역만 환불 요청이 가능합니다.");
-				return result;
-			}
-			
-			// 이미 환불 처리된 주문인지 확인
-			if ("REFUND".equals(ostatus))  {
-				result.put("success", false);
-				result.put("message", "이미 환불 처리된 주문 내역입니다.");
-				return result;
-			}
-				
-			// 구매일로부터 7일 이내인 주문인지 확인
-			if (now.isAfter(refundableLimit)) {
-				result.put("success", false);
-				result.put("message", "환불 기간(" + refundableDate + "일)이 지나 환불이 불가능합니다.");
-				return result;
-			}
-			
-			// 3. 포트원 V2 취소 API 통신
-			poservice.cancelPortOnePayment(ono, reason);
-			
-			// 4. DB 트랜잭션, 주문 내역/회원 구독권 상태 갱신
-			String dbRole = poservice.refundPass(mno, ono);
-			
-			// 5. Elasticsearch의 주문 상태를 환불로 동기화
-			poEsservice.refundStatusUpdate(ono);
-			
-			// 6. DB 권한과 세션 권한 비교 후 불일치 시 세션 인증 토큰 재발급
-			if (!poservice.checkDBandSecurityAuth(dbRole, user.getAuthorities())) {
-				poservice.refreshUserAuthentication(dbRole, request);
-			}
-		
-			result.put("success", true);
-			result.put("message", "환불 처리가 완료됐습니다.");
-			
-		} catch(Exception e) {
+		// 1. 환불 기간(구매일 후 7일 이내) 및 주문 상태(PAID) 검증
+		OrdersDTO order = odao.orderView(ono);
+		if (order == null) {
 			result.put("success", false);
-			result.put("message", "환불 실패: " + e.getMessage());
+			result.put("message", "존재하지 않는 주문 내역입니다.");
+			return result;
 		}
 		
-		return result;
+		LocalDateTime odate = order.getOdate();
+		LocalDateTime refundableLimit = odate.plusDays(refundableDate);
+		LocalDateTime now = LocalDateTime.now();
+		String ostatus = order.getOstatus(); 
+		
+		// 본인의 주문내역인지 확인
+		if (mno != order.getMno()) {
+			result.put("success", false);
+			result.put("message", "본인의 주문 내역만 환불 요청이 가능합니다.");
+			return result;
+		}
+		
+		// 구매일로부터 7일 이내인 주문인지 확인
+		if (now.isAfter(refundableLimit)) {
+			result.put("success", false);
+			result.put("message", "환불 기간(" + refundableDate + "일)이 지나 환불이 불가능합니다.");
+			return result;
+		}
+		
+		// 2. 상태 선점: PAID -> REFUND_PENDING (동시성 및 중복 클릭 완벽 차단)
+		boolean isLocked = poservice.markRefundPending(mno, ono);
+		if (!isLocked)  {
+			result.put("success", false);
+			result.put("message", "이미 환불 처리된 주문 내역입니다.");
+			return result;
+		}
+		
+		// 3. 포트원 V2 취소 API 통신
+		try {
+	        poservice.cancelPortOnePayment(ono, reason);
+	    } catch (Exception e) {
+	        // PG 취소 실패 시 주문을 다시 PAID로 복구
+	        poservice.rollbackRefundPending(mno, ono);
+	        result.put("success", false);
+	        result.put("message", "결제 취소 통신 실패: " + e.getMessage());
+	        return result;
+	    }
+		
+		// 4. PG 취소 성공 후 DB 최종 환불 확정 및 기간 차감
+	    try {
+	        String dbRole = poservice.refundPass(mno, ono);
+	        
+	        // ES 동기화
+	        try {
+	            poEsservice.refundStatusUpdate(ono);
+	        } catch (Exception esEx) {
+	            System.err.println("ES 동기화 실패: " + esEx.getMessage());
+	        }
+
+	        // 세션 갱신
+	        if (!poservice.checkDBandSecurityAuth(dbRole, user.getAuthorities())) {
+	            poservice.refreshUserAuthentication(dbRole, request);
+	        }
+
+	        result.put("success", true);
+	        result.put("message", "환불 처리가 완료되었습니다.");
+	        return result;
+
+	    } catch (Exception dbEx) {
+	        // 이 단계는 DB에 REFUND_PENDING으로 남아있으므로 관리자가 추적 가능
+	        System.err.println("CRITICAL: PG는 취소되었으나 DB 반영 실패! 수동 확인 대상: ono=" + ono);
+	        result.put("success", false);
+	        result.put("message", "결제는 취소되었으나 내부 정산 반영 중 지연이 발생했습니다. 고객센터로 문의 바랍니다.");
+	        return result;
+	    }
 	}
 	
 	// 회원용 구독권 조회

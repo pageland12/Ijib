@@ -21,6 +21,13 @@
 		  WHERE mno = #{mno}
 	</select>
 	
+	<select id="memberViewForUpdate" resultType="com.springboot.ijib.dto.MemberDTO">
+		SELECT MNO, MEMAIL, MAUTH
+		  FROM MEMBER
+		 WHERE MNO = #{mno}
+		   FOR UPDATE
+	</select>
+	
 	<insert id="memberInsert" parameterType="com.springboot.ijib.dto.MemberDTO">
 	    <selectKey keyProperty="mno" resultType="int" order="BEFORE">SELECT MEMBER_SEQ.NEXTVAL FROM DUAL</selectKey>
 	    INSERT INTO MEMBER(MNO,MEMAIL,MPASSWD,MNAME,MGENDER,MAGE,MADDR,MTEL,MACCOUNT,MAUTH,MSTATUS,MDATE)
