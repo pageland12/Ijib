@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import com.springboot.ijib.dao.IMemberDAO;
 import com.springboot.ijib.dto.MemberDTO;
 import com.springboot.ijib.dto.StoreSearchDTO;
 import com.springboot.ijib.service.SearchLogESService;
+import com.springboot.ijib.service.StoreESService;
 import com.springboot.ijib.service.StoreSearchService;
 
 @Controller
@@ -30,6 +32,9 @@ public class StoreSearchController {
 
     @Autowired
     private SearchLogESService searchLogESService;
+    
+    @Autowired
+    private StoreESService esService;
 
     @Autowired
     private IMemberDAO mdao;
@@ -142,6 +147,31 @@ public class StoreSearchController {
 
                 if (fromIndex < totalCount) {
                     result = searchList.subList(fromIndex, toIndex);
+                }
+                
+                // Elasticsearch에서 음식점별 평균 별점 가져오기
+                try {
+
+                    Map<Integer, Double> ratingMap =
+                            esService.storeRateAvg();
+
+                    for (StoreSearchDTO store : result) {
+
+                        Double ratingAvg =
+                                ratingMap.get(store.getSno());
+
+                        if (ratingAvg != null) {
+
+                            store.setRatingAvg(ratingAvg);
+
+                        }
+
+                    }
+
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+
                 }
             }
 

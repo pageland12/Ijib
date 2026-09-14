@@ -20,7 +20,16 @@
 
             <div class="search-bar-box">
                 <span class="search-icon-left">🔍</span>
-                <input type="text" name="keyword" value="${param.keyword}" placeholder="음식점이나 메뉴를 검색하세요" class="search-input-field" autocomplete="off">
+                <input type="text"
+			       id="totalKeyword"
+			       name="keyword"
+			       value="${param.keyword}"
+			       placeholder="음식점이나 메뉴를 검색하세요"
+			       class="search-input-field"
+			       autocomplete="off">
+			
+			<!-- 자동완성 -->
+			<div id="totalAutocomplete" class="autocomplete-box"></div>
                 <button type="button" id="filterToggleBtn" class="btn-filter-trigger" aria-label="필터" onclick="toggleFilterPanel()">
                     ⚙️
                 </button>
@@ -177,7 +186,16 @@
             <input type="hidden" name="searchType" value="store">
             <div class="search-bar-box">
                 <span class="search-icon-left">🔍</span>
-                <input type="text" name="keyword" value="${param.keyword}" placeholder="식당명을 입력하세요" class="search-input-field" autocomplete="off">
+                <input type="text"
+			       id="storeKeyword"
+			       name="keyword"
+			       value="${param.keyword}"
+			       placeholder="식당명을 입력하세요"
+			       class="search-input-field"
+			       autocomplete="off">
+			
+			<!-- 자동완성 -->
+			<div id="storeAutocomplete" class="autocomplete-box"></div>
                 <button type="submit" class="filter-apply-btn" style="padding: 6px 16px;">검색</button>
             </div>
         </form>
@@ -291,5 +309,107 @@ function showSigungu() {
 
 document.addEventListener("DOMContentLoaded", function() {
     showSigungu();
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const totalKeyword = document.getElementById("totalKeyword");
+    const storeKeyword = document.getElementById("storeKeyword");
+
+    const totalAutocomplete = document.getElementById("totalAutocomplete");
+    const storeAutocomplete = document.getElementById("storeAutocomplete");
+
+    if (totalKeyword) {
+        totalKeyword.addEventListener("input", function () {
+
+            const keyword = this.value.trim();
+
+            if (keyword.length === 0) {
+                totalAutocomplete.innerHTML = "";
+                totalAutocomplete.style.display = "none";
+                return;
+            }
+
+            autocomplete(
+                keyword,
+                "total",
+                totalAutocomplete,
+                totalKeyword
+            );
+        });
+    }
+
+    if (storeKeyword) {
+        storeKeyword.addEventListener("input", function () {
+
+            const keyword = this.value.trim();
+
+            if (keyword.length === 0) {
+                storeAutocomplete.innerHTML = "";
+                storeAutocomplete.style.display = "none";
+                return;
+            }
+
+            autocomplete(
+                keyword,
+                "store",
+                storeAutocomplete,
+                storeKeyword
+            );
+        });
+    }
+
+    function autocomplete(
+        keyword,
+        searchType,
+        autocompleteBox,
+        input
+    ) {
+        fetch(
+            "${pageContext.request.contextPath}/guest/storeAutocomplete"
+            + "?keyword="
+            + encodeURIComponent(keyword)
+            + "&searchType="
+            + encodeURIComponent(searchType)
+        )
+        .then(response => response.json())
+        .then(data => {
+
+            autocompleteBox.innerHTML = "";
+
+            if (!data || data.length === 0) {
+                autocompleteBox.style.display = "none";
+                return;
+            }
+
+            data.forEach(function (item) {
+
+                const div = document.createElement("div");
+
+                div.className = "autocomplete-item";
+                div.innerHTML = item.highlight;
+
+                div.addEventListener("click", function () {
+
+                    input.value = item.sname;
+
+                    autocompleteBox.innerHTML = "";
+                    autocompleteBox.style.display = "none";
+                });
+
+                autocompleteBox.appendChild(div);
+            });
+
+            autocompleteBox.style.display = "block";
+        })
+        .catch(error => {
+
+            console.error("자동완성 오류:", error);
+
+            autocompleteBox.innerHTML = "";
+            autocompleteBox.style.display = "none";
+        });
+    }
+
 });
 </script>

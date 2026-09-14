@@ -2,6 +2,9 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+
+<title>검색 결과</title>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/storeList.css">
 
@@ -42,8 +45,24 @@
                             <img src="${fn:split(store.sfiles, ',')[0]}" class="store-card-thumb" alt="${store.sname}">
                         </div>
                         <div class="store-card-body">
-                            <h3 class="store-card-name">${store.sname}</h3>
-                            <div class="store-card-addr">
+						    <div class="store-tag-row">
+						        <span class="tag-star">
+						            ★ (<fmt:formatNumber value="${store.ratingAvg}" pattern="0.0" />)
+						        </span>
+						        <span class="tag-recommend">
+						            추천 맛집
+						        </span>
+						    </div>
+						
+						    <h3 class="store-card-name">
+						        ${store.sname}
+						    </h3>
+						
+						    <p class="store-card-hashtags">
+						        #맛집 #추천식당
+						    </p>
+						
+						    <div class="store-card-addr">
                                 <span>📍</span>
                                 <span>${store.saddr}</span>
                             </div>

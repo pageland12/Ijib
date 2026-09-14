@@ -32,4 +32,5 @@ public class StoreSearchDTO {
     private Double minRating;   		// 최소 별점
 
     private String rfeature;    		// 리뷰 특징
+    private double ratingAvg;			// 평균 별점
 }
