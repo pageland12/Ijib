@@ -1,12 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>로그인</title>
+<meta charset="UTF-8">
+<title>로그인</title>
+<script src="/js/loginForm.js"></script>
 </head>
 <body>
     <%@ include file="../guest/header.jsp" %>
@@ -27,7 +26,7 @@
                 </div>
 
                 <div class="button-group">
-                    <input type="submit" class="btn-submit" value="로그인">
+                    <input type="submit" class="btn-submit" value="로그인" onclick="return check()">
                     <button type="button" class="btn-cancel" onclick="history.back()">취소</button>
                 </div>
             </form>

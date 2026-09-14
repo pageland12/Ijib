@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +32,7 @@ public class BoardController {
 	@RequestMapping("/guest/boardList")
 	public String boardList(
 	        @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-	        Model model) {
+	        Authentication authentication, Model model) {
 
 	    List<BoardDTO> boardList = bdao.boardList();
 
@@ -72,7 +73,15 @@ public class BoardController {
 	    model.addAttribute("totalPage", totalPage);
 	    model.addAttribute("startPage", startPage);
 	    model.addAttribute("endPage", endPage);
-
+	    
+	    // 로그인한 회원의 mno를 넘겨서, 본인 글인지 JSP에서 비교할 수 있도록 함
+	    if (authentication != null) {
+	        MemberDTO loginMember = mdao.findByEmail(authentication.getName());
+	        if (loginMember != null) {
+	            model.addAttribute("loginMno", loginMember.getMno());
+	        }
+	    }
+	    
 	    return "guest/boardList";
 	}
 	
@@ -124,9 +133,22 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/board/boardDelete")
-	public String boardDelete(@RequestParam("bno") int bno) {
-		bdao.boardDelete(bno);
-		return "redirect:/member/myBoard";
+	public String boardDelete(
+	        @RequestParam("bno") int bno,
+	        Authentication authentication) {
+
+	    boolean isAdmin = authentication.getAuthorities()
+	            .stream()
+	            .anyMatch(auth ->
+	                    auth.getAuthority().equals("ROLE_ADMIN"));
+
+	    bdao.boardDelete(bno);
+
+	    if (isAdmin) {
+	        return "redirect:/guest/boardList";
+	    }
+
+	    return "redirect:/member/myBoard";
 	}
 	
 	@RequestMapping("/board/boardUpdateForm")
