@@ -5,24 +5,50 @@
 <head>
 <meta charset="UTF-8">
 <title>구독권 수정</title>
+<link rel="stylesheet" href="/css/passWU.css">
 </head>
 <body>
     <%@ include file="../guest/header.jsp" %>
-    
-	<h3>구독권 수정 페이지</h3>
-	<form name="pass" method="post" action="/admin/passUpdate" enctype="multipart/form-data">
-		<input type="hidden" name="pno" value="${update.pno}">
-		<input type="hidden" name="pimg" value="${update.pimg}">
-		현재 이미지 : ${update.pimg}<br>
-		이미지 : <input type="file" name="pupload"> <br>
-		상품명 : <input type="text" name="pname" value="${update.pname}"><br>
-		가격 : <input type="text" name="pprice" value="${update.pprice}"><br>
-		기간 : <input type="text" name="pperiod" value="${update.pperiod}"><br>
-		<input type="submit" value="수정">
-		<input type="button" value="취소" onclick="history.back()">
-	</form>
 
-	<br>
+    <div class="write-container">
+        <h3>구독권 수정 페이지</h3>
+
+        <form name="pass" method="post" action="/admin/passUpdate" enctype="multipart/form-data">
+            <input type="hidden" name="pno" value="${update.pno}">
+            <input type="hidden" name="pimg" value="${update.pimg}">
+
+            <table class="write-table">
+                <tr>
+                    <th>현재 이미지</th>
+                    <td>
+                        <div class="file-preview-box">${update.pimg}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>이미지</th>
+                    <td><input type="file" name="pupload"></td>
+                </tr>
+                <tr>
+                    <th>상품명</th>
+                    <td><input type="text" name="pname" value="${update.pname}"></td>
+                </tr>
+                <tr>
+                    <th>가격</th>
+                    <td><input type="text" name="pprice" value="${update.pprice}"></td>
+                </tr>
+                <tr>
+                    <th>기간</th>
+                    <td><input type="text" name="pperiod" value="${update.pperiod}"></td>
+                </tr>
+            </table>
+
+            <div class="write-btn-area">
+                <input type="submit" class="btn-submit" value="수정">
+                <input type="button" class="btn-cancel" value="취소" onclick="history.back()">
+            </div>
+        </form>
+    </div>
+
     <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

@@ -1,0 +1,232 @@
+@charset "UTF-8";
+
+/* 게시글 작성 폼 레이아웃 (공용) */
+.write-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.write-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background: #fff;
+    border: 1px solid #e7e7e7;
+}
+
+.write-table th,
+.write-table td {
+    padding: 14px;
+    border-bottom: 1px solid #e8ebef;
+    vertical-align: middle;
+}
+
+.write-table th {
+    width: 15%;
+    background-color: #f8f9fa;
+    text-align: center;
+    font-weight: 600;
+    color: #333;
+}
+
+.write-table td input[type="text"] {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    outline: none;
+}
+
+.write-table td input[type="text"]:focus {
+    border-color: #173b67;
+}
+
+.write-table td textarea {
+    width: 100%;
+    height: 120px;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    resize: vertical;
+    outline: none;
+}
+
+.write-table td textarea:focus {
+    border-color: #173b67;
+}
+
+.write-table td label {
+    margin-right: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #444;
+}
+
+/* 버튼 영역 */
+.write-btn-area {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.btn-submit {
+    padding: 10px 24px;
+    background: #173b67;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.btn-submit:hover {
+    background: #122d50;
+}
+
+.btn-cancel {
+    display: inline-block;
+    padding: 10px 24px;
+    background: #f1f3f5;
+    color: #333;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    margin-left: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-cancel:hover {
+    background: #e2e6ea;
+}
+
+/* 첨부파일 및 이미지 미리보기 영역 */
+.file-preview-box {
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: #555;
+}
+
+.file-preview-img {
+    margin-top: 5px;
+    width: 150px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.write-table td input[type="file"] {
+    font-size: 14px;
+}
+
+/* =========================================
+   음식점 등록 폼 전용
+========================================= */
+
+/* 키워드 체크박스 그리드 */
+.keyword-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px 12px;
+}
+
+.keyword-grid label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #444;
+    margin-right: 0;
+    transition: border-color .15s ease, background-color .15s ease;
+}
+
+.keyword-grid label:hover {
+    border-color: #173b67;
+    background: #f8f9fb;
+}
+
+.keyword-grid input[type="checkbox"] {
+    accent-color: #173b67;
+    cursor: pointer;
+}
+
+/* 영업 상태 라디오 */
+.status-radio-group {
+    display: flex;
+    gap: 18px;
+}
+
+.status-radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 0;
+}
+
+.status-radio-group input[type="radio"] {
+    accent-color: #173b67;
+    cursor: pointer;
+}
+
+/* 메뉴 등록 영역 */
+.menu-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+
+.menu-input-row input[type="text"] {
+    width: auto;
+    flex: 1;
+    min-width: 120px;
+}
+
+.menu-input-row .menu-label {
+    font-size: 13px;
+    color: #666;
+    white-space: nowrap;
+}
+
+.menu-input-row input[type="button"] {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fff;
+    color: #555;
+    font-size: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.menu-input-row input[type="button"]:hover {
+    border-color: #d33;
+    color: #d33;
+}
+
+.menu-add-btn {
+    padding: 8px 16px;
+    border: 1px dashed #b9c6e0;
+    border-radius: 4px;
+    background: #f8f9fb;
+    color: #555;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 4px;
+}
+
+.menu-add-btn:hover {
+    border-color: #173b67;
+    color: #173b67;
+    background: #eef2f8;
+}
