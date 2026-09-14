@@ -25,7 +25,7 @@ a {
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding: 70px 20px 40px;
+    padding: 35px 20px 40px;
 }
 
 
@@ -63,7 +63,7 @@ a {
     flex-wrap: wrap;
 
     /* 검색창을 아래로 내려서 본문 흰 배경과 자연스럽게 이어지도록 처리 */
-    margin-top: 110px;
+    margin-top: 55px; /* 기존 110px에서 55px로 변경 */
     margin-bottom: -70px;
 }
 
@@ -349,14 +349,14 @@ a {
 
 @media (max-width: 768px) {
     .hero {
-        padding: 40px 16px 24px;
+        padding: 20px 16px 24px;
     }
 
     .hero-inner {
         flex-direction: column;
         align-items: stretch;
         padding: 28px 24px;
-        margin-top: 60px;
+        margin-top: 30px;
         margin-bottom: -40px;
     }
 
