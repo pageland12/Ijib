@@ -11,62 +11,6 @@
 <title>${view.sname} - 음식점 상세</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/storeView.css">
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=15391f6ee0fb08be799838347829fce8"></script>
-<style>
-    /* 후기 하나 */
-    .rating-item {
-        padding: 15px;
-        margin-bottom: 10px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-    }
-
-    /* 전체 후기 모달 */
-    .rating-modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-    }
-
-    /* 모달 내부 */
-    .rating-modal-content {
-        position: relative;
-        background-color: white;
-        width: 600px;
-        max-width: 90%;
-        max-height: 80vh;
-        overflow-y: auto;
-        margin: 5% auto;
-        padding: 30px;
-        border-radius: 10px;
-        box-sizing: border-box;
-    }
-
-    /* X 버튼 */
-    .rating-close {
-        position: absolute;
-        top: 10px;
-        right: 20px;
-        font-size: 30px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    .rating-close:hover {
-        color: #777;
-    }
-	
-	#map {
-	    width: 100%;
-	    height: 350px;
-	    margin-top: 20px;
-	    margin-bottom: 20px;
-	}
-</style>
 <script>
     function openRatingModal() {
         document.getElementById("ratingModal").style.display = "block";
@@ -249,7 +193,15 @@
                 </c:choose>
             </div>
         </div>
-
+	
+		<%-- 위치 --%>
+	    <div class="sv-section">
+	    	<h3>위치</h3>
+	        <div class="sv-map-wrap">
+	            <div id="map"></div>
+	        </div>
+	    </div>
+		
         <%-- ===================== 액션 버튼 ===================== --%>
 		<div class="sv-actions">
 		    <a href="/board/ratingWriteForm?sno=${view.sno}" class="sv-btn sv-btn-primary">후기 작성</a>
@@ -262,12 +214,8 @@
 		    </sec:authorize>
 		
 		    <a href="/guest/storeList" class="sv-btn sv-btn-outline">목록</a>
-		</div>
-
-    </div>
-
-	<h3>위치</h3>
-    <div id="map"></div>
+		</div>		
+    </div>	
 
     <%@ include file="../guest/footer.jsp" %>
 
