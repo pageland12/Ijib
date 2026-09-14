@@ -43,32 +43,26 @@
             <!-- 하단 구분선 -->
             <hr class="board-line">
 
-            <!-- 좌측 하단 목록 버튼 -->
-            <div class="board-btn-wrap">
-                <a href="/guest/boardList" class="btn-list">목록</a>
+            <!-- 하단 버튼 영역 (목록 및 관리자 삭제 버튼) -->
+            <div class="board-action-row">
+                <div class="board-btn-wrap">
+                    <a href="/guest/boardList" class="btn-list">목록</a>
+                </div>
+                
+                <!-- 관리자에게만 삭제 버튼 표시 -->
+                <sec:authorize access="hasRole('ADMIN')">
+                    <form action="/board/boardDelete" method="post">
+                        <input type="hidden" name="bno" value="${view.bno}">
+                        <button type="submit" class="btn-delete" onclick="return confirm('정말 삭제하시겠습니까?');">
+                            삭제
+                        </button>
+                    </form>
+                </sec:authorize>
             </div>
-			
-			<!-- 관리자에게만 삭제 버튼 표시 -->
-		    <sec:authorize access="hasRole('ADMIN')">
-		        <form action="/board/boardDelete"
-		              method="post"
-		              style="display: inline;">
-		
-		            <input type="hidden"
-		                   name="bno"
-		                   value="${view.bno}">
-		
-		            <button type="submit"
-		                    class="btn-delete"
-		                    onclick="return confirm('정말 삭제하시겠습니까?');">
-		                삭제
-		            </button>
-		
-		        </form>
-		    </sec:authorize>			
+
         </div>
     </div>
-	
+    
     <%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

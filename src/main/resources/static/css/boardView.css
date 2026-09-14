@@ -112,3 +112,33 @@ body {
 .btn-list:hover {
     background-color: #134db0;
 }
+
+/* 하단 버튼 및 관리자 삭제 버튼 영역 컨테이너 */
+.board-action-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* 삭제 버튼 스타일 */
+.btn-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    padding: 0 24px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: background-color 0.2s;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
