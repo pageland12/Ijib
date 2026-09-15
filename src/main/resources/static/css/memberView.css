@@ -1,0 +1,177 @@
+@charset "UTF-8";
+
+body {
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 상세 페이지 전체 감싸는 박스 */
+.view-wrapper {
+    width: 100%;
+    max-width: 860px;
+    margin: 30px auto 60px;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* 카드 틀 */
+.view-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+/* MEMBER 카테고리 태그 */
+.view-category {
+    font-size: 11px;
+    font-weight: 700;
+    color: #4a5568;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+/* 회원 상세 정보 타이틀 */
+.view-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0 0 16px 0;
+}
+
+/* 회원번호 | 가입일 | 상태 메타 정보 */
+.view-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #a0aec0;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.view-meta strong {
+    color: #718096;
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.view-meta .divider {
+    color: #e2e8f0;
+    font-size: 11px;
+}
+
+/* 구분선 */
+.view-line {
+    border: none;
+    border-top: 1px solid #edf2f7;
+    margin: 20px 0;
+}
+
+/* 정보 목록 영역 */
+.info-table {
+    padding: 10px 0;
+}
+
+.info-row {
+    display: flex;
+    padding: 12px 0;
+    border-bottom: 1px solid #edf2f7;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    flex: 0 0 120px;
+    font-weight: 600;
+    color: #718096;
+}
+
+.info-value {
+    flex: 1;
+    color: #2d3748;
+    word-break: break-all;
+}
+
+/* 하단 버튼 영역 */
+.view-btn-wrap {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    text-align: left;
+}
+
+/* 파란색 알약 버튼 (수정) */
+.btn-list {
+    display: inline-block;
+    padding: 8px 24px;
+    background-color: #1a62d6;
+    color: #ffffff !important;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 20px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-list:hover {
+    background-color: #134db0;
+}
+
+/* 테두리형 알약 버튼 (목록) */
+.btn-list-outline {
+    display: inline-block;
+    padding: 8px 24px;
+    background-color: #ffffff;
+    color: #4a5568 !important;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-list-outline:hover {
+    background-color: #edf2f7;
+}
+
+/* =========================================
+   구독권 상세 (passView) 전용
+   ========================================= */
+
+/* 이미지 썸네일 */
+.view-thumb {
+    width: 200px;
+    max-width: 100%;
+    border-radius: 8px;
+    border: 1px solid #edf2f7;
+    display: block;
+}
+
+/* 빨간색 알약 버튼 (삭제) - <a> 태그용 */
+.btn-delete-link {
+    display: inline-block;
+    padding: 8px 24px;
+    background-color: #dc3545;
+    color: #ffffff !important;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 20px;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-delete-link:hover {
+    background-color: #c82333;
+}

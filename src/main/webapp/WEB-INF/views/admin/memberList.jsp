@@ -7,40 +7,72 @@
 <head>
 <meta charset="UTF-8">
 <title>회원 목록</title>
+<link rel="stylesheet" href="<c:url value='/css/memberList.css'/>">
 </head>
 <body>
 	<%@ include file="../guest/header.jsp" %>
 	<%@ include file="../admin/adminSearch.jsp" %>
-	
-	<h3>회원 목록</h3>
-	<table border=1>
-		<tr>
-			<th>번호</th>
-			<th>이메일</th>
-			<th>이름</th>
-			<th>성별</th>
-			<th>나이</th>
-			<th>주소</th>
-			<th>전화번호</th>
-			<th>권한</th>
-			<th>상태</th>
-			<th>가입일</th>
-		</tr>
-	<c:forEach var="list" items="${list}">
-		<tr>
-			<td>${list.mno}</td>
-			<td><a href="/admin/memberView?mno=${list.mno}">${list.memail}</a></td>
-			<td><a href="/admin/memberView?mno=${list.mno}">${list.mname}</a></td>
-			<td>${list.mgender}</td>
-			<td>${list.mage}</td>
-			<td>${list.maddr}</td>
-			<td>${list.mtel}</td>
-			<td>${list.mauth}</td>
-			<td>${list.mstatus}</td>
-			<td><fmt:formatDate value="${list.mdate}" pattern="yy-MM-dd" /></td>
-		</tr>
-	</c:forEach>
-	</table>
+
+	<div class="list-page">
+		<div class="list-container">
+
+			<h3 class="list-title">회원 목록</h3>
+
+			<table class="list-table">
+				<thead>
+					<tr>
+						<th>번호</th>
+						<th>이메일</th>
+						<th>이름</th>
+						<th>성별</th>
+						<th>나이</th>
+						<th>주소</th>
+						<th>전화번호</th>
+						<th>권한</th>
+						<th>상태</th>
+						<th>가입일</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="list" items="${list}">
+						<tr>
+							<td>${list.mno}</td>
+							<td class="cell-link">
+								<a href="/admin/memberView?mno=${list.mno}">${list.memail}</a>
+							</td>
+							<td class="cell-link">
+								<a href="/admin/memberView?mno=${list.mno}">${list.mname}</a>
+							</td>
+							<td>${list.mgender}</td>
+							<td>${list.mage}</td>
+							<td class="cell-addr">${list.maddr}</td>
+							<td>${list.mtel}</td>
+							<td>
+								<span class="auth-badge auth-${list.mauth}">${list.mauth}</span>
+							</td>
+							<td>
+								<span class="status-badge status-${list.mstatus}">
+									<c:choose>
+										<c:when test="${list.mstatus == 'OPEN'}">활성화</c:when>
+										<c:otherwise>비활성화</c:otherwise>
+									</c:choose>
+								</span>
+							</td>
+							<td><fmt:formatDate value="${list.mdate}" pattern="yy-MM-dd" /></td>
+						</tr>
+					</c:forEach>
+
+					<c:if test="${empty list}">
+						<tr>
+							<td colspan="10" class="list-empty">등록된 회원이 없습니다.</td>
+						</tr>
+					</c:if>
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+
 	<%@ include file="../guest/footer.jsp" %>
 </body>
 </html>

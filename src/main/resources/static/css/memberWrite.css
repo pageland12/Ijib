@@ -1,0 +1,522 @@
+/* ===== Layout ===== */
+.join-wrap {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 60px 16px;
+	background-color: #eef0f5;
+	min-height: calc(100vh - 120px);
+}
+
+.join-card {
+	width: 100%;
+	max-width: 460px;
+	background: #ffffff;
+	border-radius: 14px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+	padding: 40px 36px 32px;
+	box-sizing: border-box;
+}
+
+/* ===== Title ===== */
+.join-title {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 24px;
+}
+
+.join-title h2 {
+	font-size: 22px;
+	font-weight: 700;
+	color: #222;
+	margin: 0;
+}
+
+.join-badge {
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.5px;
+	color: #5b4bda;
+	background: #efecfd;
+	padding: 3px 8px;
+	border-radius: 6px;
+}
+
+/* ===== Form groups ===== */
+.form-group {
+	margin-bottom: 18px;
+}
+
+.form-group label {
+	display: block;
+	font-size: 13px;
+	font-weight: 600;
+	color: #555;
+	margin-bottom: 6px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group select {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 12px 14px;
+	font-size: 14px;
+	background: #f5f5f8;
+	border: 1px solid #e3e3ea;
+	border-radius: 8px;
+	color: #333;
+	transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.form-group input::placeholder {
+	color: #a9a9b3;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+	outline: none;
+	border-color: #4f5bd5;
+	background: #fff;
+}
+
+.stacked-input {
+	margin-top: 8px;
+}
+
+.help-text {
+	margin: 6px 2px 0;
+	font-size: 12px;
+	color: #4f5bd5;
+}
+
+.error-text {
+	margin: 6px 2px 0;
+	font-size: 12px;
+	color: #e0405a;
+}
+
+/* ===== Input + button row (이메일 중복확인, 주소검색) ===== */
+.input-row {
+	display: flex;
+	gap: 8px;
+}
+
+.input-row input[type="text"] {
+	flex: 1;
+}
+
+.btn-sub {
+	flex-shrink: 0;
+	padding: 0 16px;
+	font-size: 13px;
+	font-weight: 600;
+	color: #fff;
+	background: #2b2b33;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.btn-sub:hover {
+	background: #1c1c22;
+}
+
+/* ===== 연락처 ===== */
+.tel-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.tel-row input {
+	width: 100%;
+	text-align: center;
+}
+
+.tel-row span {
+	color: #aaa;
+}
+
+/* ===== 성별 라디오 ===== */
+.radio-row {
+	display: flex;
+	gap: 20px;
+	align-items: center;
+	padding: 4px 0;
+}
+
+.radio-label {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 14px;
+	font-weight: 400;
+	color: #333;
+	cursor: pointer;
+}
+
+.radio-label input {
+	accent-color: #4f5bd5;
+}
+
+/* ===== 버튼 영역 ===== */
+.btn-group {
+	margin-top: 28px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.btn-submit {
+	width: 100%;
+	padding: 14px 0;
+	font-size: 15px;
+	font-weight: 700;
+	color: #fff;
+	background: #2f4bd9;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: background 0.15s ease;
+}
+
+.btn-submit:hover {
+	background: #2438b0;
+}
+
+.btn-cancel {
+	width: 100%;
+	padding: 12px 0;
+	font-size: 14px;
+	font-weight: 600;
+	color: #666;
+	background: #f0f0f3;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.btn-cancel:hover {
+	background: #e4e4e9;
+}
+
+/* ===== 하단 링크 ===== */
+.join-links {
+	text-align: center;
+	margin-top: 24px;
+	font-size: 13px;
+	color: #888;
+}
+
+.join-links a {
+	color: #888;
+	text-decoration: none;
+}
+
+.join-links a:hover {
+	color: #4f5bd5;
+}
+
+.join-links .dot {
+	margin: 0 8px;
+	color: #ccc;
+}
+
+/* ===== 카피라이트 ===== */
+.copyright {
+	margin-top: 20px;
+	font-size: 12px;
+	color: #aaa;
+}
+
+/* =========================================
+   마이페이지 (memberUpdate) 전용 레이아웃
+   ========================================= */
+
+.member-page {
+	display: flex;
+	align-items: flex-start;
+	gap: 32px;
+	max-width: 1100px;
+	margin: 40px auto;
+	padding: 0 16px;
+	box-sizing: border-box;
+}
+
+.member-content {
+	flex: 1;
+	min-width: 0;
+}
+
+.content-header {
+	margin-bottom: 20px;
+}
+
+.content-title {
+	font-size: 22px;
+	font-weight: 700;
+	color: #222;
+	margin: 0 0 6px;
+}
+
+.content-subtitle {
+	font-size: 13px;
+	color: #888;
+}
+
+/* 마이페이지 폼을 감싸는 카드 (join-card와 동일한 톤) */
+.content-card {
+	background: #ffffff;
+	border-radius: 14px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+	padding: 36px 32px;
+	box-sizing: border-box;
+}
+
+/* 환불 계좌: 은행 선택 select 폭 살짝 고정 */
+.input-row select.account-bank {
+	flex: 0 0 160px;
+}
+
+.input-row select.account-bank,
+.input-row input[type="text"] {
+	width: auto;
+}
+
+/* 계좌 select + 예금주 인풋 줄에서는 예금주 인풋이 남은 폭 차지 */
+.input-row input[name="maccount1"] {
+	flex: 1;
+}
+
+/* 취소가 a 태그일 때 버튼처럼 보이도록 */
+.btn-cancel-link {
+	display: inline-block;
+	text-align: center;
+	text-decoration: none;
+	box-sizing: border-box;
+}
+
+/* 마이페이지는 좁은 화면에서 사이드바를 위로 쌓기 */
+@media (max-width: 768px) {
+	.member-page {
+		flex-direction: column;
+	}
+}
+
+/* =========================================
+   이메일 중복확인 팝업 전용
+   ========================================= */
+
+.popup-body {
+	margin: 0;
+	background: #eef0f5;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	box-sizing: border-box;
+	padding: 20px;
+}
+
+.popup-card {
+	width: 100%;
+	max-width: 340px;
+	background: #ffffff;
+	border-radius: 14px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+	padding: 28px 24px;
+	box-sizing: border-box;
+}
+
+.popup-title {
+	font-size: 17px;
+	font-weight: 700;
+	color: #222;
+	margin: 0 0 18px;
+}
+
+/* 팝업 안에서는 input-row 세로 여백 필요 없음 */
+.popup-card .input-row {
+	margin-bottom: 0;
+}
+
+.popup-card .input-row input[type="text"] {
+	padding: 10px 12px;
+	font-size: 13px;
+}
+
+.popup-card .btn-sub {
+	padding: 0 14px;
+	font-size: 12px;
+}
+
+/* 결과 박스 */
+.result-box {
+	margin-top: 16px;
+	padding: 14px;
+	border-radius: 10px;
+	font-size: 13px;
+	line-height: 1.5;
+	text-align: center;
+}
+
+.result-box strong {
+	word-break: break-all;
+}
+
+.result-danger {
+	background: #fdecef;
+	color: #e0405a;
+}
+
+.result-success {
+	background: #eef4ff;
+	color: #2f4bd9;
+}
+
+/* 이메일 사용하기 버튼 (성공 박스 안, 작은 사이즈) */
+.btn-use {
+	display: block;
+	width: 100%;
+	margin-top: 10px;
+	padding: 10px 0;
+	font-size: 13px;
+}
+/* =========================================
+   관리자 - 회원 정보 수정 (adminUpdate) 전용
+   ========================================= */
+
+.admin-page {
+	display: flex;
+	justify-content: center;
+	padding: 60px 16px;
+	background-color: #eef0f5;
+	min-height: calc(100vh - 120px);
+	box-sizing: border-box;
+}
+
+.admin-card {
+	width: 100%;
+	max-width: 560px;
+	background: #ffffff;
+	border-radius: 14px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+	padding: 36px 32px;
+	box-sizing: border-box;
+}
+
+/* 조회/수정용 테이블 */
+.admin-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 8px;
+}
+
+.admin-table tr {
+	border-bottom: 1px solid #f0f0f4;
+}
+
+.admin-table tr:last-child {
+	border-bottom: none;
+}
+
+.admin-table th,
+.admin-table td {
+	padding: 12px 8px;
+	text-align: left;
+	font-size: 14px;
+	vertical-align: middle;
+}
+
+.admin-table th {
+	width: 120px;
+	font-weight: 600;
+	color: #555;
+	white-space: nowrap;
+}
+
+.admin-table td {
+	color: #222;
+}
+
+/* 테이블 안 select도 memberWrite와 동일한 룩 적용 */
+.admin-table select {
+	width: 100%;
+	max-width: 220px;
+	box-sizing: border-box;
+	padding: 10px 12px;
+	font-size: 13px;
+	background: #f5f5f8;
+	border: 1px solid #e3e3ea;
+	border-radius: 8px;
+	color: #333;
+	transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.admin-table select:focus {
+	outline: none;
+	border-color: #4f5bd5;
+	background: #fff;
+}
+
+/* =========================================
+   관리자 - 구독권 수정 (passUpdate) 전용
+   ========================================= */
+
+/* admin-table 안의 text input도 memberWrite 인풋 룩 적용 */
+.admin-table input[type="text"] {
+	width: 100%;
+	max-width: 320px;
+	box-sizing: border-box;
+	padding: 10px 12px;
+	font-size: 13px;
+	background: #f5f5f8;
+	border: 1px solid #e3e3ea;
+	border-radius: 8px;
+	color: #333;
+	transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.admin-table input[type="text"]:focus {
+	outline: none;
+	border-color: #4f5bd5;
+	background: #fff;
+}
+
+/* 현재 이미지 미리보기 박스 */
+.file-preview-box {
+	display: inline-block;
+	padding: 10px 14px;
+	font-size: 12px;
+	color: #888;
+	background: #f5f5f8;
+	border: 1px dashed #dcdce3;
+	border-radius: 8px;
+	word-break: break-all;
+	max-width: 320px;
+}
+
+/* 파일 업로드 인풋 */
+.file-input {
+	font-size: 13px;
+	color: #555;
+}
+
+.file-input::file-selector-button {
+	padding: 8px 14px;
+	margin-right: 10px;
+	font-size: 12px;
+	font-weight: 600;
+	color: #fff;
+	background: #2b2b33;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+}
+
+.file-input::file-selector-button:hover {
+	background: #1c1c22;
+}
