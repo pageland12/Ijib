@@ -72,7 +72,7 @@
 						<th>상태</th>
 						<td>
 							<select name="mstatus">
-								<option value="OPEN" ${update.mstatus == 'OPEN' ? 'selected' : ''}>활성화</option>
+								<option value="ACTIVE" ${update.mstatus == 'ACTIVE' ? 'selected' : ''}>활성화</option>
 								<option value="INACTIVE" ${update.mstatus == 'INACTIVE' ? 'selected' : ''}>비활성화</option>
 							</select>
 						</td>

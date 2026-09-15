@@ -29,6 +29,7 @@ public class MemberService {
         esDto.setMtel(member.getMtel());
         esDto.setMauth(member.getMauth());
         esDto.setMdate(member.getMdate());
+        esDto.setMstatus(member.getMstatus());
 
         return esDto;
     }

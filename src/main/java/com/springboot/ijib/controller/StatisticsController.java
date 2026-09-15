@@ -5,8 +5,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class StatisticsController {
-	@RequestMapping("/admin/statistics")
-    public String statistics() {
-        return "admin/statistics";
+	@RequestMapping("/admin/storeStatistics")
+    public String storeStatistics() {
+        return "admin/storeStatistics";
+    }
+	
+	@RequestMapping("/admin/memberStatistics")
+    public String memberStatistics() {
+        return "admin/memberStatistics";
+    }
+	
+	@RequestMapping("/admin/passStatistics")
+    public String passStatistics() {
+        return "admin/passStatistics";
     }
 }
