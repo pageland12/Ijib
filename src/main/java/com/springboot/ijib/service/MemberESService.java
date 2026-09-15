@@ -40,6 +40,7 @@ public class MemberESService {
         data.put("mtel", dto.getMtel());
         data.put("mauth", dto.getMauth());
         data.put("mdate", dto.getMdate());
+        data.put("mstatus", dto.getMstatus());
 
         IndexRequest request = new IndexRequest("member")
                 .id(String.valueOf(dto.getMno()))
@@ -76,6 +77,7 @@ public class MemberESService {
             esDto.setMtel(member.getMtel());
             esDto.setMauth(member.getMauth());
             esDto.setMdate(member.getMdate());
+            esDto.setMstatus(member.getMstatus());
 
             // ES 저장
             memberSave(esDto);

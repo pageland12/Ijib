@@ -167,23 +167,40 @@ public class MemberController {
 			}
 			else if("delete".equals(mode)) {
 
-			    // Oracle 회원 삭제
-			    mdao.memberDelete(mdto.getMno());
+			    model.addAttribute("deleteMember", mdto);
 
-			    // Elasticsearch 회원 삭제
-			    try {
-			        memberESService.memberDelete(mdto.getMno());
-			    } catch (IOException e) {
-			        e.printStackTrace();
-			    }
-
-			    return "redirect:/logout";
+			    return "member/memberDeleteConfirm";
 			}
 		}
 		
 		model.addAttribute("msg","비밀번호가 틀렸습니다.");
 		model.addAttribute("mode", mode);
 		return "member/passwordCheckForm";
+	}
+	
+	@RequestMapping("/member/memberDelete")
+	public String memberDelete(Authentication authentication) {
+
+	    String memail = authentication.getName();
+
+	    MemberDTO mdto = mdao.findByEmail(memail);
+
+	    if (mdto != null) {
+
+	        int mno = mdto.getMno();
+
+	        // Oracle 회원 삭제
+	        mdao.memberDelete(mno);
+
+	        // Elasticsearch 회원 삭제
+	        try {
+	            memberESService.memberDelete(mno);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    return "redirect:/logout";
 	}
 	
 	// 회원 수정폼
@@ -277,54 +294,6 @@ public class MemberController {
 	    return "admin/memberView";
 	}
 	
-	// 관리자 비밀번호 확인폼 (수정/탈퇴 공용)
-	@RequestMapping("/admin/passwordCheckForm")
-	public String adminPasswordCheckForm(Authentication authentication,HttpServletRequest request,Model model) {
-		String mode = request.getParameter("mode");
-		String mno = request.getParameter("mno");
-		model.addAttribute("mode", mode);
-		model.addAttribute("mno",mno);
-		return "admin/passwordCheckForm";
-	}
-	
-	// 관리자 비밀번호 확인 처리 (수정/탈퇴 공용)
-	@RequestMapping("/admin/passwordCheck")
-	public String adminPasswordCheck(Authentication authentication,HttpServletRequest request,Model model) {
-		String mode = request.getParameter("mode"); // update, delete
-		String mpasswd = request.getParameter("mpasswd");
-		int mno = Integer.parseInt(request.getParameter("mno"));
-		
-		String memail = authentication.getName();
-		MemberDTO mdto = mdao.findByEmail(memail);
-		
-		if(mdto != null && passwordEncoder.matches(mpasswd, mdto.getMpasswd())) {
-			if("update".equals(mode)) {      // 비밀번호 확인 시 회원수정
-				MemberDTO targetmno = mdao.memberView(mno);
-				model.addAttribute("update",targetmno);
-				return "admin/adminUpdateForm";
-			}
-			else if("delete".equals(mode)) {
-
-			    // Oracle 회원 삭제
-			    mdao.adminDelete(mno);
-
-			    // Elasticsearch 회원 삭제
-			    try {
-			        memberESService.memberDelete(mno);
-			    } catch (IOException e) {
-			        e.printStackTrace();
-			    }
-
-			    return "redirect:/admin/memberList";
-			}
-		}
-		
-		model.addAttribute("msg","비밀번호가 틀렸습니다.");
-		model.addAttribute("mode", mode);
-		model.addAttribute("mno", mno); // 실패 후 재시도를 위해 mno 유지
-		return "admin/passwordCheckForm";
-	}
-	
 	// 관리자가 회원 정보 수정
 	@RequestMapping("/admin/adminUpdateForm")
 	public String adminUpdateForm(@RequestParam("mno") int mno, Model model) {
@@ -383,6 +352,19 @@ public class MemberController {
 	    model.addAttribute("search", searchDTO);
 
 	    return "admin/memberList";
+	}
+	
+	// ES 재등록
+	@RequestMapping("/admin/memberReindex")
+	public String memberReindex() {
+
+	    try {
+	        memberESService.memberReindexAll();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+
+	    return "redirect:/admin/memberList";
 	}
 	
 }

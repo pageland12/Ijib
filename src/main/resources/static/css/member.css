@@ -929,3 +929,72 @@
     font-size: 11px;
 }
 
+.delete-confirm-box {
+    width: 480px;
+    background: #fff;
+    border: 1px solid #e7e7e7;
+    padding: 40px 32px 32px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.delete-confirm-title {
+    margin: 0 0 14px;
+    color: #222;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.delete-confirm-text {
+    margin: 0;
+    color: #888;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.delete-button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 28px;
+    justify-content: flex-start;
+}
+
+.delete-button,
+.delete-cancel {
+    width: 70px;
+    height: 42px;
+    flex: none;
+    border-radius: 0;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* 탈퇴하기 */
+.delete-button {
+    border: 1px solid #d33;
+    background: #d33;
+    color: #fff;
+}
+
+.delete-button:hover {
+    background: #b92727;
+    border-color: #b92727;
+}
+
+/* 취소 */
+.delete-cancel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #555;
+    text-decoration: none;
+}
+
+.delete-cancel:hover {
+    background: #f8f9fa;
+}

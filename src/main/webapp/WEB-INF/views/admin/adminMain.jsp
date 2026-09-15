@@ -45,7 +45,7 @@
                     <div class="admin-card">등록 구독권 관리</div>
                 </a>
                 
-                <a href="/admin/statistics">
+                <a href="/admin/storeStatistics">
                     <div class="admin-card">통계 관리</div>
                 </a>
 
