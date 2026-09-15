@@ -52,7 +52,7 @@
                 </table>
 
                 <div class="write-btn-area">
-                    <input type="submit" class="btn-submit" value="수정" onclick="return check()>
+                    <input type="submit" class="btn-submit" value="수정" onclick="return check()">
                     <input type="button" class="btn-cancel" value="취소" onclick="history.back()">
                 </div>
             </form>
