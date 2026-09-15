@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>이메일 중복 확인</title>
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/memberWrite.css'/>">
 
 <script>
     function useEmail() {
@@ -35,7 +36,7 @@
 </script>
 </head>
 
-<body>
+<body class="popup-body">
 
     <div class="popup-card">
 
@@ -45,7 +46,7 @@
               method="post"
               action="/guest/emailCheck">
 
-            <div class="input-group">
+            <div class="input-row">
 
                 <input type="text"
                        name="memail"
@@ -55,7 +56,7 @@
                        autocomplete="off">
 
                 <button type="submit"
-                        class="btn-check"
+                        class="btn-sub"
                         onclick="return check()">
                     중복확인
                 </button>
@@ -69,7 +70,7 @@
 
                 <c:when test="${isDuplicated}">
 
-                    <div class="result-box danger">
+                    <div class="result-box result-danger">
                         <strong>"${memail}"</strong><br>
                         이미 사용 중인 이메일입니다.
                     </div>
@@ -78,12 +79,12 @@
 
                 <c:otherwise>
 
-                    <div class="result-box success">
+                    <div class="result-box result-success">
                         <strong>"${memail}"</strong><br>
                         사용 가능한 이메일입니다.
 
                         <button type="button"
-                                class="btn-use"
+                                class="btn-submit btn-use"
                                 onclick="useEmail()">
                             이메일 사용하기
                         </button>
