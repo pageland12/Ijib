@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/chatbot.css">
+<script src="${pageContext.request.contextPath}/js/chatbot-override.js" defer></script>
 
 <div id="chatbot-wrapper" style="position: fixed; bottom: 25px; right: 25px; z-index: 99999; text-align: left;">
     <button type="button" id="chatbot-toggle-btn" onclick="toggleChatbot()" 
