@@ -46,7 +46,7 @@ public class PassController {
 	public String passWrite(PassDTO dto, @RequestParam("pupload") MultipartFile pupload) throws Exception {
 		if (pupload != null && !pupload.isEmpty()) {
 	        String pimg = pupload.getOriginalFilename();
-	        pupload.transferTo(new File("C:\\ijib\\src\\main\\resources\\static\\images\\" + pimg));
+	        pupload.transferTo(new File("C:/Ijib/ijib_images/" + pimg));
 	        dto.setPimg(pimg);
 	    }
 			
@@ -80,7 +80,7 @@ public class PassController {
 	public String passUpdate(PassDTO dto, @RequestParam("pupload") MultipartFile pupload) throws IOException {
 		if (pupload != null && !pupload.isEmpty()) {
 	        String pimg = pupload.getOriginalFilename();
-	        pupload.transferTo(new File("C:\\ijib\\src\\main\\resources\\static\\images\\" + pimg));
+	        pupload.transferTo(new File("C:/Ijib/ijib_images/" + pimg));
 	        dto.setPimg(pimg);
 	    }
 		

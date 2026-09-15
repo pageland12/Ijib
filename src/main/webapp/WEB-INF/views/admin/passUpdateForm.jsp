@@ -6,7 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>구독권 수정</title>
-<link rel="stylesheet" href="<c:url value='/css/memberWrite.css'/>">
+<link rel="stylesheet" href="/css/passWU.css">
+<script src="/js/passUpdate.js"></script>
 </head>
 <body>
     <%@ include file="../guest/header.jsp" %>
@@ -25,7 +26,7 @@
                 <input type="hidden" name="pno" value="${update.pno}">
                 <input type="hidden" name="pimg" value="${update.pimg}">
 
-                <table class="admin-table">
+                <table class="write-table">
                     <tr>
                         <th>현재 이미지</th>
                         <td>
@@ -50,8 +51,8 @@
                     </tr>
                 </table>
 
-                <div class="btn-group">
-                    <input type="submit" class="btn-submit" value="수정">
+                <div class="write-btn-area">
+                    <input type="submit" class="btn-submit" value="수정" onclick="return check()>
                     <input type="button" class="btn-cancel" value="취소" onclick="history.back()">
                 </div>
             </form>

@@ -8,6 +8,18 @@
 <meta charset="UTF-8">
 <title>회원 정보 수정</title>
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/memberWrite.css'/>">
+<script>
+	function check() {
+		let mauth = document.adminUpdate.mauth;
+		
+		if(!mauth.value) {
+			alert("권한을 선택하세요.")
+			return false;
+		}
+		
+		return true;
+	}
+</script>
 </head>
 <body>
     <%@ include file="../guest/header.jsp" %>
@@ -84,7 +96,7 @@
 				</table>
 
 				<div class="btn-group">
-					<input type="submit" value="수정" class="btn-submit">
+					<input type="submit" value="수정" class="btn-submit" onclick="return check()">
 					<input type="button" value="취소" class="btn-cancel" onclick="history.back()">
 				</div>
 			</form>
