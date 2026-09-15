@@ -90,6 +90,7 @@ public class PassOrderController {
 		    int totalAmount = ((Number) reqData.get("totalAmount")).intValue();
 		    String payment = (String) reqData.get("payment");
 		    String buyerEmail = (String) reqData.get("buyerEmail");
+		    LocalDateTime now = LocalDateTime.now();
 			
 			// 2. 구매 혹은 연장 실행
 		    int mno = mdao.findByEmail(buyerEmail).getMno();
@@ -99,6 +100,7 @@ public class PassOrderController {
 		    odto.setOno(paymentId);
 		    odto.setOpayment(payment);
 		    odto.setOprice(totalAmount);
+		    odto.setOdate(now);
 		    
 		    MemberPassesDTO mpdto = new MemberPassesDTO();
 		    mpdto.setPno(pno);
@@ -179,6 +181,10 @@ public class PassOrderController {
 		if (reason == null || reason.isBlank()) {
 			reason = "단순 변심";
 		}
+		String customText = (String) reqData.get("customText");
+		if ("기타".equals(reason) && (customText == null || customText.isBlank())) {
+			customText = "사유 미기재";
+		}
 		
 		// 1. 환불 기간(구매일 후 7일 이내) 및 주문 상태(PAID) 검증
 		OrdersDTO order = odao.orderView(ono);
@@ -232,7 +238,7 @@ public class PassOrderController {
 	        
 	        // ES 동기화
 	        try {
-	            poEsservice.refundStatusUpdate(ono);
+	            poEsservice.refundStatusUpdate(ono, reason, customText);
 	        } catch (Exception esEx) {
 	            System.err.println("ES 동기화 실패: " + esEx.getMessage());
 	        }

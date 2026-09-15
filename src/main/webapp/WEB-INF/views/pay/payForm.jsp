@@ -28,7 +28,7 @@
             
             <p class="order-info-item total-price">
                 <span>결제 금액</span>
-                <span>${totalAmount}</span>
+                <span>${totalAmount}원</span>
             </p>
         </div>
 

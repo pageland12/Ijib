@@ -57,13 +57,11 @@ function submitRefund() {
     const selectVal = document.getElementById("refundReasonSelect").value;
     const customText = document.getElementById("customReasonText").value.trim();
 
-    let finalReason = selectVal;
     if (selectVal === "기타") {
         if (!customText) {
             alert("환불 사유를 상세히 입력해 주세요.");
             return;
         }
-        finalReason = customText;
     }
 
     if (!confirm("정말로 환불을 진행하시겠습니까?\n환불 즉시 구독 혜택이 종료됩니다.")) {
@@ -77,7 +75,8 @@ function submitRefund() {
         },
         body: JSON.stringify({
             paymentId: paymentId,
-            reason: finalReason
+            reason: selectVal,
+            customText: customText
         })
     })
     .then(res => res.json())
