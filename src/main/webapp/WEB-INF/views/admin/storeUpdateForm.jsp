@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <title>음식점 수정</title>
 <link rel="stylesheet" href="/css/storeWU.css">
-
+<script src="/js/storeWrite.js"></script>
 <script>
     let menuIndex = ${fn:length(menu)};
 
@@ -155,7 +155,7 @@
             </table>
 
             <div class="write-btn-area">
-                <input type="submit" class="btn-submit" value="수정">
+                <input type="submit" class="btn-submit" value="수정" onclick="return check()">
                 <input type="button" class="btn-cancel" value="취소" onclick="history.back()">
             </div>
         </form>

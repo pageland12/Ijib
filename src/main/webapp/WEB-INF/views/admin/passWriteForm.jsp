@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>구독권 등록</title>
 <link rel="stylesheet" href="/css/passWU.css">
+<script src="/js/passWrite.js"></script>
 </head>
 <body>
     <%@ include file="../guest/header.jsp" %>
@@ -34,7 +35,7 @@
             </table>
 
             <div class="write-btn-area">
-                <input type="submit" class="btn-submit" value="등록">
+                <input type="submit" class="btn-submit" value="등록" onclick="return check()">
                 <input type="button" class="btn-cancel" value="취소" onclick="history.back()">
             </div>
         </form>

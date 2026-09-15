@@ -6,6 +6,18 @@
 <head>
 <meta charset="UTF-8">
 <title>회원 정보 수정</title>
+<script>
+	function check() {
+		let mauth = document.adminUpdate.mauth;
+		
+		if(!mauth.value) {
+			alert("권한을 선택하세요.")
+			return false;
+		}
+		
+		return true;
+	}
+</script>
 </head>
 <body>
 	<h3>회원 정보 수정</h3>
@@ -70,7 +82,7 @@
 				<td><fmt:formatDate value="${update.mdate}" pattern="yy-MM-dd" /></td>
 			</tr>
 		</table>
-		<input type="submit" value="수정">
+		<input type="submit" value="수정" onclick="return check()">
 		<input type="button" value="취소" onclick="history.back()">
 	</form>
 </body>

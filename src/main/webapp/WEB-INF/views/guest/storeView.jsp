@@ -174,18 +174,28 @@
                 <c:choose>
                     <c:when test="${not empty list}">
                         <c:forEach var="list" items="${list}">
-                            <div class="rating-item">
-                                <strong>${list.rtitle}</strong>
-                                <span class="rating-rate">★ ${list.rrate}</span>
-                                <p>${list.rcontent}</p>
-                                <c:if test="${not empty list.rfeature}">
-                                    <div class="rating-meta">특징 : ${list.rfeature}</div>
-                                </c:if>
-                                <div class="rating-meta">
-                                    ${list.mname} · <fmt:formatDate value="${list.rdate}" pattern="yyyy.MM.dd"/>
-                                </div>
-                            </div>
-                        </c:forEach>
+						    <div class="rating-item">
+						        <strong>${list.rtitle}</strong>
+						        <span class="rating-rate">★ ${list.rrate}</span>
+						        <p>${list.rcontent}</p>
+						
+						        <c:if test="${not empty list.rfeature}">
+						            <div class="rating-feature">특징 : ${list.rfeature}</div>
+						        </c:if>
+						
+						        <div class="rating-bottom-row">
+						            <div class="rating-meta">
+						                ${list.mname} · <fmt:formatDate value="${list.rdate}" pattern="yyyy.MM.dd"/>
+						            </div>
+						
+						            <sec:authorize access="hasRole('ADMIN')">
+						                <div class="right-btns">
+						                    <a href="/board/ratingDelete?rno=${list.rno}" class="btn btn-delete" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+						                </div>
+						            </sec:authorize>
+						        </div>
+						    </div>
+						</c:forEach>
                     </c:when>
                     <c:otherwise>
                         <p class="sv-empty-review">아직 작성된 후기가 없습니다.</p>
@@ -210,7 +220,7 @@
 		
 		    <sec:authorize access="hasRole('ADMIN')">
 		        <a href="/admin/storeUpdateForm?sno=${view.sno}" class="sv-btn sv-btn-outline">수정</a>
-		        <a href="/admin/storeDelete?sno=${view.sno}" class="sv-btn sv-btn-danger">삭제</a>
+		        <a href="/admin/storeDelete?sno=${view.sno}" class="sv-btn sv-btn-danger" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
 		    </sec:authorize>
 		
 		    <a href="/guest/storeList" class="sv-btn sv-btn-outline">목록</a>
