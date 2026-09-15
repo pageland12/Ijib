@@ -1,0 +1,169 @@
+@charset "UTF-8";
+
+/* ===== 페이지 래퍼 (board-page/board-container 톤 재사용) ===== */
+.list-page {
+    width: 100%;
+    background: #fff;
+}
+
+.list-container {
+    width: calc(100% - 194px);
+    max-width: 970px;
+    margin: 0 auto;
+    padding: 25px 0 80px;
+}
+
+.list-title {
+    font-size: 22px;
+    font-weight: 500;
+    color: #222;
+    letter-spacing: -0.7px;
+    margin: 0 0 20px;
+}
+
+/* ===== 테이블 ===== */
+.list-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid #dedede;
+}
+
+.list-table thead th {
+    padding: 14px 10px;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 12px;
+    font-weight: 500;
+    color: #999;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.list-table tbody tr {
+    border-bottom: 1px solid #e5e5e5;
+    transition: background 0.2s ease;
+}
+
+.list-table tbody tr:hover {
+    background: #fafafa;
+}
+
+.list-table tbody td {
+    padding: 14px 10px;
+    font-size: 13px;
+    color: #444;
+    white-space: nowrap;
+}
+
+.cell-addr {
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 이메일/이름 클릭 링크 */
+.cell-link a {
+    color: #222;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.cell-link a:hover {
+    color: #1456d9;
+    text-decoration: underline;
+}
+
+/* ===== 권한 뱃지 ===== */
+.auth-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 74px;
+    height: 26px;
+    padding: 0 10px;
+    border-radius: 13px;
+    font-size: 11px;
+    font-weight: 500;
+    box-sizing: border-box;
+}
+
+.auth-NORMAL {
+    background: #f0f2f5;
+    color: #666;
+}
+
+.auth-SUBSCRIBER {
+    background: #e8f0fe;
+    color: #1456d9;
+}
+
+.auth-ADMIN {
+    background: #173b67;
+    color: #fff;
+}
+
+/* ===== 상태 뱃지 ===== */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: #555;
+}
+
+.status-badge::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ccc;
+}
+
+.status-OPEN::before {
+    background: #1456d9;
+}
+
+.status-INACTIVE::before {
+    background: #ccc;
+}
+
+/* ===== 빈 목록 ===== */
+.list-empty {
+    padding: 80px 0 !important;
+    text-align: center;
+    color: #999;
+    font-size: 13px;
+    white-space: normal !important;
+}
+
+/* ===== 반응형 ===== */
+@media screen and (max-width: 900px) {
+    .list-container {
+        width: calc(100% - 80px);
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .list-container {
+        width: calc(100% - 40px);
+        padding-top: 20px;
+        overflow-x: auto;
+    }
+
+    .list-table {
+        min-width: 720px;
+    }
+}
+
+/* =========================================
+   구독권 목록 (passList) 전용
+   ========================================= */
+
+.list-thumb {
+    width: 90px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+}
