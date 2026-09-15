@@ -16,4 +16,5 @@ public class MemberESDTO {
     private Date mdate;
     private String memail;
     private String mtel;
+    private String mstatus;
 }
