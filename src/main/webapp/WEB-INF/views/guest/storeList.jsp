@@ -62,7 +62,7 @@
                         <a href="${pageContext.request.contextPath}/guest/storeView?sno=${store.sno}" class="store-card">
                             <!-- 음식점 이미지 -->
                             <div class="store-card-thumb-wrap">
-                                <img src="${fn:split(store.sfiles, ',')[0]}" class="store-card-thumb" alt="${store.sname}">
+                                <img src="${fn:split(store.sfiles, ',')[0]}" class="store-card-thumb" alt="${store.sname}" loading="lazy">
                             </div>
 
                             <!-- 음식점 정보 -->
