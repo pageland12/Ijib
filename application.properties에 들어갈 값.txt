@@ -2,6 +2,7 @@
 qaZk9MlUtbraVxd2OAtvjOfOMfBAikIhKW2wki91Iu7GtMlAey7FVA6uWy7Ls5YPSid51znH5HnQiWGM
 
 # Google Gemini API Key
+YOUR_API_KEY
 https://aistudio.google.com/ (Google AI Studio)에 접속해 로그인 후 대시보드 -> API 키에서 API 키 복사 후 붙여넣기
 
 # Google Gemini API Key
