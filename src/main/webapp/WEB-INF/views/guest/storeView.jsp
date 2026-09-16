@@ -51,7 +51,32 @@
                     <div class="sv-carousel-track" id="svCarouselTrack">
                         <c:forEach var="image" items="${imgList}">
                             <div class="sv-carousel-slide">
-                                <img src="${image}" alt="${view.sname}">
+                                <c:choose>
+
+								    <c:when test="${fn:contains(image, 'postfiles.pstatic.net')}">
+								        <img src="${image}" alt="${view.sname}" loading="lazy">
+								    </c:when>
+								
+								    <c:otherwise>
+								        <c:set var="originalUrl"
+								               value="${fn:substringAfter(image, 'fname=')}" />
+								
+								        <%
+								            String originalUrl =
+								                    (String) pageContext.getAttribute("originalUrl");
+								
+								            if (originalUrl != null) {
+								                originalUrl =
+								                        java.net.URLDecoder.decode(originalUrl, "UTF-8");
+								            }
+								
+								            pageContext.setAttribute("originalUrl", originalUrl);
+								        %>
+								
+								        <img src="${originalUrl}" alt="${view.sname}" loading="lazy">
+								    </c:otherwise>
+								
+								</c:choose>
                             </div>
                         </c:forEach>
                     </div>
