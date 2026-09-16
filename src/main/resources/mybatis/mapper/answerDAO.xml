@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.springboot.ijib.dao.IAnswerDAO">
+    <select id="answerList" resultType="com.springboot.ijib.dto.AnswerDTO">
+	    select a.*, m.mname
+	     from answer a
+	     join member m on a.mno = m.mno
+	     where a.bno = #{bno}
+	     order by a.ano asc
+	</select>
+
+    <insert id="answerWrite">
+        insert into answer(ano, acontent, adate, mno, bno)
+         values(ANSWER_SEQ.NEXTVAL, #{acontent}, SYSDATE, #{mno}, #{bno})
+    </insert>
+
+    <update id="answerUpdate">
+        update answer
+         set acontent = #{acontent}
+         where ano = #{ano}
+    </update>
+
+    <delete id="answerDelete">
+        delete from answer
+         where ano = #{ano}
+    </delete>
+</mapper>

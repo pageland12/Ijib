@@ -775,3 +775,23 @@ body {
     color: #173b67;
     background-color: #f5f7fa;
 }
+
+.answer-status {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.answer-status.waiting {
+    color: #999999;
+    border: 1px solid #d5d5d5;
+}
+
+.answer-status.complete {
+    color: #4a90e2;
+    border: 1px solid #4a90e2;
+}
