@@ -66,6 +66,19 @@
                                                 비밀글입니다.
                                             </c:otherwise>
                                         </c:choose>
+                                        
+                                        <!-- 비밀글 답변 상태 -->
+									    <c:choose>
+									
+									        <c:when test="${list.answerCount > 0}">
+									            <span class="answer-status complete">답변완료</span>
+									        </c:when>
+									
+									        <c:otherwise>
+									            <span class="answer-status waiting">답변전</span>
+									        </c:otherwise>
+									
+									    </c:choose>
                                     </div>
                             
                                     <div class="board-item-info">

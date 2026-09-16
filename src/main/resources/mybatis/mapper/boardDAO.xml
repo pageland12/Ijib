@@ -4,18 +4,26 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.springboot.ijib.dao.IBoardDAO">
 	<select id="boardList" resultType="com.springboot.ijib.dto.BoardDTO">
-		select b.*, m.mname
-		 from board b
-		 join member m on b.mno = m.mno
-		 order by b.bno desc
+	    select b.*,
+	           m.mname,
+	           (select count(*)
+	              from answer a
+	             where a.bno = b.bno) as answerCount
+	    from board b
+	    join member m on b.mno = m.mno
+	    order by b.bno desc
 	</select>
 	
 	<select id="myBoardList" resultType="com.springboot.ijib.dto.BoardDTO">
-   		select b.*, m.mname
-    	 from board b
-    	 join member m on b.mno = m.mno
-    	 where b.mno = #{mno}
-    	 order by b.bno desc
+	    select b.*,
+	           m.mname,
+	           (select count(*)
+	              from answer a
+	             where a.bno = b.bno) as answerCount
+	    from board b
+	    join member m on b.mno = m.mno
+	    where b.mno = #{mno}
+	    order by b.bno desc
 	</select>
 	
 	<select id="boardView" resultType="com.springboot.ijib.dto.BoardDTO">

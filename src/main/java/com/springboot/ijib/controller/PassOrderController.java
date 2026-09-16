@@ -84,13 +84,22 @@ public class PassOrderController {
 		Map<String, Object> result = new HashMap<>();
 		 
 		try { 
-			// 1. JS에서 보낸 JSON 데이터를 reqData.get()으로 꺼내서 사용
+			// 1-1. JS에서 보낸 JSON 데이터를 reqData.get()으로 꺼내서 사용
 		    String paymentId = (String) reqData.get("paymentId");
 		    int pno = ((Number) reqData.get("pno")).intValue();
-		    int totalAmount = ((Number) reqData.get("totalAmount")).intValue();
 		    String payment = (String) reqData.get("payment");
 		    String buyerEmail = (String) reqData.get("buyerEmail");
 		    LocalDateTime now = LocalDateTime.now();
+		    
+		    // 1-2. 
+		    PassDTO pdto = pdao.passView(pno);
+		    if (pdto == null) {
+		    	throw new RuntimeException("존재하지 않는 상품 번호입니다: " + pno);
+		    }
+		    int totalAmount = pdto.getPprice();
+		    
+		    // 1-3. KG 이니시스 창에서 실제 결제 검증 및 생성된 결제 수단 조회
+		    String opayment = poservice.verifyAndGetPaymentMethod(paymentId, totalAmount);
 			
 			// 2. 구매 혹은 연장 실행
 		    int mno = mdao.findByEmail(buyerEmail).getMno();
@@ -98,7 +107,7 @@ public class PassOrderController {
 		    OrdersDTO odto = new OrdersDTO();
 		    odto.setMno(mno);
 		    odto.setOno(paymentId);
-		    odto.setOpayment(payment);
+		    odto.setOpayment(opayment);
 		    odto.setOprice(totalAmount);
 		    odto.setOdate(now);
 		    
@@ -108,7 +117,6 @@ public class PassOrderController {
 		    String dbRole = poservice.buyOrExtendPass(mno, odto, mpdto);
 		    
 		    // 3. ES의 pass 인덱스에 등록
-		    PassDTO pdto = pdao.passView(pno);
 		    poEsservice.save(odto, pdto);
 		    
 		    // 4. 로그인 인증 객체 재발급

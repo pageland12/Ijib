@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/chatbot.css">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/chatbot-override.js" defer></script>
 
 <div id="chatbot-wrapper" style="position: fixed; bottom: 25px; right: 25px; z-index: 99999; text-align: left;">
@@ -117,7 +118,9 @@ function appendMessage(sender, text) {
     if (sender === "챗봇") {
         // 백엔드에서 내려준 <a> 태그나 <br> 태그가 링크와 줄바꿈으로 동작하도록 innerHTML 적용
         // \n 줄바꿈 문자도 <br>로 치환해줍니다.
-        contentSpan.innerHTML = text.replace(/\n/g, "<br>");
+        // contentSpan.innerHTML = text.replace(/\n/g, "<br>");
+        // marked.js를 사용하여 마크다운 문법과 HTML 링크를 파싱
+    	contentSpan.innerHTML = marked.parse(text);
     } else {
         // 사용자 입력은 XSS 방지를 위해 순수 텍스트(innerText) 처리
         contentSpan.innerText = text;

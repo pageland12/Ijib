@@ -45,7 +45,7 @@
 
         <a href="<c:url value='/member/myBoard'/>" class="sidebar-menu-item">
             <span class="side-icon review-icon"></span>
-            <span class="menu-text">후기 내역</span>
+            <span class="menu-text">게시글 내역</span>
             <span class="menu-more">자세히 보기&nbsp; ›</span>
         </a>
     </section>

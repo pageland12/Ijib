@@ -69,6 +69,41 @@
 					</c:if>
 				</tbody>
 			</table>
+			
+			<c:if test="${totalPage > 0}">
+			    <div class="pagination">
+			
+			        <c:if test="${startPage > 1}">
+			            <a href="${pageContext.request.contextPath}/admin/memberList?pageNum=${startPage - 1}"
+			               class="page-btn">&lt;</a>
+			        </c:if>
+			
+			        <c:forEach var="page"
+			                   begin="${startPage}"
+			                   end="${endPage}">
+			
+			            <c:choose>
+			                <c:when test="${page == pageNum}">
+			                    <span class="page-btn active">${page}</span>
+			                </c:when>
+			
+			                <c:otherwise>
+			                    <a href="${pageContext.request.contextPath}/admin/memberList?pageNum=${page}"
+			                       class="page-btn">
+			                        ${page}
+			                    </a>
+			                </c:otherwise>
+			            </c:choose>
+			
+			        </c:forEach>
+			
+			        <c:if test="${endPage < totalPage}">
+			            <a href="${pageContext.request.contextPath}/admin/memberList?pageNum=${endPage + 1}"
+			               class="page-btn">&gt;</a>
+			        </c:if>
+			
+			    </div>
+			</c:if>
 
 		</div>
 	</div>

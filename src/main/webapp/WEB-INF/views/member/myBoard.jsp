@@ -53,8 +53,28 @@
                                     <tr>
                                         <td>${b.bno}</td>
                                         <td style="text-align: left; padding-left: 15px;">
-                                            <a href="/guest/boardView?bno=${b.bno}">${b.btitle}</a>
-                                        </td>
+										    <a href="/guest/boardView?bno=${b.bno}">
+										        ${b.btitle}
+										
+										        <c:if test="${b.bcategory == '비밀글'}">
+										
+										            <c:choose>
+										                <c:when test="${b.answerCount > 0}">
+										                    <span class="answer-status complete">
+										                        답변완료
+										                    </span>
+										                </c:when>
+										
+										                <c:otherwise>
+										                    <span class="answer-status waiting">
+										                        답변전
+										                    </span>
+										                </c:otherwise>
+										            </c:choose>
+										
+										        </c:if>
+										    </a>
+										</td>
                                         <td>${b.mname}</td>
                                         <td><fmt:formatDate value="${b.bdate}" pattern="yyyy-MM-dd" /></td>
                                         <td>${b.bhit}</td>

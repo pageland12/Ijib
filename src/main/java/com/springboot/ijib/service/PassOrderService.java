@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,7 +35,6 @@ import com.springboot.ijib.dao.IPassDAO;
 import com.springboot.ijib.dto.MemberDTO;
 import com.springboot.ijib.dto.MemberPassesDTO;
 import com.springboot.ijib.dto.OrdersDTO;
-import com.springboot.ijib.dto.PassDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -52,6 +52,10 @@ public class PassOrderService {
 	
 	@Autowired
 	private IPassDAO pdao;
+	
+	// 포트원 API Secret 키
+	@Value("${portone.api.secret}")
+	private String portoneApiSecret;
 	
 	// Spring Security 권한과 DB 권한을 비교하는 메서드
 	public boolean checkDBandSecurityAuth(String dbRole, Collection<GrantedAuthority> auth) {
@@ -90,6 +94,70 @@ public class PassOrderService {
             		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
             	}
             }
+        }
+    }
+    
+    // poservice 내부 또는 Controller 보조 메서드 예시
+    public String verifyAndGetPaymentMethod(String paymentId, int expectedPrice) {
+        // 1. 포트원 V2 결제 단건 조회 API 호출
+	    // GET https://api.portone.io/payments/{paymentId}
+	    // Header: Authorization: PortOne {API_SECRET}
+    	RestTemplate restTemplate = new RestTemplate();
+        String queryUrl = "https://api.portone.io/payments/" + paymentId;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "PortOne " + portoneApiSecret);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        try {
+            ResponseEntity<Map> response = restTemplate.exchange(
+                URI.create(queryUrl),
+                HttpMethod.GET,
+                entity,
+                Map.class
+            );
+
+            if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
+                throw new RuntimeException("포트원 결제 내역 조회 실패");
+            }
+
+            Map<String, Object> resBody = response.getBody();
+
+            // 1. 실제 결제 상태 검증 (PAID 여부)
+            String status = String.valueOf(resBody.get("status"));
+            if (!"PAID".equalsIgnoreCase(status)) {
+                throw new RuntimeException("결제가 정상 완료 상태가 아닙니다. 상태: " + status);
+            }
+
+            // 2. 실제 결제 금액 검증 (위변조 방지 핵심)
+            // PortOne V2 응답의 amount 객체 안의 total 값 추출
+            Map<String, Object> amountMap = (Map<String, Object>) resBody.get("amount");
+            int actualPaidAmount = ((Number) amountMap.get("total")).intValue();
+
+            if (actualPaidAmount != expectedPrice) {
+                // 결제 금액 위변조 감지 -> 즉시 예외 발생 (컨트롤러 catch문에서 cancelPortOnePayment로 자동 환불됨)
+                throw new RuntimeException("결제 금액 불일치 위변조 감지! 기대금액: " + expectedPrice + ", 실제결제액: " + actualPaidAmount);
+            }
+
+            // 3. 결제 수단 판별
+            Map<String, Object> method = (Map<String, Object>) resBody.get("method");
+            if (method != null) {
+                if (method.containsKey("provider")) {
+                    String provider = String.valueOf(method.get("provider")).toUpperCase();
+                    if (provider.contains("KAKAO")) return "KAKAO_PAY";
+                    if (provider.contains("TOSS"))  return "TOSS_PAY";
+                    if (provider.contains("NAVER")) return "NAVER_PAY";
+                }
+                String type = String.valueOf(method.get("type"));
+                if ("PaymentMethodCard".equalsIgnoreCase(type)) {
+                    return "CARD";
+                }
+            }
+
+            return "CARD";
+
+        } catch (Exception e) {
+            throw new RuntimeException("결제 검증 오류: " + e.getMessage());
         }
     }
 	
@@ -158,10 +226,6 @@ public class PassOrderService {
 		// 성공하면 강등된 회원 수 반환
 		return udpateCount;
 	}
-	
-	// 환불: PortOne V2 취소 API 통신 메소드
-	@Value("${portone.api.secret}")
-	private String portoneApiSecret;
 
 	public void cancelPortOnePayment(String paymentId, String reason) {
 	    RestTemplate restTemplate = new RestTemplate();

@@ -48,7 +48,7 @@
             const buyerName = '${buyerName}';
             
             // 결제 방식, 주문 고유 번호 (고유값 생성)
-            const payment = 'KAKAO_PAY';
+            // const payment = 'KAKAO_PAY';
             const paymentId = "ORD-" + new Date().getTime();
 
             try {
@@ -85,7 +85,7 @@
                         paymentId: response.paymentId,      // 포트원 결제 고유 번호
                         pno: Number('${pno}') || 0,    		// 구독권 번호
                         totalAmount: totalAmount,  			// 실제로 결제한 금액
-                        payment: payment,					// 결제 수단
+                        // payment: payment,				// 결제 수단 (사용하지 않음)
                         buyerEmail: buyerEmail				// 결제 이메일
                     })
                 })
