@@ -223,7 +223,7 @@ public class ChatbotESService {
 	}
 	
 	// 카테고리/지역/키워드 필터 기반 리뷰 수 랭킹 집계
-	// query: 사용자 질문, size: 최대 추천 가게수
+	// query: 사용자 질문, topN: 최대 추천 가게수
 	// 1차 must 엄격 검색 -> 0건일 경우 2차 should 완화 검색
     public Map<Integer, Long> chatbotStoresByFilterAndRatingWithFallback(String query, int topN) {
     	// 사용자의 질문에서 지역과 카테고리 및 키워드를 추출
@@ -332,8 +332,18 @@ public class ChatbotESService {
 			searchRequest.source(sourceBuilder);
 
 			SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
+			
+			// 전체 필터 매칭 가게 수 (참고용)
+            long totalMatches = (response.getHits().getTotalHits() != null) 
+                                ? response.getHits().getTotalHits().value : 0L;
 
-			Terms byStore = response.getAggregations().get("by_store");
+            Terms byStore = response.getAggregations().get("by_store");
+            int bucketCount = (byStore != null) ? byStore.getBuckets().size() : 0;
+
+            // [로그 1] 실제 집계된 가게 건수 출력 (size=0 이므로 hits 대신 buckets 확인)
+            System.out.println("== [ES 리뷰 집계 (" + (isStrict ? "엄격" : "완화") + ")] 매칭 가게: " 
+                               + totalMatches + "건 중 상위 집계: " + bucketCount + "건 ==");
+
 			if (byStore != null) {
 				for (Terms.Bucket bucket : byStore.getBuckets()) {
 					int sno = bucket.getKeyAsNumber().intValue();
@@ -343,6 +353,9 @@ public class ChatbotESService {
 					storeReviewCountMap.put(sno, reviewCount);
 				}
 			}
+			
+			// [로그 2] 최종 Map에 적재된 가게 수 출력
+            System.out.println("== [ES 리뷰 집계 완료] 최종 반환 가게: " + storeReviewCountMap.size() + "건 ==");
 
 		} catch (Exception e) {
 			System.err.println("집계 쿼리 실행 실패 (isStrict=" + isStrict + "): " + e.getMessage());
@@ -435,6 +448,11 @@ public class ChatbotESService {
  			// 5. 실행 및 결과 매핑
  			SearchResponse response = client.search(request, RequestOptions.DEFAULT);
  			
+ 			// [로그 추가 1] ES에서 조건에 맞아 실제 추출된 건수
+ 			int esHitCount = response.getHits().getHits().length;
+ 			long totalMatches = response.getHits().getTotalHits().value; // 전체 일치 건수 (참고용)
+ 			System.out.println("== [챗봇 ES 검색] 질의: '" + searchKeyword + "' | ES 추출 건수: " + esHitCount + "건 (전체 매칭: " + totalMatches + "건) ==");
+ 			
  			for (SearchHit hit : response.getHits().getHits()) {
  				Map<String, Object> source = hit.getSourceAsMap();
  				if (source != null && source.get("sno") != null) {
@@ -445,6 +463,9 @@ public class ChatbotESService {
  					}
  				}
  			}
+ 			
+ 			// [로그 추가 2] DB 조회까지 완료되어 LLM 프롬프트로 넘어갈 최종 가게 건수
+ 			System.out.println("== [챗봇 ES 검색] Oracle DB 연동 완료 최종 후보: " + storeList.size() + "건 ==");
  			
  		} catch (Exception e) {
  			System.err.println("챗봇 백년가게 검색 실패: " + e.getMessage());

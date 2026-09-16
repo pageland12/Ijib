@@ -8,10 +8,10 @@
 <link rel="stylesheet" href="/css/adminMain.css">
 </head>
 <body>
-	<c:if test="not empty ${msg}">
-		<script>alert</script>
+	<c:if test="${not empty msg}">
+		<script>alert('${msg}')</script>
 	</c:if>
-	
+
 	
     <!-- 상단 헤더 포함 -->
     <%@ include file="../guest/header.jsp" %>
@@ -61,7 +61,7 @@
         </div>
 
     </main>
-
+	
     <!-- 하단 푸터 포함 -->
     <%@ include file="../guest/footer.jsp" %>
 	
