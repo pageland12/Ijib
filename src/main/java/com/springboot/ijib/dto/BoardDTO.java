@@ -15,4 +15,5 @@ public class BoardDTO {
 	private int mno;
 	private String mname;
 	private String memail;
+	private int answerCount;
 }

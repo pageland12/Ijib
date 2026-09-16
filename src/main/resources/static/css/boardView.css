@@ -141,3 +141,173 @@ body {
 .btn-delete:hover {
     background-color: #c82333;
 }
+
+.answer-section {
+    margin-top: 30px;
+}
+
+.answer-title {
+    margin: 0 0 20px 0;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+
+/* 답변 하나 */
+.answer-item {
+    padding: 18px 0;
+    border-bottom: 1px solid #eeeeee;
+}
+
+
+/* 작성자 / 날짜 / 수정 / 삭제 */
+.answer-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #777777;
+}
+
+.answer-meta strong {
+    color: #333333;
+    font-weight: 700;
+}
+
+.answer-meta .divider {
+    color: #cccccc;
+}
+
+
+/* 수정 / 삭제 버튼 */
+.answer-meta button,
+.answer-meta a {
+    border: none;
+    background: none;
+    padding: 0;
+    margin-left: 4px;
+    font-size: 13px;
+    color: #777777;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.answer-meta button:hover,
+.answer-meta a:hover {
+    color: #333333;
+    text-decoration: underline;
+}
+
+
+/* 삭제 form */
+.answer-meta form {
+    margin: 0;
+}
+
+
+/* 답변 내용 */
+.answer-content {
+    padding: 0;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #333333;
+    white-space: pre-wrap;
+}
+
+.answer-edit {
+    margin-top: 10px;
+}
+
+.answer-edit form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.answer-edit-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.answer-edit textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px;
+    border: 1px solid #dddddd;
+    border-radius: 6px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.6;
+    box-sizing: border-box;
+}
+
+.answer-edit textarea:focus {
+    outline: none;
+    border-color: #999999;
+}
+
+.answer-edit button {
+    padding: 7px 13px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    background-color: #ffffff;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.answer-edit button:hover {
+    background-color: #f5f5f5;
+}
+
+.answer-write {
+    margin-top: 25px;
+    padding-top: 20px;
+}
+
+.answer-write .answer-title {
+    margin-bottom: 12px;
+    font-size: 17px;
+}
+
+.answer-write form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.answer-write textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px;
+    border: 1px solid #dddddd;
+    border-radius: 6px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.6;
+    box-sizing: border-box;
+}
+
+.answer-write textarea:focus {
+    outline: none;
+    border-color: #999999;
+}
+
+.answer-write button {
+    padding: 8px 15px;
+    border: 1px solid #333333;
+    border-radius: 5px;
+    background-color: #333333;
+    color: #ffffff;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.answer-write button:hover {
+    background-color: #555555;
+}

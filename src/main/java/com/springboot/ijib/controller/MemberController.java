@@ -326,10 +326,48 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/admin/memberList")
-	public String memberList(Model model) {
-		model.addAttribute("list", mdao.memberList());
-		
-		return "admin/memberList";
+	public String memberList(
+	        @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+	        Model model) {
+
+	    List<MemberDTO> memberList = mdao.memberList();
+
+	    int pageSize = 25;
+	    int totalCount = memberList.size();
+	    int totalPage = (int) Math.ceil((double) totalCount / pageSize);
+
+	    if (pageNum < 1) {
+	        pageNum = 1;
+	    }
+
+	    if (totalPage > 0 && pageNum > totalPage) {
+	        pageNum = totalPage;
+	    }
+
+	    int startIndex = (pageNum - 1) * pageSize;
+	    int endIndex = Math.min(startIndex + pageSize, totalCount);
+
+	    List<MemberDTO> pageList =
+	            memberList.subList(startIndex, endIndex);
+
+	    int pageBlock = 5;
+
+	    int startPage =
+	            ((pageNum - 1) / pageBlock) * pageBlock + 1;
+
+	    int endPage = startPage + pageBlock - 1;
+
+	    if (endPage > totalPage) {
+	        endPage = totalPage;
+	    }
+
+	    model.addAttribute("list", pageList);
+	    model.addAttribute("pageNum", pageNum);
+	    model.addAttribute("totalPage", totalPage);
+	    model.addAttribute("startPage", startPage);
+	    model.addAttribute("endPage", endPage);
+
+	    return "admin/memberList";
 	}
 	
 	@RequestMapping("/admin/memberSearch")

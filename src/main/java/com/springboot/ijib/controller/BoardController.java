@@ -11,8 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.springboot.ijib.dao.IAnswerDAO;
 import com.springboot.ijib.dao.IBoardDAO;
 import com.springboot.ijib.dao.IMemberDAO;
+import com.springboot.ijib.dto.AnswerDTO;
 import com.springboot.ijib.dto.BoardDTO;
 import com.springboot.ijib.dto.MemberDTO;
 
@@ -28,6 +30,9 @@ public class BoardController {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private IAnswerDAO adao;
 	
 	@RequestMapping("/guest/boardList")
 	public String boardList(
@@ -102,6 +107,7 @@ public class BoardController {
 	public String boardView(@RequestParam("bno") int bno, Model model) {
 		bdao.boardHit(bno);
 		model.addAttribute("view", bdao.boardView(bno));
+		model.addAttribute("answerList", adao.answerList(bno));
 		return "guest/boardView";
 	}
 	
@@ -162,5 +168,35 @@ public class BoardController {
 	public String boardUpdate(BoardDTO bdto) {
 		bdao.boardUpdate(bdto);
 		return "redirect:/member/myBoard";
+	}
+	
+	@RequestMapping("/admin/answerWrite")
+	public String answerWrite(AnswerDTO dto, Principal principal) {
+
+	    MemberDTO mdto = mdao.findByEmail(principal.getName());
+
+	    dto.setMno(mdto.getMno());
+
+	    adao.answerWrite(dto);
+
+	    return "redirect:/guest/boardView?bno=" + dto.getBno();
+	}
+	
+	@RequestMapping("/admin/answerUpdate")
+	public String answerUpdate(AnswerDTO dto) {
+
+	    adao.answerUpdate(dto);
+
+	    return "redirect:/guest/boardView?bno=" + dto.getBno();
+	}
+	
+	@RequestMapping("/admin/answerDelete")
+	public String answerDelete(
+	        @RequestParam("ano") int ano,
+	        @RequestParam("bno") int bno) {
+
+	    adao.answerDelete(ano);
+
+	    return "redirect:/guest/boardView?bno=" + bno;
 	}
 }
