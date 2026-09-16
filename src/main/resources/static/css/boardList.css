@@ -531,7 +531,10 @@ body {
     display: none;
 }
 
-
+.review-store .store-name a {
+    color: inherit;
+    text-decoration: none;
+}
 
 .review-card .board-item-title {
     color: #222;
