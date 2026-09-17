@@ -144,7 +144,9 @@
                                 <input type="text" name="mnname" value="${m.mnname}">
                                 <span class="menu-label">가격</span>
                                 <input type="text" name="mnprice" value="${m.mnprice}">
-                                <input type="button" value="삭제" onclick="deleteMenu(${m.mnno}, this)">
+                                <c:if test="${status.index > 0}">
+								    <input type="button" value="삭제" onclick="deleteMenu(${m.mnno}, this)">
+								</c:if>
                             </div>
                         </c:forEach>
 

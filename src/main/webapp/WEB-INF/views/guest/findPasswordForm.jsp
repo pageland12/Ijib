@@ -33,7 +33,7 @@
 
                 <div class="password-button-group">
                     <button type="submit" class="password-confirm">인증번호 전송</button>
-                    <button type="button" class="password-cancel" onclick="location.href='<c:url value='/guest/loginForm'/>'">취소</button>
+                    <button type="button" class="password-cancel" onclick="location.href='<c:url value='/loginForm'/>'">취소</button>
                 </div>
             </form>
 

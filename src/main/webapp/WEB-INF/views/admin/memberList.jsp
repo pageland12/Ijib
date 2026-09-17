@@ -74,7 +74,7 @@
 			    <div class="pagination">
 			
 			        <c:if test="${startPage > 1}">
-			            <a href="${pageContext.request.contextPath}/admin/memberList?pageNum=${startPage - 1}"
+			            <a href="javascript:goPage(${startPage - 1});"
 			               class="page-btn">&lt;</a>
 			        </c:if>
 			
@@ -88,7 +88,7 @@
 			                </c:when>
 			
 			                <c:otherwise>
-			                    <a href="${pageContext.request.contextPath}/admin/memberList?pageNum=${page}"
+			                    <a href="javascript:goPage(${page});"
 			                       class="page-btn">
 			                        ${page}
 			                    </a>
@@ -98,11 +98,19 @@
 			        </c:forEach>
 			
 			        <c:if test="${endPage < totalPage}">
-			            <a href="${pageContext.request.contextPath}/admin/memberList?pageNum=${endPage + 1}"
+			            <a href="javascript:goPage(${endPage + 1});"
 			               class="page-btn">&gt;</a>
 			        </c:if>
 			
 			    </div>
+			    
+			    <script>
+			    function goPage(n) {
+			        var params = new URLSearchParams(window.location.search);
+			        params.set('pageNum', n);
+			        window.location.search = params.toString();
+			    }
+			    </script>
 			</c:if>
 
 		</div>

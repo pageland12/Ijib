@@ -42,7 +42,9 @@
     <!-- 음식점 카드 그리드 -->
     <c:choose>
         <c:when test="${empty result}">
-            <div style="text-align: center; padding: 60px 0; color: #999;">검색 결과가 없습니다.</div>
+            <div style="width: 100%; text-align: center; padding: 80px 0; color: #999; font-size: 15px;">
+                검색 결과가 없습니다.
+            </div>
         </c:when>
         <c:otherwise>
 		    <div class="store-grid">

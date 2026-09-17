@@ -1,18 +1,22 @@
 @charset "UTF-8";
 
 .store-grid-wrap {
+    width: 100%;
     max-width: 1100px;
     margin: 0 auto;
     padding: 24px 20px 56px;
+    box-sizing: border-box;
 }
 
 /* 탭 + 검색바 영역 */
 .search-section-wrap {
+    width: 100%;
     max-width: 700px;
     margin: 20px auto 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-sizing: border-box;
 }
 
 .search-tab-group {
@@ -140,7 +144,7 @@
     overflow: hidden;
     text-decoration: none;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    height: 100%; /* 카드 전체 높이 고정 */
+    height: 100%;
 }
 
 .store-card:hover {
@@ -167,7 +171,7 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
-    flex: 1; /* 남은 빈 공간을 체워서 아래 주소를 밀어냄 */
+    flex: 1;
 }
 
 .store-tag-row {
@@ -218,8 +222,8 @@
 .store-card-addr {
     font-size: 13px;
     color: #555555;
-    margin-top: auto; /* 상단 여백을 자동으로 채워 주소를 항상 맨 아래로 이동 */
-    padding-top: 8px; /* 해시태그와의 간격 유지 */
+    margin-top: auto;
+    padding-top: 8px;
     display: flex;
     align-items: center;
     gap: 4px;
@@ -253,7 +257,7 @@
 }
 
 .pagination .page-btn {
-    cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
+    cursor: pointer;
 }
 
 .page-btn.active {
@@ -265,19 +269,21 @@
 
 /* Section Header (음식점 목록 타이틀 영역) */
 .section-title-wrap {
-    max-width: 1200px;
+    width: 100%;
+    max-width: 1100px;
     margin: 40px auto 20px;
     padding: 0 16px 16px;
-    border-bottom: 2px solid #f1f3f5; /* 연한 회색 언더 디바이더 */
+    border-bottom: 2px solid #f1f3f5;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    box-sizing: border-box;
 }
 
 .section-title {
     font-size: 22px;
     font-weight: 700;
-    color: #1a56be; /* 브랜드 메인 파란색 */
+    color: #1a56be;
     margin: 0;
     display: flex;
     align-items: center;
@@ -285,7 +291,6 @@
     letter-spacing: -0.5px;
 }
 
-/* 파란색 포인트 바 (선택사항: 타이틀 왼쪽에 얇은 파란 기둥) */
 .section-title::before {
     content: '';
     display: inline-block;
@@ -295,7 +300,6 @@
     border-radius: 2px;
 }
 
-/* 전체 개수 표시 (예: 총 12개) - 필요시 사용 */
 .section-count {
     font-size: 14px;
     color: #868e96;

@@ -275,7 +275,7 @@ public class MemberSearchService {
 
         sourceBuilder.query(finalQuery);
 
-        sourceBuilder.size(100);
+        sourceBuilder.size(10000);
 
 
         SearchRequest request =

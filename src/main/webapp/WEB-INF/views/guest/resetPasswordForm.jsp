@@ -43,7 +43,7 @@
 
                 <div class="password-button-group">
                     <button type="submit" class="password-confirm">변경 완료</button>
-                    <button type="button" class="password-cancel" onclick="location.href='<c:url value='/guest/loginForm'/>'">취소</button>
+                    <button type="button" class="password-cancel" onclick="location.href='<c:url value='/loginForm'/>'">취소</button>
                 </div>
             </form>
         </div>
@@ -52,14 +52,14 @@
     <script>
         // 두 비밀번호가 일치하는지 간단히 체크하는 자바스크립트
         function validatePassword() {
-            let p1 = document.getElementById("newPasswd").value;
-            let p2 = document.getElementById("newPasswdCheck").value;
+            let p1 = document.getElementById("newPasswd")
+            let p2 = document.getElementById("newPasswdCheck");
             
-            if(p1 !== p2) {
+            if(p1.value != p2.value) {
                 alert("새 비밀번호가 일치하지 않습니다.");
                 p1.value = "";
                 p2.value = "";
-                document.getElementById("newPasswdCheck").focus();
+                p1.focus();
                 return false;
             }
             return true;

@@ -43,7 +43,7 @@
 
                 <div class="find-button-group">
                     <button type="submit" class="find-btn-submit">아이디 찾기</button>
-                    <button type="button" class="find-btn-cancel" onclick="location.href='<c:url value='/guest/loginForm'/>'">취소</button>
+                    <button type="button" class="find-btn-cancel" onclick="location.href='<c:url value='/loginForm'/>'">취소</button>
                 </div>
             </form>
 
@@ -54,7 +54,7 @@
                     <div class="find-result-email">${foundId}</div>
                 </div>
                 <div style="margin-top: 15px;">
-                    <button type="button" class="find-btn-submit" style="width: 100%;" onclick="location.href='<c:url value='/guest/loginForm'/>'">로그인하러 가기</button>
+                    <button type="button" class="find-btn-submit" style="width: 100%;" onclick="location.href='<c:url value='/loginForm'/>'">로그인하러 가기</button>
                 </div>
             </c:if>
         </div>
