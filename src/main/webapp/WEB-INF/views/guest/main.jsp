@@ -15,10 +15,11 @@
 
 <link rel="stylesheet"
       href="${pageContext.request.contextPath}/css/main.css">
+<script src="/js/main.js" type="text/javascript"></script>
 
 </head>
 
-<body>
+<body onload="goMainPopup()">
 
     <%@ include file="../guest/header.jsp" %>
 
@@ -509,23 +510,24 @@
 		    const filterButton = document.getElementById("filterButton");
 		    const filterDropdown = document.getElementById("filterDropdown");
 		
-		    filterButton.addEventListener("click", function(event) {
-		        event.stopPropagation();
+		 	// 메인 화면처럼 해당 버튼/드롭다운이 없을 때는 건너뛰도록 방어 조건 추가
+		    if (filterButton && filterDropdown) {
+		        filterButton.addEventListener("click", function(event) {
+		            event.stopPropagation();
 		
-		        filterDropdown.classList.toggle("active");
-		        filterButton.classList.toggle("active");
-		    });
+		            filterDropdown.classList.toggle("active");
+		            filterButton.classList.toggle("active");
+		        });
 		
-		    document.addEventListener("click", function(event) {
+		        document.addEventListener("click", function(event) {
+		            if (!filterDropdown.contains(event.target) &&
+		                !filterButton.contains(event.target)) {
 		
-		        if (!filterDropdown.contains(event.target) &&
-		            !filterButton.contains(event.target)) {
-		
-		            filterDropdown.classList.remove("active");
-		            filterButton.classList.remove("active");
-		        }
-		
-		    });
+		                filterDropdown.classList.remove("active");
+		                filterButton.classList.remove("active");
+		            }
+		        });
+		    }
 		
 	});
 	</script>

@@ -65,6 +65,11 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	@RequestMapping("/guest/mainPopup")
+	public String mainPopup() {
+		return "guest/mainPopup";
+	}
+	
 	@RequestMapping("/guest/writeForm")
 	public String writeForm() {
 		return "guest/writeForm";
