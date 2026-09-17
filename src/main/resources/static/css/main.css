@@ -1,7 +1,4 @@
 @charset "UTF-8";
-/* =========================================
-   이집어때 메인페이지 전용 스타일
-========================================= */
 
 * {
     box-sizing: border-box;
@@ -22,49 +19,161 @@ a {
     position: relative;
     width: 100%;
     overflow: visible;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 35px 20px 40px;
-}
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 20px 20px 40px;
+}
 
 .hero-bg {
     position: absolute;
     inset: 0;
+
     overflow: hidden;
+
     z-index: 0;
+
     border-radius: 0 0 24px 24px;
-    background-color: transparent; 
+
+    /* ★ 검은 배경 제거 */
+    background: transparent !important;
 }
 
+
 .hero-bg-img {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    inset: -20px;
+
+    width: calc(100% + 40px);
+    height: calc(100% + 40px);
+
     object-fit: cover;
-    filter: blur(14px);
-    transform: scale(1.15);
+
     display: block;
+
+    filter: blur(14px);
+}
+
+
+/* ★ 기존 오버레이 완전 제거 */
+.hero-bg::after {
+    content: none !important;
+    display: none !important;
+}
+
+.hero-copy {
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
+    max-width: 1000px;
+
+    text-align: center;
+
+    color: #ffffff;
+
+    padding-top: 0;
+    margin: 0 auto;
+
+    text-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+
+/* 당신이 찾던 변치 않는 */
+.hero-copy-main {
+    margin: 0 0 2px;
+
+    font-size: 20px;
+    font-weight: 400;
+
+    line-height: 1.4;
+    letter-spacing: -0.7px;
+}
+
+
+/* 단 하나의 백년가게 */
+.hero-copy h1 {
+    margin: 0;
+
+    font-size: 40px;
+    font-weight: 700;
+
+    line-height: 1.25;
+    letter-spacing: -2px;
+}
+
+
+/* 백년가게 강조 */
+.hero-copy h1 strong {
+    position: relative;
+
+    color: #ffffff;
+    font-weight: 800;
+}
+
+
+/* 파란 밑줄 */
+.hero-copy h1 strong::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: -5px;
+
+    height: 3px;
+
+    background: #2f6fed;
+
+    border-radius: 999px;
+
+    box-shadow:
+        0 2px 8px rgba(47, 111, 237, 0.45);
+}
+
+
+/* 서브 문구 */
+.hero-copy-sub {
+    margin: 12px 0 0;
+
+    font-size: 13px;
+    font-weight: 400;
+
+    color: rgba(255, 255, 255, 0.9);
+
+    letter-spacing: -0.3px;
 }
 
 .hero-inner {
     position: relative;
     z-index: 2;
+
     width: 100%;
     max-width: 1000px;
+
+    margin: 22px auto -70px;
+
     background: #ffffff;
+
     border-radius: 16px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.12);
+
     padding: 40px 48px;
+
     display: flex;
+
     align-items: center;
     justify-content: space-between;
-    gap: 40px;
-    flex-wrap: wrap;
 
-    /* 검색창을 아래로 내려서 본문 흰 배경과 자연스럽게 이어지도록 처리 */
-    margin-top: 55px; /* 기존 110px에서 55px로 변경 */
-    margin-bottom: -70px;
+    gap: 40px;
+
+    flex-wrap: wrap;
 }
 
 /* 인사말 */

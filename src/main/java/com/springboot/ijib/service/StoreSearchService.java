@@ -191,7 +191,7 @@ public class StoreSearchService {
 
             SearchSourceBuilder exactSource = new SearchSourceBuilder();
             exactSource.query(exactQuery);
-            exactSource.size(100);
+            exactSource.size(300);
 
             SearchRequest exactRequest = new SearchRequest("store");
             exactRequest.source(exactSource);
@@ -213,7 +213,7 @@ public class StoreSearchService {
 
                 SearchSourceBuilder similarSource = new SearchSourceBuilder();
                 similarSource.query(similarQuery);
-                similarSource.size(100);
+                similarSource.size(300);
 
                 SearchRequest similarRequest = new SearchRequest("store");
                 similarRequest.source(similarSource);
@@ -238,7 +238,7 @@ public class StoreSearchService {
 
                 SearchSourceBuilder regionSource = new SearchSourceBuilder();
                 regionSource.query(finalRegionQuery);
-                regionSource.size(100);
+                regionSource.size(300);
 
                 SearchRequest regionRequest = new SearchRequest("store");
                 regionRequest.source(regionSource);
@@ -266,7 +266,7 @@ public class StoreSearchService {
 
                         SearchSourceBuilder addressSource = new SearchSourceBuilder();
                         addressSource.query(addressQuery);
-                        addressSource.size(100);
+                        addressSource.size(300);
 
                         SearchRequest addressRequest = new SearchRequest("store");
                         addressRequest.source(addressSource);
@@ -294,7 +294,7 @@ public class StoreSearchService {
 
                         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
                         sourceBuilder.query(totalQuery);
-                        sourceBuilder.size(100);
+                        sourceBuilder.size(300);
 
                         SearchRequest request = new SearchRequest("store");
                         request.source(sourceBuilder);
@@ -305,7 +305,7 @@ public class StoreSearchService {
             } else {
                 SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
                 sourceBuilder.query(baseQuery);
-                sourceBuilder.size(100);
+                sourceBuilder.size(300);
 
                 SearchRequest request = new SearchRequest("store");
                 request.source(sourceBuilder);
