@@ -40,6 +40,9 @@ public interface IMemberDAO {
 		public int adminDelete(int mno);
 		
 		void memberPasswdUpdate(MemberDTO dto);
+		
+		// 아이디 찾기
+		public String findID(@Param("mname") String mname, @Param("mtel") String mtel);
 }
 
 

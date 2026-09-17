@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.springboot.ijib.dao.IBoardDAO;
 import com.springboot.ijib.dao.IMemberDAO;
@@ -24,6 +25,7 @@ import com.springboot.ijib.service.MemberSearchService;
 import com.springboot.ijib.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class MemberController {
@@ -416,5 +418,131 @@ public class MemberController {
 
 	    return "redirect:/admin/memberList";
 	}
+	
+    // 1. [화면 1] 이메일 입력 및 인증번호 전송 폼 페이지 이동
+    @RequestMapping("/guest/findPasswordForm")
+    public String findPasswordForm() {
+        return "guest/findPasswordForm";
+    }
+
+    // 2. 인증번호 전송 요청 (이메일 입력 후 버튼 누를 때)
+    @RequestMapping("/guest/sendAuthCode")
+    public String sendAuthCode(@RequestParam("memail") String memail, HttpSession session, Model model) {
+        // 가입된 이메일이 실제로 존재하는지 확인
+        MemberDTO mdto = mdao.findByEmail(memail);
+        if (mdto == null) {
+            model.addAttribute("msg", "가입되지 않은 이메일입니다.");
+            return "guest/findPasswordForm";
+        }
+
+        // 6자리 랜덤 숫자 생성
+        java.util.Random random = new java.util.Random();
+        int code = random.nextInt(888888) + 111111;
+        String authCode = String.valueOf(code);
+
+        // 세션에 인증번호 및 대상 이메일 저장
+        session.setAttribute("serverAuthCode", authCode);
+        session.setAttribute("findEmail", memail);
+
+        // Mailtrap을 통해 메일 발송
+        try {
+            emailService.sendAuthCodeEmail(memail, authCode);
+        } catch (Exception e) {
+            model.addAttribute("msg", "메일 발송에 실패했습니다.");
+            return "guest/findPasswordForm";
+        }
+
+        model.addAttribute("msg", "인증번호가 발송되었습니다. 메일을 확인해주세요.");
+        model.addAttribute("mailSent", true);
+        model.addAttribute("memail", memail);
+        return "guest/findPasswordForm";
+    }
+
+    // 3. 인증번호 확인
+    @RequestMapping("/guest/verifyAuthCode")
+    public String verifyAuthCode(@RequestParam("userCode") String userCode, HttpSession session, Model model) {
+        String serverAuthCode = (String) session.getAttribute("serverAuthCode");
+        String memail = (String) session.getAttribute("findEmail");
+
+        if (serverAuthCode != null && serverAuthCode.equals(userCode)) {
+            session.setAttribute("isAuthVerified", true);
+            return "redirect:/guest/resetPasswordForm";   
+        }
+
+        // 인증 실패 시: 이메일 값을 모델에 다시 담아주어 화면에 유지시킴
+        model.addAttribute("memail", memail);
+        model.addAttribute("msg", "인증번호가 일치하지 않습니다.");
+        model.addAttribute("mailSent", true);
+        return "guest/findPasswordForm";
+    }
+
+    // 4. [화면 2] 새 비밀번호 변경 폼 페이지 이동
+    @RequestMapping("/guest/resetPasswordForm")
+    public String resetPasswordForm(HttpSession session) {
+        // 비정상적인 접근(인증 안 거치고 URL로 바로 들어온 경우) 차단
+        Boolean isVerified = (Boolean) session.getAttribute("isAuthVerified");
+        if (isVerified == null || !isVerified) {
+            return "redirect:/guest/findPasswordForm";
+        }
+        return "guest/resetPasswordForm";
+    }
+
+    // 5. 새 비밀번호 최종 변경 처리
+    @RequestMapping("/guest/resetPassword")
+    public String resetPassword(@RequestParam("newPasswd") String newPasswd, HttpSession session, Model model) {
+        Boolean isVerified = (Boolean) session.getAttribute("isAuthVerified");
+        String memail = (String) session.getAttribute("findEmail");
+
+        if (isVerified == null || !isVerified || memail == null) {
+            return "redirect:/guest/findPasswordForm";
+        }
+
+        MemberDTO mdto = mdao.findByEmail(memail);
+        if (mdto != null) {
+            MemberDTO passwdDto = new MemberDTO();
+            passwdDto.setMno(mdto.getMno());
+            passwdDto.setMpasswd(passwordEncoder.encode(newPasswd));
+            
+            mdao.memberPasswdUpdate(passwdDto);
+        }
+
+        // 사용이 끝난 세션 정리
+        session.removeAttribute("serverAuthCode");
+        session.removeAttribute("findEmail");
+        session.removeAttribute("isAuthVerified");
+
+        model.addAttribute("msg", "비밀번호가 변경되었습니다. 로그인해주세요.");
+        return "guest/loginForm";
+    }
+    
+    // 1. 아이디 찾기 페이지로 이동
+    @RequestMapping("/guest/findIdForm")
+    public String findIdForm() {
+        return "guest/findIdForm";
+    }
+
+    // 2. 아이디 찾기 처리
+    @RequestMapping("/guest/findId")
+    public String findID(@RequestParam("mname") String mname, 
+                         @RequestParam("mtel") String mtel, 
+                         Model model) {
+        
+        // DAO를 호출하여 이름과 전화번호로 아이디(MEMAIL) 조회
+        String foundId = mdao.findID(mname, mtel); 
+
+        if (foundId != null && !foundId.isEmpty()) {
+            // 찾은 경우: 모델에 담음
+            model.addAttribute("foundId", foundId);
+        } else {
+            // 못 찾은 경우 경고 메시지
+            model.addAttribute("msg", "입력하신 정보와 일치하는 회원 정보가 없습니다.");
+        }
+        
+        // 사용자가 입력했던 이름과 전화번호를 화면에 다시 유지하기 위해 모델에 담음
+        model.addAttribute("mname", mname);
+        model.addAttribute("mtel", mtel);
+        
+        return "guest/findIdForm";
+    }
 	
 }
