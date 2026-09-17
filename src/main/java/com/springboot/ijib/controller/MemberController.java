@@ -392,14 +392,42 @@ public class MemberController {
 	@RequestMapping("/admin/memberSearch")
 	public String memberSearch(
 	        MemberSearchDTO searchDTO,
+	        @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
 	        Model model) {
 
 	    try {
+	        List<MemberDTO> memberList = memberSearchService.search(searchDTO);
 
-	        List<MemberDTO> list =
-	                memberSearchService.search(searchDTO);
+	        int pageSize = 25;
+	        int totalCount = memberList.size();
+	        int totalPage = (int) Math.ceil((double) totalCount / pageSize);
 
-	        model.addAttribute("list", list);
+	        if (pageNum < 1) {
+	            pageNum = 1;
+	        }
+
+	        if (totalPage > 0 && pageNum > totalPage) {
+	            pageNum = totalPage;
+	        }
+
+	        int startIndex = (pageNum - 1) * pageSize;
+	        int endIndex = Math.min(startIndex + pageSize, totalCount);
+
+	        List<MemberDTO> pageList = memberList.isEmpty() ? new ArrayList<>() : memberList.subList(startIndex, endIndex);
+
+	        int pageBlock = 5;
+	        int startPage = ((pageNum - 1) / pageBlock) * pageBlock + 1;
+	        int endPage = startPage + pageBlock - 1;
+
+	        if (endPage > totalPage) {
+	            endPage = totalPage;
+	        }
+
+	        model.addAttribute("list", pageList);
+	        model.addAttribute("pageNum", pageNum);
+	        model.addAttribute("totalPage", totalPage);
+	        model.addAttribute("startPage", startPage);
+	        model.addAttribute("endPage", endPage);
 
 	    } catch (IOException e) {
 	        e.printStackTrace();

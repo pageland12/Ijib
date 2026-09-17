@@ -1,9 +1,11 @@
 @charset "UTF-8";
 
 .sv-wrap {
+    width: 100%;
     max-width: 980px;
     margin: 0 auto;
     padding: 24px 20px 60px;
+    box-sizing: border-box;
 }
 
 /* ===== 캐러셀 ===== */
