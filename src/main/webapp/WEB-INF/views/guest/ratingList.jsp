@@ -46,7 +46,7 @@
                     <div class="review-card">
                         <div class="review-store">
                             <span class="store-name">
-                                ${list.sname}
+                                <a href="${pageContext.request.contextPath}/guest/storeView?sno=${list.sno}">${list.sname}</a>
                             </span>
                         </div>
 
