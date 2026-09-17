@@ -43,6 +43,21 @@
 			        <img src="${pageContext.request.contextPath}/images/hero-bg.jpg" class="hero-bg-img" alt="배경">
 			    </div>
 			    
+			    <!-- 메인 카피 -->
+			    <div class="hero-copy">
+			        <p class="hero-copy-main">
+			            당신이 찾던 변치 않는
+			        </p>
+			
+			        <h1>
+			            단 하나의 <strong>백년가게</strong>
+			        </h1>
+			
+			        <p class="hero-copy-sub">
+			            오랜 시간 이어온 맛과 이야기를 만나보세요
+			        </p>
+			    </div>
+			    
 			    <!-- 흰색 카드 컨테이너 (main.css의 hero-inner) -->
 			    <div class="hero-inner">
 			        <!-- 좌측 인사말 -->

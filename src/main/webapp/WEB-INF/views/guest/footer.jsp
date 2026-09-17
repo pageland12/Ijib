@@ -168,7 +168,7 @@ footer {
                 개인정보관리책임자 : KH아카데미
                 <br>
 
-                문의 : pageland12@gmail.com |
+                문의 : ijibeottae@gmail.com |
                 제휴문의 |
                 사업자등록번호: 123-45-67890 |
                 통신판매업신고: 2026-부산진구-0000호

@@ -40,7 +40,7 @@ public class StoreNameSearchService {
             QueryBuilders.matchQuery("sname", keyword)
         );
 
-        sourceBuilder.size(100);
+        sourceBuilder.size(300);
 
 
         // store 인덱스 검색
