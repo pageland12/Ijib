@@ -75,5 +75,13 @@
 		 WHERE MNO=#{mno}
 	</update>
 	
+	<select id="findID" resultType="String">
+		SELECT MEMAIL
+		  FROM MEMBER
+		 WHERE MNAME = #{mname} 
+		   AND MTEL = #{mtel}
+		   AND ROWNUM = 1
+	</select>
+	
 </mapper>
 

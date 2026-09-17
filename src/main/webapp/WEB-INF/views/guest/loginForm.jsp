@@ -26,9 +26,9 @@
                 </div>
 
                 <div class="login-sub-links">
-                    <a href="<c:url value='#'/>">아이디 찾기</a>
+                    <a href="<c:url value='/guest/findIdForm'/>">아이디 찾기</a>
                     <span class="dot">•</span>
-                    <a href="<c:url value='#'/>">비밀번호 찾기</a>
+                    <a href="<c:url value='/guest/findPasswordForm'/>">비밀번호 찾기</a>
                     <span class="dot">•</span>
                     <a href="<c:url value='/guest/writeForm'/>">회원가입</a>
                 </div>

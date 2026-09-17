@@ -73,4 +73,31 @@ public class EmailService {
             System.err.println("오류 내용 : " + e.getMessage());
         }
     }
+    
+    public void sendAuthCodeEmail(String toEmail, String authCode) {
+        String subject = "[이집어때] 비밀번호 찾기 인증번호 안내 🔑";
+        
+        String htmlContent = "<div style='font-family: Arial, sans-serif; padding: 30px; max-width: 600px; margin: 0 auto; border: 1px solid #eeeeee; border-radius: 10px;'>"
+                + "<h2 style='margin-bottom: 20px;'>비밀번호 찾기 인증 안내 🔑</h2>"
+                + "<p>요청하신 인증번호는 아래와 같습니다.</p>"
+                + "<div style='font-size: 24px; font-weight: bold; color: #ff5722; margin: 20px 0;'>" + authCode + "</div>"
+                + "<p>화면에 인증번호를 정확히 입력해 주세요.</p>"
+                + "</div>";
+
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setFrom("admin@ijib.com");
+            helper.setTo(toEmail);
+            helper.setSubject(subject);
+            helper.setText(htmlContent, true);
+
+            mailSender.send(message);
+            System.out.println("인증번호 메일 전송 성공 (Mailtrap) : " + toEmail);
+
+        } catch (Exception e) {
+            System.err.println("인증번호 메일 전송 실패 : " + e.getMessage());
+        }
+    }
 }
