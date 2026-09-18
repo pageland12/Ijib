@@ -28,7 +28,7 @@ html, body {
     height: 100%;
 }
 
-/* 723x990 이미지의 원본 비율을 유지하며 창 너비에 맞춤 */
+/* 601x1080 비율(약 1:1.80)에 맞춰 이미지 표시 */
 .img-box {
     flex: 1;
     overflow: hidden;
@@ -41,7 +41,7 @@ html, body {
 .popup-img {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* 비율 유지하며 꽉 차게 표시 */
+    object-fit: contain; /* 세로/가로 여백 없이 딱 맞게 표시 */
     display: block;
 }
 
@@ -66,7 +66,7 @@ html, body {
 }
 
 .hide-btn:hover {
-    color: #38bdf8; /* 호버 시 밝은 블루 */
+    color: #38bdf8;
     text-decoration: underline;
 }
 
@@ -89,10 +89,10 @@ html, body {
 <script src="/js/mainPopup.js"></script>
 
 <script>
-// 브라우저 창 크기 자동 보정 (가로 450px, 세로 656px)
+// 브라우저 창 크기 자동 보정 (이미지 비율 601:1080 + 푸터 40px 반영: 가로 380px, 세로 723px)
 window.addEventListener("load", function() {
-    const targetWidth = 450;
-    const targetHeight = 656;
+    const targetWidth = 380;
+    const targetHeight = 723;
     
     const diffWidth = window.outerWidth - window.innerWidth;
     const diffHeight = window.outerHeight - window.innerHeight;
@@ -104,8 +104,11 @@ window.addEventListener("load", function() {
 <body>
     <div class="popup-wrap">
         <div class="img-box">
-            <img src="/images/event-popup-image.png" class="popup-img" alt="구독권 할인 이벤트" onclick="goToPassList()" 
-         	style="cursor: pointer;">
+            <img src="/images/event-popup-image.png" 
+                 class="popup-img" 
+                 alt="구독권 할인 이벤트" 
+                 onclick="goToPassList()" 
+                 style="cursor: pointer;">
         </div>
         
         <div class="footer-bar">
