@@ -348,14 +348,80 @@ document.addEventListener("DOMContentLoaded", function () {
     const totalAutocomplete = document.getElementById("totalAutocomplete");
     const storeAutocomplete = document.getElementById("storeAutocomplete");
 
+    // 자동완성 요청 번호
+    let autocompleteRequestId = 0;
+
+
+    // ESC 또는 검색 영역 밖을 클릭하면 자동완성 닫기
+    document.addEventListener("keydown", function (e) {
+
+        if (e.key === "Escape") {
+
+            const totalOpen =
+                totalAutocomplete &&
+                totalAutocomplete.style.display !== "none";
+
+            const storeOpen =
+                storeAutocomplete &&
+                storeAutocomplete.style.display !== "none";
+
+            if (totalOpen || storeOpen) {
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                // 진행 중인 자동완성 요청 무효화
+                autocompleteRequestId++;
+
+                if (totalAutocomplete) {
+                    totalAutocomplete.innerHTML = "";
+                    totalAutocomplete.style.display = "none";
+                }
+
+                if (storeAutocomplete) {
+                    storeAutocomplete.innerHTML = "";
+                    storeAutocomplete.style.display = "none";
+                }
+            }
+        }
+    });
+
+
+    // 검색 영역 밖을 클릭하면 자동완성 닫기
+    document.addEventListener("click", function (e) {
+
+        if (!e.target.closest(".search-bar-box")) {
+
+            // 진행 중인 자동완성 요청 무효화
+            autocompleteRequestId++;
+
+            if (totalAutocomplete) {
+                totalAutocomplete.innerHTML = "";
+                totalAutocomplete.style.display = "none";
+            }
+
+            if (storeAutocomplete) {
+                storeAutocomplete.innerHTML = "";
+                storeAutocomplete.style.display = "none";
+            }
+        }
+    });
+
+
+    // 전체 검색 자동완성
     if (totalKeyword) {
+
         totalKeyword.addEventListener("input", function () {
 
             const keyword = this.value.trim();
 
             if (keyword.length === 0) {
+
+                autocompleteRequestId++;
+
                 totalAutocomplete.innerHTML = "";
                 totalAutocomplete.style.display = "none";
+
                 return;
             }
 
@@ -368,14 +434,21 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+
+    // 맛집 검색 자동완성
     if (storeKeyword) {
+
         storeKeyword.addEventListener("input", function () {
 
             const keyword = this.value.trim();
 
             if (keyword.length === 0) {
+
+                autocompleteRequestId++;
+
                 storeAutocomplete.innerHTML = "";
                 storeAutocomplete.style.display = "none";
+
                 return;
             }
 
@@ -388,12 +461,18 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+
+    // 자동완성
     function autocomplete(
         keyword,
         searchType,
         autocompleteBox,
         input
     ) {
+
+        // 이번 요청의 번호
+        const requestId = ++autocompleteRequestId;
+
         fetch(
             "${pageContext.request.contextPath}/guest/storeAutocomplete"
             + "?keyword="
@@ -402,14 +481,24 @@ document.addEventListener("DOMContentLoaded", function () {
             + encodeURIComponent(searchType)
         )
         .then(response => response.json())
+
         .then(data => {
+
+            // 이미 ESC를 눌렀거나
+            // 더 최근 검색어 요청이 들어왔다면 무시
+            if (requestId !== autocompleteRequestId) {
+                return;
+            }
 
             autocompleteBox.innerHTML = "";
 
             if (!data || data.length === 0) {
+
                 autocompleteBox.style.display = "none";
+
                 return;
             }
+
 
             data.forEach(function (item) {
 
@@ -417,6 +506,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 div.className = "autocomplete-item";
                 div.innerHTML = item.highlight;
+
 
                 div.addEventListener("click", function () {
 
@@ -426,11 +516,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     autocompleteBox.style.display = "none";
                 });
 
+
                 autocompleteBox.appendChild(div);
             });
 
+
             autocompleteBox.style.display = "block";
         })
+
         .catch(error => {
 
             console.error("자동완성 오류:", error);
