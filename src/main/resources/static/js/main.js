@@ -23,6 +23,6 @@ function getCookie(name) {
 function goMainPopup(){
 	// hideCoupon cookie가 있는지 확인해서 없으면 팝업 띄우기
 	if (!getCookie('hideCoupon')) {
-		var pop = window.open("/guest/mainPopup","pop","width=450,height=656,top=100,left=100,scrollbars=no,resizable=no");
+		var pop = window.open("/guest/mainPopup","pop","width=380,height=723,top=100,left=100,scrollbars=no,resizable=no");
 	}
 }
