@@ -114,26 +114,27 @@
 
 ---
 
-### 8. 주요 화면
-
 ### 🏠 메인 페이지
-<img width="1902" height="906" alt="image" src="https://github.com/user-attachments/assets/ccf14675-03f6-463a-a750-0e4bfdaedcb1" />
+<img width="850" alt="메인 페이지" src="https://github.com/user-attachments/assets/ccf14675-03f6-463a-a750-0e4bfdaedcb1" />
 
 <br>
 
 ### 🔍 맛집 검색
-<img width="771" height="568" alt="image2" src="https://github.com/user-attachments/assets/7790a3bc-227f-4d8e-8f15-64681de8e2c6" />
-<img width="1024" height="636" alt="image2_1" src="https://github.com/user-attachments/assets/09261a8d-cd53-4de2-98f2-c66f3cfda693" />
+<img width="600" alt="맛집 검색" src="https://github.com/user-attachments/assets/7790a3bc-227f-4d8e-8f15-64681de8e2c6" />
+
+<img width="700" alt="맛집 검색 조건" src="https://github.com/user-attachments/assets/09261a8d-cd53-4de2-98f2-c66f3cfda693" />
 
 <br>
 
 ### 🍽️ 맛집 상세
-<img width="986" height="872" alt="image3_4" src="https://github.com/user-attachments/assets/f814601a-5fef-4dda-a27f-228437063b12" />
-<img width="767" height="497" alt="image3" src="https://github.com/user-attachments/assets/4e6d709e-d29c-4905-a8ee-5ff5c657896e" />
-<img width="768" height="779" alt="4" src="https://github.com/user-attachments/assets/fea1fb0c-9a52-4536-a75d-910368bbedb4" />
+<img width="650" alt="맛집 상세" src="https://github.com/user-attachments/assets/f814601a-5fef-4dda-a27f-228437063b12" />
+
+<img width="600" alt="맛집 상세" src="https://github.com/user-attachments/assets/4e6d709e-d29c-4905-a8ee-5ff5c657896e" />
+
+<img width="650" alt="맛집 상세" src="https://github.com/user-attachments/assets/fea1fb0c-9a52-4536-a75d-910368bbedb4" />
 
 <br>
 
 ### 👤 마이페이지
-<img width="1122" height="725" alt="image5" src="https://github.com/user-attachments/assets/7076ec5f-ba73-4933-9e8d-9bd92cfaedb8" />
+<img width="750" alt="마이페이지" src="https://github.com/user-attachments/assets/7076ec5f-ba73-4933-9e8d-9bd92cfaedb8" />
 
