@@ -114,6 +114,8 @@
 
 ---
 
+### 8. 주요 화면
+
 ### 🏠 메인 페이지
 <img width="850" alt="메인 페이지" src="https://github.com/user-attachments/assets/ccf14675-03f6-463a-a750-0e4bfdaedcb1" />
 
