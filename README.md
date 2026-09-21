@@ -119,14 +119,14 @@
 ### 🏠 메인 페이지
 <img width="850" alt="메인 페이지" src="https://github.com/user-attachments/assets/ccf14675-03f6-463a-a750-0e4bfdaedcb1" />
 
-<br>
+<br><br>
 
 ### 🔍 맛집 검색
 <img width="600" alt="맛집 검색" src="https://github.com/user-attachments/assets/7790a3bc-227f-4d8e-8f15-64681de8e2c6" />
 
 <img width="700" alt="맛집 검색 조건" src="https://github.com/user-attachments/assets/09261a8d-cd53-4de2-98f2-c66f3cfda693" />
 
-<br>
+<br><br>
 
 ### 🍽️ 맛집 상세
 <img width="650" alt="맛집 상세" src="https://github.com/user-attachments/assets/f814601a-5fef-4dda-a27f-228437063b12" />
@@ -135,7 +135,7 @@
 
 <img width="650" alt="맛집 상세" src="https://github.com/user-attachments/assets/fea1fb0c-9a52-4536-a75d-910368bbedb4" />
 
-<br>
+<br><br>
 
 ### 👤 마이페이지
 <img width="750" alt="마이페이지" src="https://github.com/user-attachments/assets/7076ec5f-ba73-4933-9e8d-9bd92cfaedb8" />
