@@ -22,7 +22,7 @@
 | **Database** | Oracle DB |
 | **Search / Analysis** | Elasticsearch 7.10.1, Kibana |
 | **Build / Server** | Gradle, Apache Tomcat 10.1 |
-| **External API** | Kakao Maps API, Mailtrap API, PortOne 결제 API |
+| **External API** | Kakao Maps API, Mailtrap Email API, PortOne 결제 API |
 
 ---
 
@@ -86,10 +86,10 @@
 
 | 직책 / 역할 | 담당 영역 | 주요 수행 업무 |
 | :--- | :--- | :--- |
-| **팀원 김도연** | [구독권 / 음식점 / 검색창] | • [구독권·음식점 관리 Controller, DAO, DTO, View 구현]<br>• [Elasticsearch 검색 연동 및 통계]<br>• [아이디·비밀번호 찾기]<br>• [이메일 API 연동] |
-| **팀원 [박보성]** | [자료 수집 / 결제] | • [백년가게 자료 수집 및 데이터 정제]<br>• [결제·환불 API Controller, DAO, DTO, View 구현]<br>• [lasticsearch 연동 및 통계]<br>• [챗봇 구현] |
-| **팀원 [최민식]** | [게시판] | • [게시판 관련 Controller, DAO, DTO, View 구현]<br>• [프론트/백엔드 데이터 유효성 검사(Validation) 및 통합 QA 테스트 총괄] |
-| **팀원 [허지은]** | [회원 / 보고서] | • [회원가입, 로그인/로그아웃, 비밀번호 확인 및 회원정보 수정/탈퇴 구현]<br>• [프로젝트 최종 보고서 및 발표 자료 작성] |
+| **팀원 김도연** | 구독권 / 음식점 / 검색창 | • 구독권·음식점 관리 Controller, DAO, DTO, View 구현<br>• Elasticsearch 검색 연동 및 통계<br>• 아이디·비밀번호 찾기<br>• 이메일 API 연동 |
+| **팀원 박보성** | 자료 수집 / 결제 | • 백년가게 자료 수집 및 데이터 정제<br>• 결제·환불 API Controller, DAO, DTO, View 구현<br>• 챗봇 구현 |
+| **팀원 최민식** | 게시판 | • 게시판 관련 Controller, DAO, DTO, View 구현<br>• 프론트/백엔드 데이터 유효성 검사(Validation) 및 통합 QA 테스트 총괄 |
+| **팀원 허지은** | 회원 / 보고서 | • 회원가입, 로그인/로그아웃, 비밀번호 확인 및 회원정보 수정/탈퇴 구현<br>• 프로젝트 최종 보고서 및 발표 자료 작성 |
 
 ---
 
@@ -107,39 +107,23 @@
 
 * Spring Security를 활용한 인증 및 권한 처리
 * MyBatis 기반 DB 접근 및 SQL 관리
-* Elasticsearch를 활용한 검색 시스템 구축
 * Kakao Maps API를 활용한 맛집 위치 정보 제공
-* Mailtrap API를 활용한 이메일 발송 및 비밀번호 찾기 인증번호 발송
+* Mailtrap Email API를 활용한 이메일 발송 및 비밀번호 찾기 인증번호 발송
 * PortOne API를 활용한 결제 및 환불 기능 구현
 * JavaScript를 활용한 검색 자동완성 및 사용자 인터랙션 구현
 
 ---
 
-### 8. 트러블슈팅
+### 8. 주요 화면
 
-#### Elasticsearch 검색 기능 구축
-- Oracle DB의 맛집 데이터를 Elasticsearch에 연동하여 검색 기능 구현
-- 검색어 자동완성을 별도 API로 구성
-- 검색 로그를 Elasticsearch에 저장하여 사용자 검색 패턴 분석
+#### 메인 페이지
+![메인 페이지](!image.png)
 
-#### Kakao Maps API 연동
-- HTTPS 환경에서 Kakao Maps SDK가 정상적으로 로드되지 않는 문제 발생
-- Kakao Developers의 허용 도메인 설정을 추가하여 해결
+#### 맛집 검색
+![맛집 검색](!image.png)
 
-#### JSP 배포 캐시 문제
-- Tomcat 재배포 이후 수정된 JSP가 반영되지 않는 문제 발생
-- Tomcat의 `work/Catalina/localhost/ROOT` 캐시 폴더를 삭제하여 해결
+#### 맛집 상세
+![맛집 상세]()
 
----
-
-### 9. 개선사항
-
-* 실제 웹 서비스에서는 외부 이미지 URL 방식 대신 이미지 저장소를 활용하여
-  이미지 로딩 속도 및 안정성 개선
-* PG사 서버에서 결제 결과를 백엔드로 전달하는 웹훅 비동기 수신 API를 구축하여
-  결제 유실 방지
-* 빌링키를 활용한 자동 정기 결제 시스템 도입
-* 실제 사용 기간을 기준으로 잔여 기간을 계산하여 부분 환불 처리
-* 최근 본 맛집 기능 추가
-* 맛집 목록에서 추천순 / 평점순 / 거리순 / 최신순 정렬 기능 추가
-* 북마크 목록에서 음식 종류 / 지역별 필터링 기능 추가
+#### 마이페이지
+![마이페이지]()
