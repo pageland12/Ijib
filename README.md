@@ -22,7 +22,7 @@
 | **Database** | Oracle DB |
 | **Search / Analysis** | Elasticsearch 7.10.1, Kibana |
 | **Build / Server** | Gradle, Apache Tomcat 10.1 |
-| **External API** | Kakao Maps API, Resend API, PortOne 결제 API |
+| **External API** | Kakao Maps API, Mailtrap API, PortOne 결제 API |
 
 ---
 
@@ -74,7 +74,7 @@
 ### 4. 관리자 (Admin)
 
 * 회원 관리
-* 백년가게 정보 관리
+* 음식점 정보 관리
 * 게시판 관리
 * 비밀글 답변 관리
 * 구독권 관리
@@ -86,9 +86,10 @@
 
 | 직책 / 역할 | 담당 영역 | 주요 수행 업무 |
 | :--- | :--- | :--- |
-| **팀원 김도연** | [담당 영역] | • [담당 기능]<br>• [담당 기능]<br>• [담당 기능] |
-| **팀원 [이름]** | [담당 영역] | • [담당 기능]<br>• [담당 기능] |
-| **팀원 [이름]** | [담당 영역] | • [담당 기능]<br>• [담당 기능] |
+| **팀원 김도연** | [구독권 / 음식점 / 검색창] | • [구독권·음식점 관리 Controller, DAO, DTO, View 구현]<br>• [Elasticsearch 검색 연동 및 통계]<br>• [아이디·비밀번호 찾기]<br>• [이메일 API 연동] |
+| **팀원 [박보성]** | [자료 수집 / 결제] | • [백년가게 자료 수집 및 데이터 정제]<br>• [결제·환불 API Controller, DAO, DTO, View 구현]<br>• [lasticsearch 연동 및 통계]<br>• [챗봇 구현] |
+| **팀원 [최민식]** | [게시판] | • [게시판 관련 Controller, DAO, DTO, View 구현]<br>• [프론트/백엔드 데이터 유효성 검사(Validation) 및 통합 QA 테스트 총괄] |
+| **팀원 [허지은]** | [회원 / 보고서] | • [회원가입, 로그인/로그아웃, 비밀번호 확인 및 회원정보 수정/탈퇴 구현]<br>• [프로젝트 최종 보고서 및 발표 자료 작성] |
 
 ---
 
@@ -108,7 +109,7 @@
 * MyBatis 기반 DB 접근 및 SQL 관리
 * Elasticsearch를 활용한 검색 시스템 구축
 * Kakao Maps API를 활용한 맛집 위치 정보 제공
-* Resend API를 활용한 이메일 발송
+* Mailtrap API를 활용한 이메일 발송 및 비밀번호 찾기 인증번호 발송
 * PortOne API를 활용한 결제 및 환불 기능 구현
 * JavaScript를 활용한 검색 자동완성 및 사용자 인터랙션 구현
 
